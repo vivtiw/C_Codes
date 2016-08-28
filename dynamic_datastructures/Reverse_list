@@ -1,0 +1,28 @@
+Node * reverse( Node * ptr , Node * previous)
+{
+    Node * temp;
+    if(ptr->next == NULL) {
+        ptr->next = previous;
+        return ptr;
+    } else {
+        temp = reverse(ptr->next, ptr);
+        ptr->next = previous;
+        return temp;
+    }
+}
+reversedHead = reverse(head, NULL);
+
+Now for a non-recursive solution.
+
+Node * reverse( Node * ptr )
+{
+    Node * temp;
+    Node * previous = NULL;
+    while(ptr != NULL) {
+        temp = ptr->next;
+        ptr->next = previous;
+        previous = ptr;
+        ptr = temp;
+    }
+    return previous;
+}

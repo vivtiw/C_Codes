@@ -1,0 +1,24 @@
+/* this program is to swap the nibble*/
+#include<stdio.h>
+
+#define SWAP(c) ((c) >> 1) | ((c) << 1)
+void print_bits(unsigned char x)
+{
+	int i=7;
+	for(;i>=0;i--)
+		printf("%d ",(x>>i)&1);
+}
+
+main()
+{
+	unsigned char ch = 0x96,x=0;
+	int i;	
+	for(i=0;i<=8;i+=2)
+	{
+		x|=SWAP(ch>>i);
+		x<<=2;
+	}
+	print_bits(ch);
+	printf("\n");
+	print_bits(x);
+}

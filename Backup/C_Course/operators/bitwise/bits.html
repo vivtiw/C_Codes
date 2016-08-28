@@ -1,0 +1,1951 @@
+
+
+<!-- STATS PURPOSES -->
+
+<!-- /STATS PURPOSES -->
+
+
+
+
+
+  
+    
+
+        
+
+
+
+    
+    
+  
+
+<center>
+<html>
+<head>
+<!--SiteCatalyst code version: G.7. Copyright 1997-2004 Omniture, Inc.
+More info available at http://www.omniture.com
+-->
+<script language="JavaScript">
+<!--
+var s_pageName="";
+var s_server="";
+var s_channel="";
+var s_pageType="";
+var s_prop1="";
+var s_prop2="";
+var s_prop3="";
+var s_prop4="";
+var s_prop5="";
+var s_prop6="";
+var s_prop7="";
+var s_prop8="60.254.115.204 | Mozilla/5.0 (compatible; Konqueror/3.4; Linux) KHTML/3.4.0 (like Gecko)";
+var s_prop9="";
+var s_prop10="";
+var s_prop11="";
+var s_prop12="";
+var s_prop13="http://www.embedded.com/dhandler.jhtml";
+var s_prop14="";
+var s_prop15="";
+var s_prop16="";
+
+/* E-commerce Variables */
+var s_campaign="";
+var s_state="";
+var s_zip="";
+var s_events="event5";
+var s_products="";
+var s_purchaseID="";
+var s_eVar1="";
+var s_eVar2="";
+var s_eVar3="";
+var s_eVar4="";
+var s_eVar5="";
+//-->
+</script>
+
+<script src="http://targetlink.embedded.com/targetlink.js" language="javascript"></script>
+
+
+
+
+
+
+
+
+
+<title>A Generic API for Bit Manipulation in C </title>
+
+    
+<meta name="description" content="Welcome to Embedded.com, the on-line resource for embedded systems developers. This is the place to come for tutorials, code,  demos, and news, along with information about Embedded Systems Design Magazine and the Embedded Systems Conferences.">
+      
+
+    
+<meta name="keywords" content="embedded systems,conference,development,real-time,programming,emulators,multitasking,debugging,software,optimization,engineer,RTOS,chips,tools,microcontrollers,DSP,operating systems,kernel,microprocessors,object-oriented,single board,ada,C++,visual basic, forth,RISC,compilers,specialty libraries, configuration management,ICE,ROM emulators,logic analyzers,device programmers,oscilloscopes,8-bit,eprom,flash,OEM,boards,CMP Media LLC,vendor,magazine,custom publishing,esp,esc,directories,mwmedia,Windows CE, Win CE, CE, Windows, Microsoft, developer,  software, operating system, hand held, wallet, PC, OS, mobile, wireless, portable, driver, ETK, OAL, OAK, Pentium, 486, MIPS, Smartcards, Cellular Phone, Small-Form-Factor, H/PC, Palm, CE, RFA, PDA, PIC">
+      
+
+    
+<META NAME="revisit-after" CONTENT="2 days">
+      
+
+    
+<META NAME="ROBOTS" CONTENT="index,follow">
+      
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  
+
+
+
+<!-- informative poll called from MainTemaplate -->
+<!-- <droplet src="informative.jhtml"></droplet> -->
+
+<style type="text/css">
+.poll {font-family: verdana,arial; font-size:10px}
+.pollArchives {font-family: verdana,arial; font-size:12px}
+/* Network Navigation Implemented Across All Sites */
+a.nnLink:link {color: #000000; text-decoration: none}   /* unvisited link */
+a.nnLink:visited {color: #666666; text-decoration: none}   /* visited link */
+a.nnLink:hover {color: #0000FF; text-decoration: underline}   /* mouse over link */
+a.nnLink:active {color: #0000FF; text-decoration: none}   /* selected link */
+.nnLink { font-size: 8pt; font-family: tahoma; font-weight: normal; }
+.nnType { font-size: 8pt; font-family: tahoma; font-weight: bold; color:#000000; }
+.tdHeader { font-size: 7pt; font-family: tahoma; font-weight: bold; color:#FFFFFF; background-color: #333B61; text-align: center; vertical-align: top; }
+.eetnsearchform {width: 110px; font-size: 11px; font-family: verdana,arial; color:#000063; background-color: #FEFDD8}
+.eetnsearchsites {width: 125px; font-size: 10px; font-family: verdana,arial; color:#000063; background-color: #FEFDD8; font-weight: bold}
+.feedbackform {width: 250px; font: 10px verdana,arial; color:#000063; background-color: #efefff}
+.feedbackform2 {width: 150px; font: 10px verdana,arial; color:#000063; background-color: #efefff}
+.feedbacksubmit {width: 100px; font: 10px verdana,arial; color:#000063; background-color: #efefff; font-weight: bold}
+.feedbackcategories {color:#000000; font-family: Arial,verdana; font-size: 14px; font-weight: bold; font-stretch: normal; text-decoration: none; font-style: normal}
+.feedbackcomments {width: 350px; font: 12px verdana,arial; color:#000063; background-color: #efefff}
+</style>
+
+<!-- menu.js -->
+<script language="javascript1.2" type="text/javascript">
+
+
+
+
+
+
+
+
+
+
+    
+  
+
+
+    
+  
+
+
+    
+  
+
+
+    
+  
+
+
+
+    
+
+        /*
+Dr. Clue's drop-down menu system for 4th generation browsers
+        copyright @ 1998,1999 drclue , www.drclue.net
+license is granted for use of this software by individuals
+in support of personal web-sites. All other rights reserved.
+*/
+//*** Global Variables
+var LIBLOADEDJSmenu=false;
+var     systemLibCnt    =0;
+var     systemIsNS      =(document.layers!=null);       // Is it a Netscape browser
+var     systemMouseDn   =false; // mousemove dragging
+if(document.layers)document.all=document.layers;
+var     systemMaxZ      =0; 
+var     systemNullChk   =((systemIsNS)?((navigator.appVersion.substring(0,4)=="4.05")?"null":"undefined"):"null")
+var menuTimeOut         =null;  // mouseout Cancel menu timer
+var     menuCurrentItem =null;  // currently highlighted object.
+var     menuCurrentPath ="";    // The open menu list.
+var     menuScreenWidth =0;
+//*** General Menu  configuration variables
+var     menuSubAuto     =false;
+var     menuSubSymbol   ="&raquo;";     // html to indicate sub menu
+var     menuRoll        =true;  // Show menu items as built
+var     menuCharHeight  =11;    // Avg Char Height.
+var     menuCharWidth   =5;     // Avg Char Width.
+var     menuYpopoff     =0;
+var     menuXpopoff     =178;
+var     menuBcolor      ="#ABABAB";     // background
+var     menuTcolor      ="#FFFFFF";     // Text
+var     menuHBcolor     ="#FFFFFF";
+var     menuHTcolor     ="#ABABAB";
+var     menuFont        ="verdana,arial";// menu label font
+var     menuFontSize    =1;     // menu font size
+var     menuBold        =false; // Use bold
+var     menuAtimeout    =4500;
+var     Firstpass       =true;
+var     lastEVENT       =null;
+
+var szDuds="Mozilla/4.0 (compatible; MSIE 4.5; Mac_PowerPC)";
+
+esconfoff = new Image;
+esconfoff.src = "http://i.cmpnet.com/embedded/redesign/sv_conf_off.gif";
+esconfon = new Image;
+esconfon.src = "http://i.cmpnet.com/embedded/redesign/sv_conf_on.gif";
+
+bostonoff = new Image;
+bostonoff.src = "http://i.cmpnet.com/embedded/redesign/es_confboston_off.gif";
+bostonon = new Image;
+bostonon.src = "http://i.cmpnet.com/embedded/redesign/es_confboston_on.gif";
+
+connectoff = new Image;
+connectoff.src = "http://i.cmpnet.com/embedded/redesign/connect_off.gif";
+connecton = new Image;
+connecton.src = "http://i.cmpnet.com/embedded/redesign/connect_on.gif";
+
+magoff = new Image;
+magoff.src = "http://i.cmpnet.com/embedded/redesign/esd_mag.gif";
+magon = new Image;
+magon.src = "http://i.cmpnet.com/embedded/redesign/esd_mag_on.gif";
+
+eurooff = new Image;
+eurooff.src = "http://i.cmpnet.com/embedded/redesign/esp_euro.gif";
+euroon = new Image;
+euroon.src = "http://i.cmpnet.com/embedded/redesign/esp_euro_on.gif";
+
+iaoff = new Image;
+iaoff.src = "http://i.cmpnet.com/embedded/redesign/ia.gif";
+iaon = new Image;
+iaon.src = "http://i.cmpnet.com/embedded/redesign/ia_on.gif";
+
+downoff = new Image;
+downoff.src = "http://i.cmpnet.com/embedded/redesign/code.gif";
+downon = new Image;
+downon.src = "http://i.cmpnet.com/embedded/redesign/code_on.gif";
+
+demooff = new Image;
+demooff.src = "http://i.cmpnet.com/embedded/redesign/prod_demos.gif";
+demoon = new Image;
+demoon.src = "http://i.cmpnet.com/embedded/redesign/prod_demos_on.gif";
+
+resoff = new Image;
+resoff.src = "http://i.cmpnet.com/embedded/redesign/resources.gif";
+reson = new Image;
+reson.src = "http://i.cmpnet.com/embedded/redesign/resources_on.gif";
+
+ieoff = new Image;
+ieoff.src = "http://i.cmpnet.com/embedded/redesign/ind_ev.gif";
+ieon = new Image;
+ieon.src = "http://i.cmpnet.com/embedded/redesign/ind_ev_on.gif";
+
+guideoff = new Image;
+guideoff.src = "http://i.cmpnet.com/embedded/redesign/buyers.gif";
+guideon = new Image;
+guideon.src = "http://i.cmpnet.com/embedded/redesign/buyers_on.gif";
+
+siteoff = new Image;
+siteoff.src = "http://i.cmpnet.com/embedded/redesign/sitemap.gif";
+siteon = new Image;
+siteon.src = "http://i.cmpnet.com/embedded/redesign/sitemap_on.gif";
+
+productsoff = new Image;
+productsoff.src = "http://i.cmpnet.com/embedded/redesign/new_prod.gif";
+productson = new Image;
+productson.src = "http://i.cmpnet.com/embedded/redesign/new_prod_on.gif";
+
+directoff = new Image;
+directoff.src = "http://i.cmpnet.com/embedded/redesign/catalogs.gif";
+directon = new Image;
+directon.src = "http://i.cmpnet.com/embedded/redesign/catalogs_on.gif";
+
+cdromoff = new Image;
+cdromoff.src = "http://i.cmpnet.com/embedded/redesign/cdrom.gif";
+cdromon = new Image;
+cdromon.src = "http://i.cmpnet.com/embedded/redesign/cdrom_on.gif";
+
+embeddedbooksoff = new Image;
+embeddedbooksoff.src = "http://i.cmpnet.com/embedded/redesign/embeddedbooks.gif";
+embeddedbookson = new Image;
+embeddedbookson.src = "http://i.cmpnet.com/embedded/redesign/embeddedbooks_on.gif";
+
+researchoff = new Image;
+researchoff.src = "http://i.cmpnet.com/embedded/redesign/market.gif";
+researchon = new Image;
+researchon.src = "http://i.cmpnet.com/embedded/redesign/market_on.gif";
+
+jobsoff = new Image;
+jobsoff.src = "http://i.cmpnet.com/embedded/redesign/job.gif";
+jobson = new Image;
+jobson.src = "http://i.cmpnet.com/embedded/redesign/job_on.gif";
+
+marketoff = new Image;
+marketoff.src = "http://i.cmpnet.com/embedded/redesign/marketplace.gif";
+marketon = new Image;
+marketon.src = "http://i.cmpnet.com/embedded/redesign/marketplace_on.gif";
+
+welcomeoff = new Image;
+welcomeoff.src = "http://i.cmpnet.com/embedded/redesign/welcometo.gif";
+welcomeon = new Image;
+welcomeon.src = "http://i.cmpnet.com/embedded/redesign/welcometo_on.gif";
+
+function imgSwap(imgId,imgSrc,restat) {
+   document.images[imgId].src=eval(imgSrc+'.src');
+   if (restat)window.status='';
+}
+
+function PreLoads(treeList)
+        {
+        window.status="["+systemLibCnt+"] menu.js["+LIBLOADEDJSmenu + "] items ["+""+" Loading ...";
+        if(!LIBLOADEDJSmenu)
+          {  setTimeout("PreLoads('"+treeList+"')",500);return;   }
+        window.onResize="document.location.href=document.location.href";        
+        if(!document.links.length)
+          {  setTimeout("PreLoads('"+treeList+"')",500);return;   }
+        window.status="initializing";
+        while(treeList.length>1)
+             {          
+             killboy =treeList.substring(1);
+             killboy =killboy.substring(0,killboy.indexOf(":"));
+             treeList=treeList.substring(killboy.length+1);
+             window.status="Loading "+killboy;
+             menuCREATE(killboy,0,0);
+             }
+        window.status="";
+        }
+
+
+/* Called by the jsLAYERclass to create
+a layer if the layer does not already exist.*/
+function jsLAYERcreateLayer(Homeboy,x,y,w,h,bColor)
+        {
+        if(systemIsNS)
+          {
+          var lyr= document.layers[Homeboy.lyrName] = new Layer(w)
+          lyr.left=x;lyr.top=y; lyr.clip.height=h+1;lyr.clip.width=w+1;
+          lyr.bgColor=((jsLAYERcreateLayer.arguments.length>5)?bColor:menuBcolor);
+          lyr.visibility='hidden';lyr.zIndex=1;
+          lyr.isHighlight=false;
+          lyr.border=1;
+          document.layers[Homeboy.lyrName].style=document.layers[Homeboy.lyrName];
+          }else{
+          var str = '\n<DIV id='+Homeboy.lyrName+' style="visibility: hidden; position:absolute; left:'+x+'; top:'+y+'; width:'+w
+          str += '; height:'+(h+1)+'px; clip:rect(0px '+(w+1)+'px '+(h+1)+'px 0px)'
+          str += '; background-color:'+((jsLAYERcreateLayer.arguments.length>5)?bColor:menuBcolor)+';z-Index:5;"> </DIV>';
+          document.body.insertAdjacentHTML("BeforeEnd",str);
+          }
+        Homeboy.jsLAYERobject=document.all[Homeboy.lyrName];
+        if(systemIsNS)
+          {
+          Homeboy.jsLAYERdocument  =document.layers[Homeboy.lyrName].document;
+          Homeboy.style            =document.layers[Homeboy.lyrName];
+          }else{
+          Homeboy.jsLAYERdocument  =document.all[Homeboy.lyrName];
+          Homeboy.style            =document.all[Homeboy.lyrName].style;
+          Homeboy.style.zIndex     =systemMaxZ++;
+          }
+        Homeboy.jsLAYERobject.HomeBoy=Homeboy;
+        Homeboy.jsLAYERobject.W =w;
+        Homeboy.jsLAYERobject.X =x;
+        Homeboy.jsLAYERobject.Y =y;
+        Homeboy.jsLAYERobject.H =h;
+        Homeboy.jsLAYERobject.MOUSEHANDLER="MOUSEVECTOR";
+        return Homeboy;
+        }
+function jsLAYERsetHandler(Homeboy,szHANDLER) // named function for events
+        {
+        Homeboy.jsLAYERobject.MOUSEHANDLER=szHANDLER;
+        MOUSECAPTURE(Homeboy,Homeboy.lyrName);
+        }
+function jsLAYERhomeboy(layername){return document.all[layername].HomeBoy;}
+function jsLAYERopen(Homeboy){if(systemIsNS){Homeboy.jsLAYERobject.document.open();  }else{  Homeboy.jsLAYERobject.innerHTML="";}}
+function jsLAYERwrite(Homeboy,Text){if(systemIsNS){Homeboy.jsLAYERdocument.write(Text);}else{Homeboy.jsLAYERobject.innerHTML+=Text;}}
+function jsLAYERclose(Homeboy)
+        {
+        if(systemIsNS)
+          {
+          Homeboy.jsLAYERdocument.close();
+          MOUSECAPTURE(Homeboy,Homeboy.lyrName);
+          }
+        }
+function jsLAYERsetContent(Homeboy,text)
+        {
+        jsLAYERopen(Homeboy);
+        jsLAYERwrite(Homeboy,text);
+        jsLAYERclose(Homeboy);return;
+        }
+function jsLAYERshow(Homeboy,vis){Homeboy.style.visibility=((vis)?"visible":"hidden");}
+function jsLAYERgetX(Homeboy){return parseInt(Homeboy.style.left);}
+function jsLAYERgetY(Homeboy){return parseInt(Homeboy.style.top);}
+function jsLAYERxy(Homeboy,x,y,InLayer)
+        {
+        this.InX=x;this.InY=y;
+        if(document.layers)
+          {
+          if(InLayer)
+            {
+            InX+=InLayer.style.left;
+            InY+=InLayer.style.top;
+            }
+          Homeboy.jsLAYERobject.x=this.InX;
+          Homeboy.jsLAYERobject.y=this.InY;
+          }else{
+          if(InLayer)
+            {
+            this.InX+=parseInt(document.all[Homeboy.lyrName].style.left);
+            this.InY+=parseInt(document.all[Homeboy.lyrName].style.top);
+            }
+//alert(document.all[Homeboy.lyrName].style.left+"[]"+this.InX+"[]"+x)
+          document.all[Homeboy.lyrName].style.left=this.InX
+          document.all[Homeboy.lyrName].style.top=this.InY
+
+          }
+
+
+        }
+/*Function      :MEVENT
+**Parameters    :Homeboy        - Layer Class Pointer
+**               Evt            - javascript Browser Event
+**Description   :Noramalizes Netscape/MSIE evnts to 
+**a class containing variables for both, with Netscape names
+**superceding MSIE names. It is this psudeo event class that
+**is passed to all MOUSE... event handler functions.
+*/
+function MEVENT(Homeboy,Evt) //normalizes the differences in NS and MSIE events
+        {
+        this.type=Evt.type;
+        this.screenX=Evt.screenX;
+        this.screenY=Evt.screenY;
+        if(systemIsNS)
+          {
+        this.pageX=Evt.pageX;
+        this.pageY=Evt.pageY;
+        this.locationX=Homeboy.jsLAYERobject.x;
+        this.locationY=Homeboy.jsLAYERobject.y;
+        this.layerX=Evt.layerX;
+        this.layerY=Evt.layerY;
+        this.which=Evt.which;
+        this.target=Evt.target;
+        this.modifiers=Evt.modifiers;
+          }else{
+        this.pageX=Evt.x;
+        this.pageY=Evt.y;
+        if(document.body.scrollTop)this.pageY+=document.body.scrollTop;
+        this.locationX=parseInt(Homeboy.jsLAYERobject.style.left);
+        this.locationY=parseInt(Homeboy.jsLAYERobject.style.top);
+        this.layerX=this.pageX-this.locationX;
+        this.layerY=this.pageY-this.locationY;
+        this.which=Evt.button+1;
+        this.target=Evt.srcElement;
+        this.modifiers=(((Evt.altKey)?1:0)+((Evt.ctrlKey)?2:0)+((Evt.AltKey)?4:0));
+          }
+        }
+function MOUSEVECTOR(layername,Evt)// handles the actuall prep and call of mouse events
+        {
+        Homeboy=document.all[layername].HomeBoy;return false;
+        }
+// Sets up mouse event NOTE: Use of "new Function" is important
+function MOUSECAPTURE(Homeboy,layername)
+        {
+
+var NFD="return "+Homeboy.jsLAYERobject.MOUSEHANDLER+"('"+layername+"',"+((systemIsNS)?"arguments[0]":"window.event")+")"
+Homeboy.jsLAYERobject.onmouseover=new Function(NFD)
+Homeboy.jsLAYERobject.onmouseout=new Function(NFD)
+Homeboy.jsLAYERdocument.onmousemove=new Function(NFD)
+Homeboy.jsLAYERdocument.onmousedown=new Function(NFD)
+Homeboy.jsLAYERdocument.onmouseup=new Function(NFD)
+if(systemIsNS)Homeboy.jsLAYERdocument.captureEvents(  Event.MOUSEUP |   Event.MOUSEDOWN   | Event.MOUSEMOVE);
+        }
+function NSResizePatch(){document.location.href=document.location.href;}
+function jsNULLvector(layername,Evt){return true;}
+var MPTYPE ="",MSTYPE ="";
+function jsMPANELvector(panelName,Evt)  // Vectors mouse messages for the panel
+        {
+        Homeboy=jsLAYERhomeboy(panelName);
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(Evt.type=="mouseout" || Evt.type=="mouseover") 
+          {
+          MPTYPE=Evt.type;
+          if(MPTYPE==MSTYPE&&MPTYPE=="mouseout")menuTimeOut=setTimeout("menuPOPDN()",100);
+          }
+        if(Evt.type!="mousemove" )return false;
+        EVENT=new MEVENT(Homeboy,Evt);
+
+        EntryNum=0;
+        EntryNotch=EVENT.layerY;
+        if(EntryNotch)
+          {
+          EntryNotch-=(EntryNotch%(menuCharHeight+1));
+          EntryNum=(EntryNotch/(menuCharHeight+1))
+          }
+        if(Homeboy.mParent.Items.length<=EntryNum)return true;
+        lastEVENT=EVENT;
+        if(Homeboy.mParent.EntryNum==EntryNum)return false;
+
+//if(!systemIsNS)
+//{
+//alert(EntryNum+"[]"+EntryNotch+"[]"+EVENT.layerY)
+//Homeboy.mParent.Items[EntryNum].RENDER)
+//}
+        jsLAYERsetContent(Homeboy.mParent.mSELECT,Homeboy.mParent.Items[EntryNum].RENDER);
+
+        jsLAYERxy(Homeboy.mParent.mSELECT,jsLAYERgetX(Homeboy),jsLAYERgetY(Homeboy)+(EntryNum*(menuCharHeight+1)));
+        Homeboy.mParent.EntryNum=EntryNum;
+        if(!menuSubAuto)return false;
+        if(Homeboy.mParent.Items[EntryNum].ACTION.substring(0,1)=="@")
+          {
+          fakeEvt = new Object();
+          fakeEvt.type="mouseup";
+          jsMSELECTvector(Homeboy.mParent.mSELECT.lyrName,fakeEvt);
+          }
+        return false;
+        }
+/*
+** Vectors mouse messages for the menu selector
+*/
+function jsMSELECTvector(panelName,Evt)
+        {
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(Evt.type=="mouseout" || Evt.type=="mouseover") 
+          {
+          MSTYPE=Evt.type;
+          if(MPTYPE==MSTYPE&&MPTYPE=="mouseout")menuTimeOut=setTimeout("menuPOPDN()",100);
+          Homeboy=jsLAYERhomeboy(panelName);
+          return false;
+          }
+        if(Evt.type!="mouseup")return false;
+        Homeboy=jsLAYERhomeboy(panelName);
+        var action = Homeboy.mParent.Items[Homeboy.mParent.EntryNum].ACTION;
+
+        if(menuCurrentPath.indexOf(Homeboy.jsLAYERobject.GROUP)>0)
+          {
+          var FindGroup = ":"+Homeboy.jsLAYERobject.GROUP+":";
+          var killList = menuCurrentPath.substring(menuCurrentPath.indexOf(FindGroup)+FindGroup.length-1);
+          menuPOPDN(killList);
+          }
+        if(action.length<1){window.status="[Not Available]";return false;}
+        var isMenu = action.substring(0,1)=="@";
+        var isJavascript = action.substring(0,1)=="!";
+        if(isJavascript)
+          {
+          eval(action.substring(1))
+          return false;
+          }
+        if(isMenu)
+          {
+          menuPOPUP(jsLAYERgetX(Homeboy)+Homeboy.jsLAYERobject.W+2,jsLAYERgetY(Homeboy),action.substring(1));
+          }else{
+          document.location.href=action;
+          }
+        return false;
+        }
+/*
+** This is the menu panel
+*/
+function jsMPANELclass(group,entry,label,action,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h,"#000000");
+        jsLAYERsetHandler(this,"jsMPANELvector");
+        this.jsLAYERobject.GROUP=group;this.jsLAYERobject.ENTRY=entry;
+        this.jsLAYERobject.rtWidth=10;
+        this.jsLAYERobject.rtSymbol="&raquo;";
+        }
+/*
+** This is the highlite bar
+*/
+function jsMSELECTclass(group,entry,label,action,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h);
+        jsLAYERsetHandler(this,"jsMSELECTvector");
+        this.jsLAYERobject.GROUP=group;
+        this.jsLAYERobject.ENTRY=entry;
+        this.jsLAYERobject.rtWidth=10;
+        this.jsLAYERobject.rtSymbol="&raquo;";
+        }
+/*
+** Create the menu label obeject string for display
+*/
+function menuLABEL(Homeboy,text,isHighlight,isSub)
+        {
+        var fontstart="<FONT FACE='"+menuFont+"' SIZE="+menuFontSize+" COLOR='"+((isHighlight)?menuHTcolor:menuTcolor)+"'>"+((menuBold)?"<B>":"");
+        var CONTENT="&nbsp;";
+        if(text)CONTENT=text.length?"&nbsp;"+text:"&nbsp;";
+        var lyrtxt="<TABLE BORDER=0 CELLPADDING=0 STYLE='cursor:hand' CELLSPACING='0' BGCOLOR='";
+        lyrtxt+=((isHighlight)?menuHBcolor:menuBcolor);
+        lyrtxt+="' WIDTH='"+Homeboy.jsLAYERobject.W+"' HEIGHT='"+menuCharHeight+"'><TR VALIGN=MIDDLE>";
+        twidth=parseInt(Homeboy.jsLAYERobject.W)-parseInt(Homeboy.jsLAYERobject.rtWidth);
+        lyrtxt+="<TD WIDTH='"+twidth.toString();
+        lyrtxt+="'>"+fontstart+CONTENT+((menuBold)?"</B>":"")+"</FONT></TD>";
+        lyrtxt+="<TD WIDTH='10'>"+fontstart+((isSub)?menuSubSymbol:"&nbsp;")+((menuBold)?"</B>":"")+"</FONT></TD></TR></TABLE>";
+        return lyrtxt;
+        }
+function MenuItem(label,action)
+        {
+        this.LABEL      =label  ;
+        this.ACTION     =action ;
+        this.SUB        =this.ACTION.substring(0,1)=="@";
+        this.RENDER     =""     ;
+        }
+function MenuListAPPEND(label,action)   //Appends an item to the menuobject
+        {
+        this.Items[this.Items.length]=new MenuItem(label,action);
+        if(label.length>this.greatestCharWidth)this.greatestCharWidth=label.length;
+        }
+function menuPop(tobj,imgId,imgSrc) //Pops up menu relative to <A> tag location on screen.
+        {
+        if ((imgId)&&(imgSrc))imgSwap(imgId,imgSrc);
+        objectName=tobj.href.substring(tobj.href.lastIndexOf("/")+1);
+        if(objectName.indexOf(".html")>-1)objectName=objectName.substring(0,objectName.indexOf("."))
+//      if(!menuCurrentPath)return;
+        if(menuCurrentPath.indexOf(":"+objectName+":")==0)return false;
+        if(menuCurrentPath.length>0)menuPOPDN();
+if(szDuds.indexOf(navigator.userAgent)>-1)
+{
+if(tobj.href.indexOf(".html")==-1)tobj.href+=".html";
+return true;
+}
+
+        if(navigator.appVersion.indexOf("MSIE")>-1&&navigator.appVersion.indexOf("Mac")>-1)
+          {// compatible mac
+          if(tobj.href.indexOf(".html")==-1)tobj.href+=".html";
+          return true;
+          }
+
+        this.MX=((systemIsNS)?(tobj.x):window.event.clientX-window.event.offsetX+tobj.offsetLeft);
+        this.MY=((systemIsNS)?(tobj.y):window.event.clientY-window.event.offsetY+tobj.offsetTop);
+        if(!systemIsNS)MSIEmeasure(tobj,this);    
+        this.MY+=menuYpopoff;
+        this.MX+=menuXpopoff;
+        menuPOPUP(this.MX,this.MY,objectName);
+        menuTimeOut=setTimeout("menuPOPDN()",menuAtimeout);
+        return false;
+        }
+function menuPOPUP(x,y,menulist)        //*** Opens named menu at given location
+        {
+        var DL=eval(menulist);
+        if(!DL){alert("menuPOPUP NULL "+menulist);return;}
+        menuSHOW(menulist,x,y);
+        if(!menuScreenWidth)
+          menuScreenWidth=(systemIsNS)?document.width:document.body.offsetWidth;
+        mkw=(DL.greatestCharWidth*menuCharWidth)+10;
+        var atX = ((x+mkw+20)>=menuScreenWidth)?x-mkw:x;
+        if(jsLAYERgetX(DL.mPANEL)!=atX)menuXY(DL,atX,y);
+        }
+function menuCREATE(szMlist,iLeft,iTop)
+        {
+        Left= 20;Top = 40;
+        if(menuCREATE.arguments.length>1)Left=iLeft;
+        if(menuCREATE.arguments.length>2)Top=iTop;
+        Mlist=eval(szMlist);
+        if(Mlist.mPANEL ==null)
+          {
+          Mlist.mPANEL=new jsMPANELclass(szMlist,0,"Hello","alert('hi')",Left,Top,((Mlist.greatestCharWidth+10)*menuCharWidth)+1,((menuCharHeight+1)*Mlist.Items.length)+1);
+          Mlist.mPANEL.mParent=Mlist;
+          var menuContent='';
+          menuContent='<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD>';
+          for(x=0;x<Mlist.Items.length;x++)
+           {
+           menuContent+=menuLABEL(Mlist.mPANEL,Mlist.Items[x].LABEL,false,Mlist.Items[x].SUB);
+           Mlist.Items[x].RENDER=menuLABEL(Mlist.mPANEL,Mlist.Items[x].LABEL,true,Mlist.Items[x].SUB);
+           }
+        menuContent+='</TD><TD BGCOLOR="#000000">&nbsp;</TD>';
+        menuContent+="</TR><TR><TD COLSPAN=2>&nbsp;</TD></TR></TABLE>";
+//alert(menuContent);
+          jsLAYERsetContent(Mlist.mPANEL,menuContent);
+          }
+        if(Mlist.mSELECT==null)
+          {
+          Mlist.mSELECT=new jsMSELECTclass(szMlist,1,"Hello","alert('hi')",Left,Top,(Mlist.greatestCharWidth+10)*menuCharWidth,menuCharHeight);
+          Mlist.mSELECT.mParent=Mlist;
+          jsLAYERsetContent(Mlist.mSELECT,Mlist.Items[0].RENDER);
+          }
+        }
+
+function menuSHOW(szMlist,iLeft,iTop)   // SHOW the menu
+        {
+        Left= 20;Top = 40;
+        if(menuSHOW.arguments.length>1)Left=iLeft;
+        if(menuSHOW.arguments.length>2)Top=iTop;
+        Mlist=eval(szMlist);
+        if(Mlist.mPANEL==null)menuCREATE(szMlist,iLeft,iTop);
+        if(jsLAYERgetX(Mlist.mPANEL)!=Left || jsLAYERgetY(Mlist.mPANEL)!=Top)
+            {
+            jsLAYERxy(Mlist.mPANEL,Left,Top)   
+            jsLAYERxy(Mlist.mSELECT,Left,Top+(Mlist.EntryNum*(menuCharHeight+1)));
+            }; 
+        if(menuCurrentPath.indexOf(":"+szMlist+":")<0)menuCurrentPath+=((menuCurrentPath.length)?"":":")+szMlist+":";
+
+        if(Mlist.mPANEL.style.clip&&!systemIsNS)
+          {
+          Clips= Mlist.mPANEL.style.clip.split("rect(")[1].split(")")[0].split("px")
+          Clips[2]=Mlist.Items.length * (menuCharHeight+1);
+          Mlist.mPANEL.style.clip = "rect("+Array(0,Clips[1],Clips[2],0).join("px ")+"px)";
+          Mlist.mPANEL.style.zIndex=5;
+          Mlist.mSELECT.style.zIndex=6;
+          }
+        Mlist.mPANEL.style.visiblity='visible';
+//alert(Mlist.Items.length +" Item(s) "+ Mlist.mPANEL.style.clip);
+        jsLAYERshow(Mlist.mPANEL,true);
+        jsLAYERshow(Mlist.mSELECT,true);
+        }
+function menuHIDE(szMlist)      //  Hides the named menu
+        {
+        Mlist=eval(szMlist);
+        jsLAYERshow(Mlist.mSELECT,false);
+        jsLAYERshow(Mlist.mPANEL,false);
+        }
+function menuXY(Mlist,x,y)      // Moves the referenced menu
+        {
+        jsLAYERxy(Mlist.mPANEL,x,y)
+        jsLAYERxy(Mlist.mSELECT,x,y+(Mlist.EntryNum*(menuCharHeight+1)));
+        }
+function menuPOPDN(treeList)    // closes a list of menus
+        {
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(menuPOPDN.arguments.length<1)treeList=menuCurrentPath;
+        while(treeList.length>1)
+             {          
+             killboy =treeList.substring(1);
+             killboy =killboy.substring(0,killboy.indexOf(":"));
+             treeList=treeList.substring(killboy.length+1);
+             menuHIDE(killboy);
+             }
+        if(menuPOPDN.arguments.length<1)menuCurrentPath="";
+        };
+/*
+** MAIN MENU OBJECT
+*/
+var mSELECT=null;
+function MenuList(Mlist)
+        {
+        this.mPANEL=null;this.mSELECT=null;
+        this.Items=new Array();this.EntryNum=0;
+        this.APPEND=MenuListAPPEND;
+        this.greatestCharWidth=0;
+        }
+
+/*      Function        :MSIEmeasure
+**      Since I have found no straight forward method of obtaining IE x,y
+**      coords for the clicked link, this function recurses up the object tree
+**      to measure the screen location of the <A> involved
+*/
+function MSIEmeasure(btobj,HB)
+        {
+        var tobj=btobj;
+        HB.MX=tobj.offsetLeft;
+        HB.MY=tobj.offsetTop;
+        while(tobj.parentElement)
+          {
+          if(!tobj.parentElement)break;
+          tobj = tobj.parentElement;
+//        if(tobj.tagName=="TABLE")
+          if(String(":TABLE:TD:DIV:").indexOf(":"+tobj.tagName+":")>-1)
+            {
+            HB.MX+=tobj.offsetLeft;
+            HB.MY+=tobj.offsetTop;
+            }
+          if(!tobj.parentElement)break;
+          if(tobj.parentElement.tagName=="BODY")break;
+          }
+        return ;
+        }
+/****************************************
+** A message window                     *
+*****************************************/
+var StatusMsgWin=null;
+function jsMESSAGEclass(group,entry,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h,"#FFFFCC");
+        jsLAYERsetHandler(this,"jsNULLvector");
+        jsLAYERshow(this,true);
+        this.jsLAYERobject.GROUP=group;this.jsLAYERobject.ENTRY=entry;
+        }
+/*
+** Set the contents of the message window;
+*/
+function jsStatusMsg(txtMESSAGE)
+        {
+        if(!StatusMsgWin)
+          {
+          StatusMsgWin= new jsMESSAGEclass("E",1,1,1,355,100);
+          jsLAYERshow(StatusMsgWin,true);
+          }
+        jsLAYERsetContent(StatusMsgWin,txtMESSAGE);
+        }
+var LIBLOADEDJSmenu=true;
+//systemLibCnt++; 
+
+
+      
+
+  
+
+</script>
+<!-- /menu.js -->
+
+</head>
+
+<!-- <body bgcolor="#ffffff" link="#0000ff" vlink="#63399"> -->
+<font face="verdana,georgia,arial,sans-serif" size="2">
+
+<body bgcolor=white link=#336699 alink=#6699CC vlink=#999999 marginwidth=0 marginheight=0 topmargin=0 leftmargin=0 rightmargin=0 text=#000000>
+<table cellpadding=0 cellspacing=0>
+<tr>
+<td><script language="JavaScript" src="http://i.cmpnet.com/shared/omniture/s_code_remote.js"></script></td>
+</tr>
+</table>
+<!-- End SiteCatalyst code version: G.7. -->
+
+<script language="JavaScript" src="http://www.cmpnet.com/core_js/beacon.js"></script>
+
+
+
+<table width="990" border="0" cellpadding="0" cellspacing="1"><tr><td valign="top" align="center">
+
+
+<table width="780" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+		<td align="center" colspan="3">
+<img src="http://i.cmpnet.com/eet/cdi/spacer.gif" width="720" height="3" border="0"><BR>
+
+
+    <!-- http://as.cmpnet.com/html.ng/pagepos=top&affiliate=embedded&site=electronics&country=india&server=atg&target=/1999/9907/9907feat2.htm -->
+<iframe src="http://view.atdmt.com/DEN/iview/cmpmpmic0170000004den/direct;wi.728;hi.90/01?click=" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" topmargin="0" leftmargin="0" allowtransparency="true" width="728" height="90">
+<script language="JavaScript" type="text/javascript">
+document.write('<a href="http://clk.atdmt.com/DEN/go/cmpmpmic0170000004den/direct;wi.728;hi.90/01/" target="_blank"><img src="http://view.atdmt.com/DEN/view/cmpmpmic0170000004den/direct;wi.728;hi.90/01/"/></a>');
+</script><noscript><a href="http://clk.atdmt.com/DEN/go/cmpmpmic0170000004den/direct;wi.728;hi.90/01/" target="_blank"><img border="0" src="http://view.atdmt.com/DEN/view/cmpmpmic0170000004den/direct;wi.728;hi.90/01/" /></a></noscript></iframe><img src="http://as.cmpnet.com/event.ng/Type=count&ClientType=2&AdID=89780&FlightID=54277&TargetID=683&Segments=862,885,1411,3108,3448&Targets=683,786,2625,2878&Values=34,46,51,63,77,83,93,100,140,203,304,309,442,451,646,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2678&RawValues=&random=bviRAnI,bckgIlIevnANr" width=1 height=1 border=0>
+
+  
+
+
+<img src="http://i.cmpnet.com/eet/cdi/spacer.gif" width="720" height="3" border="0"><table border="0" cellpadding="0" cellspacing="0" width="780"><tr valign="top"><td><img src="http://i.cmpnet.com/embedded/top/top_color2.jpg" height="24" width="498" border="0"></td><td><a href="http://www.embedded.com/rss"><img src="http://i.cmpnet.com/embedded/top/top_rss.jpg" height="24" width="69" border="0" alt="RSS"></a></td>
+<td><a href="http://www.eetimes.com/newsletter;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN"><img src="http://i.cmpnet.com/embedded/top/top_newsletters.jpg" height="24" width="84" border="0" alt="NEWSLETTERS"></a></td><td><a href="https://www.embeddedsystemsdesignsubscribe.com/New"><img src="http://i.cmpnet.com/embedded/top/top_printsub.jpg" height="24" width="129" border="0" alt="PRINT SUBSCRIPTION"></a></td></tr></table><img src="http://i.cmpnet.com/embedded/top/pixel.gif" height="1" width="780" border="0"><table border="0" cellpadding="0" cellspacing="0" width="780"><tr><td><a href="http://www.cmp.com/"><img src="http://i.cmpnet.com/embedded/top/cmp.jpg" height="87" width="89" border="0" alt="CMP MEDIA"></a></td><td><a href="/;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN"><img src="http://i.cmpnet.com/embedded/top/embedd_logo.jpg" height="87" width="234" border="0" alt="EMBEDDED.COM"></a></td><td><img src="http://i.cmpnet.com/embedded/top/middle_color.jpg" height="87" width="86" border="0"></td><td><a href="http://cmpmedia.globalspec.com/ProductFinder"><img src="http://i.cmpnet.com/embedded/top/specsearch.jpg" height="87" width="371" border="0" alt="SPECSEARCH"></a></td></tr></table></td></tr></table>
+
+		</td>
+	</tr>
+</table>
+
+
+
+<table width="780" border="0" cellpadding="0" cellspacing="1">
+  <tr bgcolor="#333366">
+
+    <!-- TopNav.html -->
+    
+
+
+
+
+
+
+
+
+
+    
+  
+
+
+    
+  
+
+
+    
+  
+
+
+    
+  
+
+
+
+    
+
+          <TD WIDTH="130" ALIGN="CENTER"><A HREF="http://www.eeproductcenter.com"><IMG SRC="http://i.cmpnet.com/embedded/redesign/eepc.gif" WIDTH="111" HEIGHT="16" BORDER="0" ALT="eeProductCenter"></A></TD>
+  <TD WIDTH="130" ALIGN="CENTER"><A HREF="/"><IMG SRC="http://i.cmpnet.com/embedded/redesign/home.gif" WIDTH="42" HEIGHT="16" BORDER="0" ALT="Home"></A></TD>
+  <TD WIDTH="130" ALIGN="CENTER"><A HREF="http://www.eetimes.com/newsletter/"><IMG SRC="http://i.cmpnet.com/embedded/redesign/register.gif" WIDTH="100" HEIGHT="16" BORDER="0" ALT="Sign up for newletters"></A></TD>
+  <TD WIDTH="130" ALIGN="CENTER"><A HREF="/contact"><IMG SRC="http://i.cmpnet.com/embedded/redesign/contact.gif" WIDTH="97" HEIGHT="16" BORDER="0" ALT="Contact"></A></TD>
+  <TD WIDTH="130" ALIGN="CENTER"><A HREF="/advert"><IMG SRC="http://i.cmpnet.com/embedded/redesign/advert.gif" WIDTH="97" HEIGHT="16" BORDER="0" ALT="Advertising"></A></TD>
+  <TD WIDTH="130" ALIGN="CENTER"><A HREF="/feedback"><IMG SRC="http://i.cmpnet.com/embedded/redesign/feeback.gif" WIDTH="68" HEIGHT="16" BORDER="0" ALT="Feedback"></A></TD>
+
+
+      
+
+  
+
+
+  </tr>
+</table>
+
+<table width="780" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td valign="top">
+      <table border=0 width="205" cellpadding="0" cellspacing="0">
+        <tr>
+
+          <!-- LEFT NAV -->
+          <td align="LEFT" valign="top" width="205" rowspan=2>
+            
+
+<!--<droplet src="/surveys/popup.jhtml"/></droplet>-->
+<table width="205" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td bgcolor="#666699" width="21" valign="top" align="left">&nbsp;</td>
+    <td bgcolor="ffffcc" width="18" valign="top" align="left">
+      <img src="http://i.cmpnet.com/embedded/redesign/curve_lav.gif" border="0" width="18" height="18"><br>
+    </td>
+    <td bgcolor="#ffffcc" width="166" valign="top" align="left">&nbsp;</td>
+  </tr>
+  <!-- LEFTTOC -->
+  <tr>
+    <td bgcolor="#666699">&nbsp;</td>
+    <td bgcolor="#ffffcc" width="184" valign="top" align="left" colspan="2">
+<!--     <center>
+<a href="http://www.esconline.com/boston/register.htm"><img src="http://i.cmpnet.com/embedded/gifs/permabuttons/escBOS_permabttn.gif" border=0 vspace="2"></a>
+<a href="http://www.eetnetwork.com/cs/ee/"><img src="http://i.cmpnet.com/embedded/edge_button2.gif" border="0" vspace="2"></a>
+
+
+      </center>
+-->
+
+<!-- eetnetwork global search table -->
+
+
+
+    
+  
+
+
+<!-- begin search table -->
+<center><FORM method="get" action="/searcheetn.jhtml;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN"><table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td colspan="2" align="center"><img src="http://img.cmpnet.com/eetnetwork/esearch_network.gif" width="132" height="12" border="0"></td></tr><tr><td align="center"><input maxlength="50" name="queryText" type="Text" class="eetnsearchform"></td><td align=left valign="top"><INPUT TYPE="image" SRC="http://img.cmpnet.com/ebnonline/redesign03/go.gif" width="17" height="17" ALT="Search" BORDER="0" NAME="Search" VALUE="Search"></td></tr>
+
+<!-- spacer -->
+<tr><td colspan="2"><img src="http://i.cmpnet.com/ebn/graphics/redesign_reusable/x.gif" width="132" height="5" border="0"></td></tr>
+
+<tr><td valign="top" align="center" colspan="2">
+<!-- choose site -->
+<select name="site" class="eetnsearchsites">
+<option value="12">Select Site Below
+<option value="13">Commsdesign
+<option value="2">My-ESM
+<option value="15">EEdesign
+<option value="900001">eeProductCenter
+<option value="4">EETimes
+<option value="12">Embedded
+<option value="19">Planet Analog
+<option value="5">Silicon Strategies
+<!-- <option value="800001">EET Network -->
+<!-- <option value="14">Deepchip -->
+<!-- <option value="17">EDTN Scandinavia -->
+<!-- <option value="1000001">eeMarketing -->
+<!-- <option value="50">eetde -->
+<!-- <option value="49">eetfr -->
+<!-- <option value="33">eetfrance -->
+<!-- <option value="34">eetgermany -->
+<!-- <option value="51">electronikinorden -->
+<!-- <option value="24">embeddedsystemsprogramming -->
+<!-- <option value="23">iapplianceweb -->
+<!-- <option value="18">mwee -->
+<!-- <option value="52">mwee -->
+<!-- <option value="1000002">supplynetwork -->
+<!-- <option value="22">theworkcircuit -->
+
+</select>
+</td></tr>
+
+<!-- spacer -->
+<tr><td colspan="2"><img src="http://i.cmpnet.com/ebn/graphics/redesign_reusable/x.gif" width="132" height="7" border="0"></td></tr></table></form></center>
+<!-- end search table -->
+
+
+
+<!-- <center><form action="/search" method="get"><img src="http://i.cmpnet.com/embedded/redesign/esearch.gif" width="184" height="21"><input type="text" name="queryText" size="20" value=""><br><input type="submit" name="Search" value="Search"><br><font face="verdana, georgia, arial" size="1"><a href="http://www.eetimesnetwork.com/esearchcenter.html"><b>Search the EE Times Network</b></a></font></form></center> -->
+
+
+
+      <!-- google search       <droplet src="google_search.jhtml"></droplet>
+-->
+
+
+<!-- custom ad position -->
+<center>
+
+<!-- Ad -->
+<!-- http://as.cmpnet.com/html.ng/affiliate=embedded&pagepos=tile4&site=electronics&country=india&server=atg&target=/1999/9907/9907feat2.htm -->
+<a target="_parent" href="http://as.cmpnet.com/event.ng/Type=click&FlightID=17681&AdID=27494&TargetID=2878&Segments=1411,3108,3448,4358&Targets=2625,2878&Values=34,46,51,63,77,83,93,100,140,304,309,442,451,646,832,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2678&RawValues=IP,66.77.24.210,&Redirect=http://www.cmp.com"><img src="http://i.cmpnet.com/ads/graphics/as5/rk/iopsblank.gif" border=0  alt=""></a><img src="http://as.cmpnet.com/event.ng/Type=count&ClientType=2&AdID=27494&FlightID=17681&TargetID=2878&Segments=1411,3108,3448,4358&Targets=2625,2878&Values=34,46,51,63,77,83,93,100,140,304,309,442,451,646,832,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2678&RawValues=&random=bAklbRN,bckgIlIevelcw" width=1 height=1 border=0>
+<!-- /Ad -->
+</center>
+<!-- end custom ad position -->
+
+
+
+	  <!-- product news -->
+      <a href="/products;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">
+  <img src="http://i.cmpnet.com/embedded/redesign/new_prodheader.gif" width="184" height="19" alt="PRODUCT NEWS" border="0" vspace="1">
+</a>
+<table table_name="product_news">
+
+
+
+    <tr>
+      <td align=left>
+        <font face="verdana" size="1">
+        <b><a href="/showArticle.jhtml;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN?articleID=189602301">
+        Secure processor touts  integrated RFID 
+        </a></b><br>
+        Broadcom's BCM5890 secure processor with integrated radio frequency identification technology  is designed to secure personal authentication transactions associated with physical access, logical access (into a PC or network) and contactless payment applications. 
+      </td>
+    </tr>
+
+  
+
+    <tr>
+      <td align=left>
+        <font face="verdana" size="1">
+        <b><a href="/showArticle.jhtml;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN?articleID=189602267">
+        Wireless functional tester slashes cost-of-test
+        </a></b><br>
+        Agilent Technologies now offers a mobile-phone functional tester that's priced starting at about $25,400. The tester includes a mobile test station and test software, as well as a special RF-shielded box with build-in antenna coupler.  
+      </td>
+    </tr>
+
+  
+
+</table>
+<p align="right">
+<font face="verdana" size="1">
+<a href="/products;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN"><B>More Product News</B></a> <img src="http://i.cmpnet.com/embedded/redesign/blackarrow.gif"><br>
+</font>
+
+
+
+      <!-- dateline europe -->
+      <a href="/columns/de/;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">
+<img src="http://i.cmpnet.com/embedded/redesign/new_datelineheader.gif" width=184 height=19 alt="DATELINE: EUROPE" border=0 VSPACE=1>
+</a>
+
+<table table_name="dateline">
+
+
+
+    <tr>
+      <td align=left>
+        <font face="verdana" size="1">
+        <b><a href="/showArticle.jhtml;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN?articleID=189601796">
+        Trio add support for ETX 3.0
+        </a></b><br>
+        Three more companies - Arbor, Axiomtek and Blue Chip Technology - have signed up to support version 3.0 of the ETX  computer-on-module standard. 
+      </td>
+    </tr>
+
+  
+
+    <tr>
+      <td align=left>
+        <font face="verdana" size="1">
+        <b><a href="/showArticle.jhtml;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN?articleID=189601317">
+        EE Times extends its reach in Europe
+        </a></b><br>
+        CMP Media LLC and EE Times have launched a European website as part of an integrated and global publishing strategy. The website, ww.eetimes.eu, is designed to deliver both global and European information with extensive editorial and expanded advertising real estate. The site will feature global and regional news and analysis in a mix of English and other local languages together with a section providing information on new products. 
+      </td>
+    </tr>
+
+  
+
+</table>
+<p align="right">
+<font face="verdana" size="1">
+<a href="/columns/de;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN"><B>More News From Europe</B></a> <img src="http://i.cmpnet.com/embedded/redesign/blackarrow.gif"><br>
+</font>
+
+
+
+      <!-- leftToc1.html -->
+      
+
+
+
+
+
+
+
+
+
+    
+  
+
+
+    
+  
+
+
+    
+  
+
+
+    
+  
+
+
+
+    
+
+        <TABLE WIDTH="184" CELLPADDING="0" CELLSPACING="0" BORDER="0">
+ <TR>
+  <TD BGCOLOR="#FFFFCC" ALIGN="LEFT" VALIGN="TOP">
+<!-- EMBEDDED.COM LINKS -->
+<IMG SRC="http://i.cmpnet.com/embedded/redesign/embedd_links.gif" WIDTH="184" HEIGHT="19" ALT="Embedded.com Links" VSPACE="1"><BR>
+
+<A HREF="http://www.esconline.com/sv" onMouseOver="imgSwap('esconf','esconfon',1)" onMouseOut="imgSwap('esconf','esconfoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/sv_conf_off.gif" WIDTH="184" HEIGHT="49" BORDER="0" NAME="esconf"></A><BR>
+
+<A HREF="http://www.esconline.com/boston" onMouseOver="imgSwap('boston','bostonon',1)" onMouseOut="imgSwap('boston','bostonoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/es_confboston_off.gif" WIDTH="184" HEIGHT="35" BORDER="0" NAME="boston"></A><BR>
+
+<!-- <A HREF="http://www.esconline.com/connect" onMouseOver="imgSwap('connect','connecton',1)" onMouseOut="imgSwap('connect','connectoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/connect_off.gif" WIDTH="184" HEIGHT="35" BORDER="0" NAME="connect"></A><BR> -->
+
+<A HREF="/mag.htm" onMouseOver="imgSwap('mag','magon',1)" onMouseOut="imgSwap('mag','magoff',1)"><img src="http://i.cmpnet.com/embedded/redesign/esd_mag.gif" border="0" name="mag" width="184" height="35"></a><br>
+
+<A HREF="/europe/" onMouseOver="imgSwap('euro','euroon',1)" onMouseOut="imgSwap('euro','eurooff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/esp_euro.gif" WIDTH="184" HEIGHT="34" BORDER="0" NAME="euro"></a><BR>
+
+<!--<A HREF="/internet/" onMouseOver="imgSwap('ia','iaon',1)" onMouseOut="imgSwap('ia','iaoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/ia.gif" WIDTH="184" HEIGHT="20" BORDER="0" NAME="ia"></a><BR>-->
+
+<A HREF="/code" onMouseOver="imgSwap('down','downon',1)" onMouseOut="imgSwap('down','downoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/code.gif" WIDTH="184" HEIGHT="21" BORDER="0" NAME="down"></A><BR>
+
+<A HREF="/demos" onMouseOver="imgSwap('demo','demoon',1)" onMouseOut="imgSwap('demo','demooff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/prod_demos.gif" WIDTH="184" HEIGHT="19" BORDER="0" NAME="demo"></A><BR>
+
+<A HREF="/links.htm" onMouseOver="imgSwap('res','reson',1)" onMouseOut="imgSwap('res','resoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/resources.gif" WIDTH="184" HEIGHT="21" BORDER="0" NAME="res"></A><BR>
+
+<A HREF="/events" onMouseOver="imgSwap('ie','ieon',1)" onMouseOut="imgSwap('ie','ieoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/ind_ev.gif" WIDTH="184" HEIGHT="19" BORDER="0" NAME="ie"></A><BR>
+
+<A HREF="http://www.eetimescareers.com" onMouseOver="imgSwap('jobs','jobson',1)" onMouseOut="imgSwap('jobs','jobsoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/job.gif" WIDTH="184" HEIGHT="20" BORDER="0" NAME="jobs"></A><BR>
+
+<A HREF="/marketplace" onMouseOver="imgSwap('market','marketon',1)" onMouseOut="imgSwap('market','marketoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/marketplace.gif" WIDTH="184" HEIGHT="20" BORDER="0" NAME="market"></A><BR>
+
+<!--<A HREF="/bg/" onMouseOver="imgSwap('guide','guideon',1)" onMouseOut="imgSwap('guide','guideoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/buyers.gif" WIDTH="184" HEIGHT="20" BORDER="0" NAME="guide"></A><BR>-->
+
+<A HREF="/sitemap.htm" onMouseOver="imgSwap('site','siteon',1)" onMouseOut="imgSwap('site','siteoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/sitemap.gif" WIDTH="184" HEIGHT="21" BORDER="0" NAME="site"></A><BR>
+
+
+      
+
+  
+
+
+      <!-- leftToc2.html -->
+      
+
+
+
+
+
+
+
+
+
+    
+  
+
+
+    
+  
+
+
+    
+  
+
+
+    
+  
+
+
+
+    
+
+        <!-- COMPANY STORE PRODUCTS -->
+<IMG SRC="http://i.cmpnet.com/embedded/redesign/companystore_header.gif" WIDTH="184" HEIGHT="19" ALT="Company Store"><BR>
+
+<!--<A HREF="/directories/" onMouseOver="imgSwap('direct','directon',1)" onMouseOut="imgSwap('direct','directoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/catalogs.gif" WIDTH="184" HEIGHT="22" BORDER="0" NAME="direct"></A><BR>-->
+
+<A HREF="/cdrom" onMouseOver="imgSwap('cdrom','cdromon',1)" onMouseOut="imgSwap('cdrom','cdromoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/cdrom.gif" WIDTH="184" HEIGHT="22" BORDER="0" NAME="cdrom"></A><BR>
+
+<A HREF="/books" onMouseOver="imgSwap('embeddedbooks','embeddedbookson',1)" onMouseOut="imgSwap('embeddedbooks','embeddedbooksoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/embeddedbooks.gif" WIDTH="184" HEIGHT="22" BORDER="0" NAME="embeddedbooks"></A>
+
+<!-- SPONSORED MICROSITES -->
+<!--<IMG SRC="http://i.cmpnet.com/embedded/redesign/microsites.gif" ALT="Sponsored Microsites" WIDTH="184" HEIGHT="19">
+
+
+<A HREF="http://embeddeddsp.embedded.com" 
+onMouseOver="imgSwap('welcome','welcomeon',1)" onMouseOut="imgSwap('welcome','welcomeoff',1)"><IMG SRC="http://i.cmpnet.com/embedded/redesign/welcometo.gif" ALT="Welcome to Embedded DSP by TI" WIDTH="184" HEIGHT="33" BORDER="0" NAME="welcome"></A>-->
+
+
+
+  </TD>
+ </TR>
+</TABLE>
+<BR CLEAR="ALL">
+
+
+      
+
+  
+
+
+      <!-- INTELLITXT BUTTON -->
+<!-- <center><a href="/whatisIntelliTXT.htm"><img src="http://i.cmpnet.com/eetnetwork/green_links.gif" width="125" height="51" border="0" alt="Intellitxt Button"></a></center><br> -->
+
+
+      <!-- NetSeminarsBox.html -->
+      
+<!-- NetSeminar Box -->
+<table cellpadding="0" cellspacing="0" bordercolor="#000099" border="1" width="100%">
+ <tr>
+  <td>
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#FFFFFF">
+ <tr>
+  <td colspan="3" bgcolor="#000099" align="center">
+<img src="http://img.cmpnet.com/eet/v2/netsem.gif" border="0" alt="NeSeminar Services"><br>
+  </td>
+ </tr>
+
+<tr>
+  <td colspan="3" bgcolor="#FFFFFF" align="center">
+<font face="verdana" size="1" color="#OOOOOO">
+A list of upcoming NetSeminars, plus a link to the <a href="http://www.eetimes.com/netseminar.html;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">archive</a>.
+</font><br><br>
+  </td>
+ </tr>
+
+ <tr>
+  <td width=5 valign="top" align="left"><IMG SRC="http://img.cmpnet.com/theworkcircuit/pixel.gif" WIDTH="5" HEIGHT="1">
+  </td>
+  <td valign="top" align="left">
+<font face="verdana,arial" size="1">
+
+&#8226; <a href="http://cmpnetseminars.com/TSG/?K=HOME&Q=326" target="_new">
+Deploying device software to solve aerospace and defense industry challenges</a><br><br>
+<!-- January 17, 2006 11:00 am PT -->
+
+&#8226; <a href="http://cmpnetseminars.com/TSG/?K=HOME&Q=327" target="_new">
+The Role of Programmable Logic in Embedded Systems</a><br><br>
+<!-- January 19, 2006 11:00 am PT -->
+
+&#8226; <a href="http://cmpnetseminars.com/TSG/?K=HOME&Q=328" target="_new">
+Building Connectivity Into Factory Networks</a><br><br>
+<!-- January 25, 2006 11:00 am PT -->
+
+&#8226; <a href="http://cmpnetseminars.com/TSG/?K=HOME&Q=272" target="_new">
+Spread Spectrum Clock Generation (SSCG) Technology for EMI Reduction</a><br><br>
+<!-- January 26, 2006 11:00 am PT -->
+
+&#8226; <a href="http://w.on24.com/r.htm?e=18586&s=1&k=C88EFD8425963B4A325179F68D80C7D1" target="_new">
+A Practical Guide to High-Speed Printed-Circuit-Board Layout</a><br><br>
+<!-- January 30, 2006 11:00 am PT -->
+
+<!-- END SEMINAR LISTING -->
+
+
+</font>
+  </td>
+  <td width=5 valign="top" align="left"><IMG SRC="http://img.cmpnet.com/theworkcircuit/pixel.gif" WIDTH="5" HEIGHT="1">
+  </td>
+ </tr>
+</table>
+
+  </td>
+ </tr>
+</table>
+
+
+      <br>
+
+      <!-- top left tile ad -->
+      <center>
+      
+
+    <!-- http://as.cmpnet.com/html.ng/pagepos=tilelefttop&affiliate=embedded&site=electronics&country=india&server=atg&target=/1999/9907/9907feat2.htm -->
+<a target="_parent" href="http://as.cmpnet.com/event.ng/Type=click&FlightID=60003&AdID=100173&TargetID=894&Segments=863,887,1411,3108,3448&Targets=680,894,2625,2878&Values=34,46,51,63,77,83,93,100,140,297,304,309,442,451,646,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2678&RawValues=IP,66.77.24.210,&Redirect=http://www.industrialcontroldesignline.com"><img src="http://i.cmpnet.com/ads/graphics/as5/ac/House/icdl060606_125x125a.gif" border=0 height=125 width=125 alt=""></a><img src="http://as.cmpnet.com/event.ng/Type=count&ClientType=2&AdID=100173&FlightID=60003&TargetID=894&Segments=863,887,1411,3108,3448&Targets=680,894,2625,2878&Values=34,46,51,63,77,83,93,100,140,297,304,309,442,451,646,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2678&RawValues=&random=bwWmeKs,bckgIlIdRiisn" width=1 height=1 border=0>
+
+  
+
+
+      </center>
+
+      <br>
+
+      <!-- Network Navigation -->
+      <table border="0" width="100%" cellpadding="0" cellspacing="0" table_name="network_nav">
+ <tr>
+  <td class="tdHeader">EE TIMES NETWORK</td>
+ </tr>
+<tr>
+ <td valign="top" align="left">
+&nbsp;<span class="nnType">Online Editions</span><br>
+<span class="nnLink">
+&nbsp;<a href="http://www.eet.com/;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">EE TIMES</a><br>
+&nbsp;<a href="http://www.eetasia.com/">EE TIMES ASIA</a><br>
+&nbsp;<a href="http://www.eetchina.com/">EE TIMES CHINA</a><br>
+&nbsp;<a href="http://www.eetimes.fr/">EE TIMES FRANCE</a><br>
+&nbsp;<a href="http://www.eetimes.de/">EE TIMES GERMANY</a><br>
+&nbsp;<a href="http://www.eetimes.jp/">EE TIMES JAPAN</a><br>
+&nbsp;<a href="http://www.eetkorea.com/">EE TIMES KOREA</a><br>
+&nbsp;<a href="http://www.eettaiwan.com/">EE TIMES TAIWAN</a><br>
+&nbsp;<a href="http://www.eetuk.com/">EE TIMES UK</a><br><br>
+</span>
+&nbsp;<span class="nnType">Web Sites</span><br>
+<span class="nnLink">
+&nbsp;&#149; <a href="http://www.AudioDesignLine.com/">Audio DesignLine</a><br>
+&nbsp;&#149; <a href="http://www.AutomotiveDesignLine.com/">Automotive DesignLine</a><br>
+&nbsp;&#149; <a href="http://www.eetimescareers.com/">Career Center</a><br>
+&nbsp;&#149; <a href="http://www.commsdesign.com/;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">CommsDesign</a><br>
+&nbsp;&#149; <a href="http://www.mwee.com/">Microwave</a><br>
+&nbsp; &nbsp; <a href="http://www.mwee.com/">Engineering</a><br>
+&nbsp;&#149; <a href="http://www.deepchip.com/">Deepchip.com</a><br>
+&nbsp;&#149; <a href="http://www.us.design-reuse.com/">Design & Reuse</a><br>
+&nbsp;&#149; <a href="http://www.DigitalTVDesignLine.com/">Digital TV</a><br>
+&nbsp; &nbsp; <a href="http://www.DigitalTVDesignLine.com/">DesignLine</a><br>
+&nbsp;&#149; <a href="http://www.DSPDesignLine.com/">DSP DesignLine</a><br>
+&nbsp;&#149; <a href="http://www.embedded.com/">Embedded.com</a><br>
+&nbsp;&#149; <a href="http://www.edtnscandinavia.com/">Elektronik i Norden</a><br>
+&nbsp;&#149; <a href="http://www.greensupplyline.com/;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">Green SupplyLine</a><br>
+&nbsp;&#149; <a href="http://www.IndustrialControlDesignLine.com/">Industrial Control</a><br>
+&nbsp; &nbsp; <a href="http://www.IndustrialControlDesignLine.com/">DesignLine</a><br>
+&nbsp;&#149; <a href="http://www.planetanalog.com/">Planet Analog</a><br>
+&nbsp;&#149; <a href="http://www.MobileHandsetDesignLine.com/">Mobile Handset</a><br>
+&nbsp; &nbsp; <a href="http://www.MobileHandsetDesignLine.com/">DesignLine</a><br>
+&nbsp;&#149; <a href="http://www.NetworkSystemsDesignLine.com/">Network Systems</a><br>
+&nbsp; &nbsp; <a href="http://www.NetworkSystemsDesignLine.com/">DesignLine</a><br>
+&nbsp;&#149; <a href="http://www.PowerManagementDesignLine.com/">Power Management</a><br>
+&nbsp; &nbsp; <a href="http://www.PowerManagementDesignLine.com/">DesignLine</a><br>
+&nbsp;&#149; <a href="http://www.pldesignline.com/;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">Programmable Logic</a><br>
+&nbsp; &nbsp; <a href="http://www.pldesignline.com/;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">DesignLine</a><br>
+&nbsp;&#149; <a href="http://www.VIDesignLine.com/">Video | Imaging</a><br>
+&nbsp; &nbsp; <a href="http://www.VIDesignLine.com/">DesignLine</a><br>
+&nbsp;&#149; <a href="http://www.WirelessNetDesignLine.com/">Wireless Net</a><br>
+&nbsp; &nbsp; <a href="http://www.WirelessNetDesignLine.com/">DesignLine</a><br><br>
+</span>
+</td>
+</tr>
+
+<!-- ELECTRONICS GROUP SITES -->
+  <td class="tdHeader">ELECTRONICS GROUP SITES</td>
+ </tr>
+<tr>
+ <td valign="top" align="left">
+     <!-- ELECTRONICS GROUP SITES -->
+<span class="nnLink">
+&nbsp;&#149; <a href="http://cmpmedia.globalspec.com/"><font color="#CC0000">NEW!</font> SpecSearch</a><br>&nbsp;&#149; <a href="http://www.eeproductcenter.com/">eeProductCenter</a><br>
+&nbsp;&#149; <a href="http://www.my-esm.com/;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">Electronics Supply &</a><br>
+&nbsp; &nbsp; <a href="http://www.my-esm.com/;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">Manufacturing</a><br>
+&nbsp;&#149; <a href="http://www.eetimes.com/calendar;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">Conferences</a><br>
+&nbsp; &nbsp; <a href="http://www.eetimes.com/calendar;jsessionid=BYBUMLAMSNU0IQSNDLRSKHSCJUNN2JVN">and Events</a><br>
+&nbsp;&#149; <a href="http://www.esmchina.com/">Electronics Supply &</a><br>
+&nbsp; &nbsp; <a href="http://www.esmchina.com/">Manufacturing--China</a><br>
+&nbsp;&#149; <a href="http://www.electronics-express.com/">Electronics Express</a><br>
+&nbsp;&#149; <a href="http://webcast.on24.com/clients/cmp/index.html?cb=eetimes&subclientid=375">NetSeminar Services</a><br>
+</td>
+ </tr>
+</table>
+
+
+      <br>
+
+      <!-- leftToc3.html -->
+      
+
+
+
+
+
+
+
+
+
+    
+  
+
+
+    
+  
+
+
+    
+  
+
+
+    
+  
+
+
+
+    
+
+        <TABLE WIDTH="184" CELLPADDING="0" CELLSPACING="0" BORDER="0">
+<TR>
+<TD BGCOLOR="#FFFFCC" ALIGN="LEFT" VALIGN="TOP">
+
+<!-- DESIGN LIBRARY BUTTON -->
+<center><a href="http://www.eet.com/designlibrary"><img src="http://i.cmpnet.com/eet/v2/deslib_button.gif" width="134" height="101" border="0"></center><br><br>
+
+
+
+<!--This has been discontinued
+CMP PRODUCT CATALOGS
+ <table border="0" cellpadding="0" cellspacing="0" width="184">
+ <TR>
+  <TD><a href="/directories"><IMG SRC="http://i.cmpnet.com/embedded/redesign/prod_cat.gif" ALT="Product Catalogs" WIDTH="184" HEIGHT="19" BORDER="0" VSPACE="1"></a></TD>
+ </TR>
+ <TR>
+  <TD BGCOLOR="#FFFFCC">
+<CENTER>
+
+<FONT FACE="verdana, arial, sans-serif" SIZE="1">
+<BR> <CENTER> <A HREF="/directories/embedded/motorola2003/index.html"><IMG SRC="http://i.cmpnet.com/embedded/db_area/motorola2003/gifs/mot_home.gif" ALT="Motorola Smart Networks Resource Guide 2003" BORDER="0"> <br clear="all">
+Motorola Smart Networks Resource Guide 2003</A></CENTER>
+<BR>
+
+</FONT>
+  </TD>
+ </TR>
+ </table>
+End CMP PRODUCT CATALOGS
+-->
+
+<!-- Network Resources -->
+<table border="0" cellpadding="0" cellspacing="0" width="184">
+<tr>
+<td valign="top" align="center" bgcolor="#FFFFCC">
+<img src="http://i.cmpnet.com/embedded/redesign/nr_header.gif" wdth="184" height="19" border="0">
+</td>
+</tr>
+<tr>
+<td valign="top" align="center" bgcolor="#FFFFCC">
+
+<!-- Job Search -->
+<!-- <form action="http://jobs.theworkcircuit.com/wc/ors_jsearch.p_adv_search" method="post" name="search">
+<a href="http://jobs.theworkcircuit.com"><img src="http://i.cmpnet.com/embedded/redesign/nr_jobs.gif" width="184" height="13" border="0" alt="International Job Search"></a>
+&nbsp; &nbsp; <input type="text" name="p_keyword" value="" size="15" maxlength="50">
+<input type="image" name="button" src="http://i.cmpnet.com/embedded/redesign/go.gif" width="17" height="17" border="0"></form> -->
+
+
+
+<!-- e-cyclopedia Search -->
+<!-- removed 7/7/2003 -->
+<!-- <form method="GET" action="/leftResources/encycSearch.jhtml">
+<a href="http://www.eetnetwork.com/encyclopedia"><img src="http://i.cmpnet.com/embedded/redesign/nr_ecyclo.gif" width="184" height="13" border="0" alt="eCyclopedia"></a>
+&nbsp; &nbsp; <input name="term" size="15" type="text">
+<input type="image" src="http://i.cmpnet.com/embedded/redesign/go.gif" width="17" height="17" border="0" ALT="Search"></form> -->
+
+<!-- eLibrary Search -->
+<form method="get" action="/leftResources/eLibrarySearch.jhtml">
+<a href="http://edtn.bitpipe.com"><img src="http://i.cmpnet.com/embedded/redesign/nr_library.gif" width="184" height="13" border="0" alt="eLibrary"></a><br>
+<input type="hidden" name="site" value="eet">
+<input type="hidden" name="cp" value="bpres">
+<input type="hidden" name="qp" value="site_abbrev:edtn">
+<input type="hidden" name="st" value="1">
+<input name="cr" type="hidden" value="bpres">
+<input name="ct" type="hidden" value="trm">
+<input name="co" type="hidden" value="bporg">
+&nbsp; &nbsp; <input type="text" name="qt" size="15">
+<input type="image" id="elibrGoButton" ALT="Search" src="http://i.cmpnet.com/embedded/redesign/go.gif" width="17" height="17" border="0">
+</form>
+
+<!-- NetSeminar Search -->
+<!-- removed 7/7/2003 -->
+<!-- <form action="/leftResources/seminarSearch.jhtml" METHOD=POST>
+<a href="http://www.eet.com/netseminar.html"><img src="http://i.cmpnet.com/embedded/redesign/nr_netsem.gif" width="184" height="19" border="0" alt="Online Seminars"></a>
+&nbsp; &nbsp; <input type=text size=15 name=generalKeyword maxlength="35" value="">
+<input type="image" name="SEARCH" ALT="Search" src="http://i.cmpnet.com/embedded/redesign/go.gif" width="17" height="17" border="0"><p>
+</form> -->
+</td>
+</tr>
+</table>
+
+<img src="http://i.cmpnet.com/eet/cdi/spacer.gif" width="184" height="10" border="0">
+
+
+<!-- NEWSLETTER BUTTON -->
+<center><A HREF="http://www.eetimes.com/newsletter"><img src="http://i.cmpnet.com/embedded/redesign/newsletter_left.gif" wdth="134" height="99" border="0"></A></center><BR><BR>
+</TD>
+</TR>
+</TABLE>
+
+
+      
+
+  
+<p>
+
+
+
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="#666699">&nbsp;</td>
+    <td colspan=2>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" colspan="3">
+      <font face="verdana,arial" size="1"><a href="http://www.cmpnet.com/delivery/copyright.html">Copyright &copy; 2006 CMP Media LLC</a><br>
+      <a href="http://www.cmpnet.com/delivery/privacy.html">Privacy Statement</a><BR><a href="http://www.cmp.com/delivery/privacy.html#california">Your California Privacy Rights</a><BR><a href="http://www.cmp.com/delivery/terms.html">Terms of Service</a></font>
+    </td>
+  </tr>
+</table>
+
+          </td>
+
+        </tr>
+      </table>
+
+    </td>
+    <td valign="top">
+      <table width="575" cellpadding="0" cellspacing="0">
+        <tr>
+
+
+          <!-- BODY -->
+          <td bgcolor="#ffffff" align="left" valign="top" width="433">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td colspan=2>&nbsp</td>
+              </tr>
+              <tr>
+                <td bgcolor="#ffffff" width="18" valign="top" align="left">
+                  <img src="http://i.cmpnet.com/eet/cdi/spacer.gif" height=1 width=18>
+                </td>
+                <td bgcolor="#ffffff" width="415" align="left" valign="top">
+
+                  
+
+            <!-- TITLE A Generic API for Bit Manipulation in C -->
+<META NAME="title" CONTENT="A Generic API for Bit Manipulation in C">
+<META NAME="issue" CONTENT="July 1999">
+<META NAME="author" CONTENT="Richard Hogaboom">
+<meta name = "Author" content = "Richard Hogaboom">
+<meta name = "Publication" content = "Embedded Systems Programming Magazine">
+<meta name = "Pub_Date" content = "19990701">
+<meta name = "Headline" content = "A Generic API Bit Manipulation in C">
+<meta name = "Author" content = "Richard Hogaboom">
+<meta name = "Deck" content = "">
+<meta name = "Column" content = "">
+<meta name = "Keywords" content = "This article presents a solution to the bit manipulation problems that is protable to any platform. The built-in facilities for bit manipulation in C may be sufficient for interaction with memory-mapped device registers, but theyare often insufficient fo">
+<meta name = "Section" content = "feature">
+<meta name = "Volume" content = "1">
+<meta name = "Issue_Number" content = "7">
+<meta name = "Copyrights" content = "Form A">
+<meta name = "Market_Restrictions" content = "No Market Restrictions">
+<!-- TITLE A GENERIC API BIT MANIPULATION IN C -->
+
+
+<table width="430" cellspacing="0" border="0" cellpadding="5">
+
+	
+<tr valign="top">
+		
+<td colspan="3">
+
+<font size="2" face="Verdana, Georgia, Sans-Serif">
+
+
+<center>
+
+<!--   -->
+
+
+<p><img width="329" src="http://i.cmpnet.com/embedded/gifs/esplogo.gif" height="67">
+
+</center>
+
+</td>
+	
+</tr>
+
+
+
+
+
+<tr>
+
+<td>
+
+<font size="2" face="Verdana, Georgia, Sans-serif"><br>
+
+</center>
+
+
+<font size="2" face="VERDANA">
+
+<h2>A GENERIC API BIT MANIPULATION IN C
+<p>
+
+</h2>
+
+
+</td>
+
+
+<td valign="top" rowspan="2">
+
+		
+</td>
+
+</tr>
+
+<tr>
+
+	
+
+<td>
+
+<font size="2" face="Verdana, Georgia, Sans-serif"><font size="2" face="VERDANA">
+
+<p>
+
+<font color="maroon"><b>The built-in facilities for bit manipulation in C may be sufficient for  interaction with memory-mapped device registers, but they are often  insufficient for other uses. This article presents a solution to the bit  manipulation problems that is portable to any platform.
+</b></font><p>
+Embedded software almost always involves some sort of bit manipulations&#151;the reading, setting, and clearing of bit locations within memory. There
+ are several reasons for this. Most often, bit manipulation occurs with respect to the registers of peripheral devices&#151;DMA, serial, and interrupt controllers, for example&#151;that are mapped into the processor&#146;s memory space. Such manipulations are well handled with C&#146;s built-in facilities.
+<p>However, situations arise in which bit manipulation must be done in a manner that is incompatible with these built-in facilities. For example, a lack of available RAM resources frequently results in
+ bit-level manipulation to compress or decompress data, store tabular data efficiently, and implement complex algorithms in as little space as possible. Embedded systems may also interface to devices that receive or transmit binary encoded streams that must be either encoded or decoded in real time and in the processor&#146;s memory.
+<p>
+
+<font color="maroon"><b>Problems with C
+</b></font><p>
+Part of the reason for the C language&#146;s success in embedded systems development is its ability to manipulate individual
+ bits. If the manipulation in question involves only device registers, then the native C facilities aren&#146;t too much trouble. The programmer just writes some macros that shift or mask the appropriate bits to get what is desired. However, if the data involves longer binary encoded records, the C API runs into a problem. I have, over the years, seen many lengthy, complex binary records described with the short or long integer bit-field definition facilities. C limits these bit fields to subfields of
+ integer-defined variables, which implies two limitations: first of all, that bit fields may be no wider, in bits, than the underlying variable; and secondly, that no bit field should overlap the underlying variable boundaries. Complex records are usually composed of several contiguous long integers populated with bit-subfield definitions. 
+<p>ANSI-compliant compilers are free to impose these size and alignment restrictions and to specify, in an implementation-dependent but predictable way, how bit fields are packed
+ into the underlying machine word structure. Structure memory alignment often isn&#146;t portable, but bit field memory is even less so.
+<p>Generally, one of three techniques is used to manipulate bit fields: the structure construct, with bit fields specified by a post declarator colon and integer field width; the &lt;&lt; and &gt;&gt; shift operators; or single or multiple bit macro defines. Examples of each follow:
+<p><p>
+
+
+<font size="2" face="Verdana"><pre><font size="2" face="VERDANA">
+struct {
+signed int
+  bf1: 1;
+signed int  bf2: 2;
+unsigned int  : 1;
+int       : 3;
+unsigned    : 0;
+unsigned int bf3:16;
+} bitfields;
+
+</pre>
+
+</font>
+
+<p>This struct defines how bit fields are normally specified and illustrates the syntactic complexity of C&#146;s bit field usage. Bit field types may be signed int, unsigned int, or &#147;plain&#148; int. Unsigned ints are straightforward; signed ints are not. Whether the &gt;&gt; shift operator shifts zeros or ones in from the left depends on the implementation. For
+ &#147;plain&#148; ints, the implementor may use signed, unsigned, or &#147;pseudo-signed&#148; (meaning that it contains only the unsigned value, but the usual unary conversions apply as if it is signed). 
+<p>Unnamed bit fields may be specified to provide padding between named bit fields. The contents of the pad bits cannot be initialized nor used at run time. Thus, if the structure is to be output, there is no control over the value of these bits. In some cases this is unimportant because the data is to be read back into
+ the same structure and pad bits. In other cases, for binary data, these values may be important. 
+<p>Zero-length bit fields specify next-field machine alignment at the boundary appropriate to their type. This, again, is machine dependent, depending as it does on the natural unit of alignment of that type on that machine. 
+<p>The shift operators are sometimes used to isolate bit fields by shifting left and then shifting right to zero out unwanted bits and to right justify the bits desired, like so:
+<p>
+
+
+<font size="2" face="Verdana"><pre><font size="2" face="VERDANA">
+(i 
+<
+<
+ 2) >> 4;
+
+</pre>
+
+</font>
+
+<p>which would isolate bits 29 to 2, right justified in i. The unwary may be taken in, if i is signed and negative (a 1 bit at bit position 31), by the implementation-specified zeros or ones shifted in from the left. Even more obscurely, the result is undefined if the right operand of a shift is negative, or the shift is greater than the size in bits of the left operand type. 
+<p>Macro defines, with the wanted bits set to
+ ones, are used to declare bit masks to be ANDed with some object variable to zero unwanted bits, while leaving the mask bits alone. You can isolate the necessary bits with something like:
+<p><p>
+#define MASK 0x0001fff0
+<p>
+
+<p>but you still need a right shift to right justify the bit field, if arithmetic operation is desired on the bit field. The bit field is also limited to the boundaries of the underlying object&#151;some fundamental C type&#151;and thus cannot be used to extract some boundary-crossing bit
+ field in an arbitrary binary record. More complicated operations to extract both ends of such a bit field and put them back together are necessary. This historical limitation of C has resulted in the construction of many standards-based binary records that have boundaries naturally suited to C. Just look at TCP/IP headers, for example. 
+<p>My point here is not to provide a tutorial on the details and variability of C bit-field manipulation, but to illustrate that so much is implementation-dependent or
+ undefined, and that considerable effort must be expended to manipulate complex binary records. See 
+<i>C: A Reference Manual
+</i>, by Samuel P. Harbison and Guy Steele, Jr. (Englewood Cliffs, NJ: Prentice Hall, 1995), for all the necessary details.
+<p>
+
+<font color="maroon"><b>An alternative solution
+</b></font><p>
+After many years of noodling with the C approach&#151;both with my own code and several dark encounters with others&#146; code&#151;I decided to write a simpler API. This API would be easy to use, would
+ isolate the bit picking inside subroutines, and would make code based on the API more easily updated if the underlying machine changed either in instruction set or in the fundamental word length that could be bit shifted. 
+<p>I thought it would be nice to have some routine(s) that would take an unsigned character array of arbitrary length and a bit number location, independent of char boundaries along the array, and insert (or extract) a bit field of specified arbitrary length at that location (well, almost
+ arbitrary; I&#146;ll explain in more detail in the section on caveats). And so were born the bit field insert, bfi(), and bit field extract, bfx() functions. Their prototypes follow: 
+<p><p>
+void bfi(unsigned char *cptr,  unsigned long bit_offset,  unsigned long bit_len, long  value);
+<p><p>
+&#149;	cptr&#151;pointer to unsigned char array
+<p>
+&#149;	bit_offset&#151;bit offset (starting from 1) from the start of the char array
+<p>
+&#149;	bit_len&#151;bit length of field to insert
+<p>
+&#149;	value &#151;value to be
+ inserted
+<p>
+
+<p>unsigned long bfx(unsigned char  *cptr, unsigned long bit_offset,  unsigned long bit_len);
+<p><p>
+&#149;	cptr&#151;pointer to unsigned char array
+<p>
+&#149;	bit_offset&#151;bit offset (starting from 1) from the start of the char array
+<p>
+&#149;	bit_len&#151;bit length of field to extract
+<p><p>This solution seemed compellingly simple. Arbitrary binary records could now be specified in a C type-independent and underlying type boundary-independent way. I chose to start with bit 1 in order to make the
+ bit numbering scheme as intuitive as possible&#151;the first bit is bit 1. Examples of this API usage for a two-byte array follow.
+<p><p>Insertion example:
+<p>
+
+
+<font size="2" face="Verdana"><pre><font size="2" face="VERDANA">
+unsigned char cp[2];
+bfi(cp, 1, 1, 0); set bit 1 to    0(b0)
+bfi(cp, 2, 2, 3); set bits 2-3 to   3(b11)
+bfi(cp, 4, 4, 8); set bits 4-7 to   8(b1000)
+bfi(cp, 8, 2, 1); set bits 8-9 to   1(b01)
+bfi(cp, 10, 3, 0x7); set bits 10-   12 to 7(b111)
+bfi(cp, 13, 4, 0xf); set bits 13-   16 to
+ 0xf(b1111)
+
+</pre></font>
+
+At this point, cp[2] will be set to 0x70ff.
+
+ 
+<p>
+Extraction example:
+<p>
+
+
+<font size="2" face="Verdana"><pre><font size="2" face="VERDANA">
+l1 = bfx(cp, 1, 2); sets l1 to 1
+l2 = bfx(cp, 3, 1); sets l2 to 1
+l3 = bfx(cp, 4, 6); sets l3 to 33
+l4 = bfx(cp, 10, 4); sets l4 to 15
+l5 = bfx(cp, 14, 3); sets l5 to 7
+
+</pre></font>
+
+I use integer arguments here in order to show explicitly the bit offsets and lengths; however, in practice I use defines for the offsets and bit field lengths, like so:
+<p><p>
+
+
+<font size="2" face="Verdana"><pre><font size="2" face="VERDANA">
+#define LOC_FLD1 1
+#define LOC_FLD2 2
+#define FLD1_LEN 1
+#define FLD2_LEN 2
+bfi(cp, LOC_FLD1, FLD1_LEN, 0);
+bfi(cp, LOC_FLD2, FLD2_LEN, 3);
+
+</pre></font>
+
+
+<p>This approach allows the definition of a complex binary record to be described entirely by a series of field and length defines, and for easy visual scanning of these defines to understand the record. All extracted fields are right justified in the returned variable and can thus be
+ arithmetically manipulated directly.
+<p>
+
+<font color="maroon"><b>Now for the caveats
+</b></font><p>
+Normally, you needn&#146;t check for reasonable values of bit_offset or bit_len. An excessive value for bit_offset will address beyond the end of the unsigned char array, just as any C subscripting misuse will do. The value of bit_len should be between 25 and 32, depending on the value of bit_offset. 
+<p>
+The routines always use a memmove() of four bytes from the char array to temporary storage in which logical
+ operations are performed, and the result is returned to the char array. This means that a bit field is limited to 32 bits. However, if the start bit of the bit field is in the middle of a byte, the bit field can only extend from the rest of the start byte to the end of the next three bytes. In the worst case&#151;a start bit at the end of the start byte&#151;only that bit plus three more bytes (24 bits) can be used, for a total of 25 bits. In most cases, this restriction is not a major one because arbitrarily
+ long bit fields are almost never encountered in practice. Bit fields are keyed to be used in the natural short or long words of the machine, and these are not larger than a long int type. If a 32-bit bit field is used, it will almost always be aligned on a byte boundary. The start bit is then at the start of the first byte and a 32-bit bit field isn&#146;t a problem for this API. If DEBUG is defined, checking is done. 
+<p>Make sure that the bit_offset+bit_len doesn&#146;t overrun the array, or that a value to
+ be inserted is not too long to fit into the bit field. Otherwise, high-order bits will be truncated. If a value is negative, some of the propagated high-order sign bits will also be truncated. 
+<p>Finally, because four bytes are always moved into temporary storage, the usage of the last bit of the array will cause three more bytes, beyond the end of the char array, to be read and subsequently written back. Assuming that bit_offset+bit_len is not beyond the end of the array, then no bit in those three extra
+ bytes should be changed. Allocating the unsigned char array with three extra bytes will guard against this; however, in practice this precaution isn&#146;t usually necessary. I&#146;ve run dbx memory access-checking runs that do indeed uncover accesses in violation, but never with any consequence to program operation. 
+<p>If all goes well, then exactly bit_len bits will be set, and no bit outside the bit field will be changed. I have provided a simple test program that implements the aforementioned series of
+ bit field insertions and extractions, which you can download from 
+<i><a href="/code/1999code.htm">www.embedded.com/code/1999code.htm
+</a></i>. This code provides a three-byte, zeroed overrun guard, which is printed out to demonstrate that these bits haven&#146;t been modified. I&#146;ve tested this code on a little-endian Intel machine, as well as on the development big-endian Sun platform, and found it to operate correctly. As 64-bit machines and operating systems become more prevalent,  extending the length
+ of the allowable bit fields from 57 to 64 bits will be possible. This expansion is due to the available underlying machine word of 64 bits, on which logical operations may be performed. 
+<p>I&#146;ve also provided some more complex examples of the API usage. These examples are based on reading and writing World Meteorological  Organization gridded binary records. These binary records were designed for the most efficient storage and transmission of meteorological data. Download these examples and see how you
+ can apply the API to your individual needs.	esp
+<p>
+
+<i>Richard Hogaboom works for Metamor Information Technology Services at MIT Lincoln Laboratory. Reach him at 
+<a href="mailto:rah@atc.ll.mit.edu">rah@atc.ll.mit.edu
+</a>.
+</i>
+
+
+
+<p>Return to 
+<a href="/1999/9907/index.htm">Table of Contents
+</a>
+
+<center>
+	
+
+
+
+
+</td></tr></table>
+
+
+
+          
+
+                </td>
+              </tr>
+            </table>
+          </td>
+
+          <!-- RIGHT NAV -->
+          
+
+              <td bgcolor="#ffffff" align="right" valign="top" width="142">
+
+                
+
+                    
+
+                        
+
+    <!-- http://as.cmpnet.com/html.ng/pagepos=sky&edtn_pos=nhome&affiliate=embedded&site=electronics&country=india&server=atg&target=/1999/9907/9907feat2.htm -->
+<iframe src="http://view.atdmt.com/DEN/iview/cmpmpmic0170000012den/direct/01?click=" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" topmargin="0" leftmargin="0" allowtransparency="true" width="125" height="600">
+<script language="JavaScript" type="text/javascript">
+document.write('<a href="http://clk.atdmt.com/DEN/go/cmpmpmic0170000012den/direct/01/riebci,bckgIlIdRiisp" target="_blank"><img src="http://view.atdmt.com/DEN/view/cmpmpmic0170000012den/direct/01/riebci,bckgIlIdRiisp"/></a>');
+</script><noscript><a href="http://clk.atdmt.com/DEN/go/cmpmpmic0170000012den/direct/01/riebci,bckgIlIdRiisp" target="_blank"><img border="0" src="http://view.atdmt.com/DEN/view/cmpmpmic0170000012den/direct/01/riebci,bckgIlIdRiisp" /></a></noscript></iframe><img src="http://as.cmpnet.com/event.ng/Type=count&ClientType=2&AdID=85291&FlightID=51510&TargetID=681&Segments=851,886,1411,3108,3448&Targets=681,782,2625,2878&Values=34,46,51,63,77,83,93,100,140,206,304,309,442,451,646,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2678&RawValues=&random=riebci,bckgIlIdRiisp" width=1 height=1 border=0>
+
+  
+
+
+
+                      
+
+                    
+
+                  
+
+              </td>
+
+            
+
+        </tr>
+        <!-- SPONSORED LINKS & BOTTOM AD -->
+        <tr>
+          <td valign="top" align="center" colspan="2">
+            <br clear=all>
+            <center>
+
+            
+
+	   <table cellpadding=0 cellspacing=0 border=0 width=469><tr><td colspan=5><img src=http://img.cmpnet.com/eedesign/v2/em_top.gif border=0></td></tr>
+
+                <!-- left border -->
+                <tr><td rowspan=2 width=1 bgcolor=#xxxxxx><img src=http://img.cmpnet.com/eet/v2/trans_spacer.gif border=0 width=1></td>
+
+                <!-- spacer -->
+                <td width=5><img src=http://img.cmpnet.com/eet/v2/trans_spacer.gif border=0 width=5></td>
+                <td width=457 align=left valign=top>
+                <font size=1 face=verdana,arial>
+	
+	   <a href="http://links.industrybrains.com/click?sid=25&amp;scid=195&amp;rqctid=51&amp;pos=1&amp;lid=388597&amp;cid=65408&amp;pr=2&amp;tstamp=20060629020443&amp;url=http://www.edatechforum.com/journal/index.cfm%3fv%3dindustry_brains%26p%3dembedded_ros%26s%3d1x1%26g%3dcorp%26c%3dcorp_ocid_1479_v1-1x1-%26cmpid%3d1132"><b>The Premier Publication for EE Designers</b></a><BR>
+                        Learn about the latest EDA industry trends and newest must-have products in the EDA Tech Forum Journal, a free, quarterly publication of technical articles written by your EE design peers, industry analysts and EDA solution providers. Subscribe now!
+                        <p>
+	
+	   <a href="http://links.industrybrains.com/click?sid=25&amp;scid=195&amp;rqctid=51&amp;pos=2&amp;lid=380536&amp;cid=63010&amp;pr=2&amp;tstamp=20060629020443&amp;url=http://www.pmc-sierra.com/cgi-bin/track.pl%3fit%3d14%26terms%3dWebinar_usb"><b>Free Webinar! Intro to USB for Design Engineers</b></a><BR>
+                        Presents a technical overview of the Universal Serial Bus (USB) specification. Discusses recent developments in the standard, and the market drivers for USB's evolution. Explores USB I/O device implementations. Considers the future of the protocol.
+                        <p>
+	
+	   <a href="http://links.industrybrains.com/click?sid=25&amp;scid=195&amp;rqctid=51&amp;pos=3&amp;lid=365437&amp;cid=56720&amp;pr=2&amp;tstamp=20060629020443&amp;url=http://www.pmc-sierra.com/cgi-bin/track.pl%3fit%3d14%26terms%3dWebinar_encryption"><b>Encryption and Security Algorithms Tutorial</b></a><BR>
+                        A Primer on Encryption and Security Algorithms. A tutorial on symmetric/asymmetric encryption, cryptographic hashing, digital signatures, authentication and identification, including DES, 3DES, AES, RC4, SHA-1, RSA, DSA, CBC-MAC, HMAC, MD5, and ESP.
+                        <p>
+	
+	   <a href="http://links.industrybrains.com/click?sid=25&amp;scid=195&amp;rqctid=51&amp;pos=4&amp;lid=339957&amp;cid=6858&amp;pr=2&amp;tstamp=20060629020443&amp;url=http://www.sgvsarc.com"><b>Flowcharts from C/C++ code -- Free trial download</b></a><BR>
+                        Understand C/C++ code in less time. A new team member ? Inherited legacy code ? Get up to speed faster with Crystal Flow for C/C++. Code-formatting improves readability. Flowcharts are integrated with code browser. Export flowcharts to Visio.
+                        <p>
+	
+	   <a href="http://links.industrybrains.com/click?sid=25&amp;scid=195&amp;rqctid=51&amp;pos=5&amp;lid=395786&amp;cid=66902&amp;pr=2&amp;tstamp=20060629020443&amp;url=http://forms.nextag.com/goto.jsp%3fp%3d4760%26search%3dibrains%2bedu%2beng%26product%3d100000141%26url%3d%2Fbuyer%2Feducation.jsp%26tm%3dy"><b>Online Engineering Degrees</b></a><BR>
+                        Get matched with up to 4 leading online colleges with 1 easy form. Financial aid may be available.
+                        <p>
+	
+		<!-- spacer -->
+                <a href="http://www.industrybrains.com/cmpelectronics" target="new">Click here to get your listing up.</a>
+                </font><br><img src=http://img.cmpnet.com/eet/v2/trans_spacer.gif border=0 width=457 height=1></td>
+                <td width=5><img src=http://img.cmpnet.com/eet/v2/trans_spacer.gif border=0 width=5></td>
+                <!-- right border -->
+                <td rowspan=2 width=1 bgcolor=#xxxxxx><img src=http://img.cmpnet.com/eet/v2/trans_spacer.gif border=0 width=1></td></tr>
+
+                <!-- bottom border -->
+		<tr><td colspan=3 bgcolor=#xxxxxx width=457><img src=http://img.cmpnet.com/eet/v2/trans_spacer.gif border=0 width=457 height=1></td></tr></table>
+	
+
+
+            </center>
+            <p>
+            <center>
+
+            
+
+    <!-- http://as.cmpnet.com/html.ng/pagepos=bottom&affiliate=embedded&site=electronics&country=india&server=atg&target=/1999/9907/9907feat2.htm -->
+<a target="_parent" href="http://as.cmpnet.com/event.ng/Type=click&FlightID=59135&AdID=98743&TargetID=682&Segments=860,884,1411,3108,3448&Targets=682,785,2625,2878&Values=34,46,51,63,77,83,93,100,140,204,304,309,442,451,646,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2678&RawValues=IP,66.77.24.210,&Redirect=http://www.coverity.com/forms/register_embedded.php"><img src="http://i.cmpnet.com/ads/graphics/as5/ac/Coverity/coverity_trial_yellow_053106.gif" border=0 height=60 width=468 alt=""></a><img src="http://as.cmpnet.com/event.ng/Type=count&ClientType=2&AdID=98743&FlightID=59135&TargetID=682&Segments=860,884,1411,3108,3448&Targets=682,785,2625,2878&Values=34,46,51,63,77,83,93,100,140,204,304,309,442,451,646,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2678&RawValues=&random=caxNItj,bckgIlIevnANI" width=1 height=1 border=0>
+
+  
+
+
+
+            </center>
+
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+<!-- for cookie tracking reports -->
+
+    <img src="http://cookies.cmpnet.com/special/user/user.gif?event=7853915604040516920&ref=http%3A%2F%2Fwww.embedded.com%2F1999%2F9907%2F9907feat2.htm" width="5" height="1" border="0" alt="">
+  
+
+
+<!-- custom ad position for intellitext -->
+<center>
+
+<!-- Ad -->
+<!-- http://as.cmpnet.com/html.ng/affiliate=embedded&pagepos=intellitxt&site=electronics&country=india&server=atg&target=/1999/9907/9907feat2.htm -->
+<a target="_parent" href="http://as.cmpnet.com/event.ng/Type=click&FlightID=17681&AdID=27494&TargetID=2878&Segments=1411,3108,3448&Targets=2625,2878&Values=34,46,51,63,77,83,93,100,140,304,309,442,451,646,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2664,2678&RawValues=IP,66.77.24.210,&Redirect=http://www.cmp.com"><img src="http://i.cmpnet.com/ads/graphics/as5/rk/iopsblank.gif" border=0  alt=""></a><img src="http://as.cmpnet.com/event.ng/Type=count&ClientType=2&AdID=27494&FlightID=17681&TargetID=2878&Segments=1411,3108,3448&Targets=2625,2878&Values=34,46,51,63,77,83,93,100,140,304,309,442,451,646,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2664,2678&RawValues=&random=fKAyoz,bckgIlIevnANW" width=1 height=1 border=0>
+<!-- /Ad -->
+</center>
+<!-- end custom ad position for intellitext -->
+
+<!-- peel away coding -->
+
+		<!-- http://as.cmpnet.com/html.ng/affiliate=embedded&pagepos=toptile&site=electronics&country=india&server=atg&target=/1999/9907/9907feat2.htm -->
+<a target="_parent" href="http://as.cmpnet.com/event.ng/Type=click&FlightID=17681&AdID=27494&TargetID=2878&Segments=1411,3108,3448,6025&Targets=2625,2878,4798&Values=34,46,51,63,77,83,93,100,140,265,304,309,442,451,646,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2678&RawValues=IP,66.77.24.210,&Redirect=http://www.cmp.com"><img src="http://i.cmpnet.com/ads/graphics/as5/rk/iopsblank.gif" border=0  alt=""></a><img src="http://as.cmpnet.com/event.ng/Type=count&ClientType=2&AdID=27494&FlightID=17681&TargetID=2878&Segments=1411,3108,3448,6025&Targets=2625,2878,4798&Values=34,46,51,63,77,83,93,100,140,265,304,309,442,451,646,1184,1766,1785,1901,1925,2074,2299,2310,2327,2352,2678&RawValues=&random=capKakj,bckgIlNdRiisw" width=1 height=1 border=0>
+	
+
+
+<!-- 5th column -->
+<td valign="top" rowspan="9" bgcolor="#ffffff">
+<!-- <droplet src="/GLOBAL/electronics/escshow/esc_fifth_column.jhtml"/><img src="http://i.cmpnet.com/eetimes/v3/spacer.gif" width="180" height="198" border="0"> -->
+</td>
+</tr>
+</table>
+</body>
+</html></center>
+
+
+
+      
+
+  

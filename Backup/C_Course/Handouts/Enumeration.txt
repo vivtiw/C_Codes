@@ -1,0 +1,176 @@
+C Enumeration  
+-------------
+
+	An enumeration consists of a set of named integer constants.
+	An enumeration type declaration gives the name of the (optional) enumeration tag and               defines the set of named integer identifiers called 
+	"enumeration set," or "enumerator constants," or "enumerators," "members". 
+	A variable with enumeration type stores one of the values of the enumeration set defined by        that type.
+
+Declaring an enumerated type
+----------------------------
+	There are different ways of declaring an enumerated type:
+
+	enum tag-name {enumeration-list} variable-list;
+
+	example : enum day {Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday}first_day,                      next_day, last_day;
+
+	The above example illustrates the usage of enum. First we see the keyword enum to begin the        declaration. Following that is the tag-name day. Next, inside the curly braces, is the             actual enumeration-list which, in this case, consists of a list of the days of the week,           beginning at Sunday, and ending with Saturday. Finally, we have the variable-list,                 consisting of the variables first_day, next_day, and last_day.
+
+	Declaring variables in the variable-list, as in above example, is optional when declaring          an enumeration type. The variables can be declared later. This would be similar to                 declaring instances of structures at a later point in the program. 
+
+	example : enum day first_day,next_day, last_day;
+
+	We can also declare enum without tag-name
+	
+	example:	enum 
+			{
+        			MAXHEIGHT = 5,
+        			MINHEIGHT = 2,
+        			MAXWIDTH = 24,
+        			MINWIDTH = 10
+    			};
+
+	In above example , there are no variables connected to the enum. It is, however, still             quite useful. The enum provides a way to make values symbolic constants, as opposed to             literal constants. This is much the same as using #define directives, with some small              differences. As an example,
+ 	
+	enum {
+        	MAXHEIGHT = 5,
+        	MINHEIGHT = 2,
+        	MAXWIDTH = 24,
+        	MINWIDTH = 10
+    	};
+
+	/* above does the same as below */
+
+	    #define  MAXHEIGHT 5
+	    #define  MINHEIGHT 2
+	    #define  MAXWIDTH 24
+	    #define  MINWIDTH 10
+
+
+Enum values
+-----------
+	In the above example, explicit values were added to the enumeration list. If no values are         explicitly added, the compiler will supply some default values, starting at zero, and count        upward. The first item would be zero, the second one, and so on. 
+        If one of the items in the list has an explicit number, say eight, added, and the next item        is left with no number, the compiler will carry on from number eight and make the next             item nine.
+
+	Example:
+	
+	enum day 
+	{
+        	Sunday,                 /* set to 0 */
+        	Monday,                 /* set to 1 */
+        	Tuesday,                /* set to 2 */
+        	Wednesday = 8,          /* manually set to 8 */
+        	Thursday,               /* compiler carries on with 9 */
+        	Friday,                 /* set to 10 */
+        	Saturday                /* set to 11 */
+    	};
+
+
+
+Typedefing enums
+----------------
+Like structures, one can typedef an enum quite easily. This is a time saving
+feature, as there is the possibility of less typing, and less typing means
+less chance of making typing mistakes. The following are two common examples
+of an enum in C, the first without a typedef and the second with:
+Figure 1.8
+    enum boolean{ FALSE, TRUE };
+
+Figure 1.8a
+    enum boolean{ FALSE, TRUE };
+    typedef enum boolean boolean;
+
+In the first example, the enum is declared as normal, with no typedef. If a
+variable is to be declared later, enum boolean must be used first:
+Figure 1.9
+    enum boolean{ FALSE, TRUE };
+    /* some other code */
+    enum boolean prime;
+
+In the second example (figure 1.8a), a typedef is employed, promoting the
+tag-name boolean to a type name. After the typedef, using boolean is in effect
+the same as using enum boolean:
+Figure 1.10
+    enum boolean{ FALSE, TRUE };
+    
+    /* some other code */
+    
+    enum boolean prime;
+
+    /* equivalent to the following */
+
+    enum boolean{ FALSE, TRUE };
+    typedef enum boolean boolean;
+
+    /* some other code */
+
+    boolean prime;
+
+In both cases, wherever FALSE is used, it will expand to 0, and wherever TRUE
+is used, it will expand to 12. There is an advantage to using this method of a
+boolean - consider the following:
+Figure 1.11
+#include <stdio.h>
+
+#define TRUE 1
+#define FALSE 0
+
+int main(void)
+{
+    int done = FALSE;
+
+    if (!done) {
+        printf("Not done yet!\n");
+    }
+    return 0;
+}
+
+/* compare to the following */
+
+#include <stdio.h>
+
+int main(void)
+{
+    enum boolean { FALSE, TRUE };
+    typedef enum boolean boolean;
+
+    boolean done = FALSE;
+    if (!done) {
+        printf("Not done yet!\n");
+    }
+    return 0;
+}
+ /* Here it is quite obvious how 'done' is used */
+
+Another, probably more common, method of using the typedef keyword with an
+enum would look like the following:
+Figure 1.12
+    typedef enum { FALSE, TRUE } boolean;
+
+Figure 1.13
+#include <stdio.h>
+
+int main(void)
+{
+    typedef enum { FALSE, TRUE } boolean;
+   
+    boolean done = FALSE;
+    if (!done) {
+        printf("Not done yet!\n");
+    }
+    return 0;
+}
+ /* Here it is quite obvious how 'done' is used */
+
+When compiled, the program in figure 1.13 will do the exact same thing as the
+programs in figure 1.11, though of the three, this (1.13) one is probably the
+easiest to read and understand.
+Advantages of enums
+As it has already been mentioned, enums offer the advantage of making code
+clearer (provided they are used sensibly) by eliminating magic numbers. When
+used as boolean, one can readily see the purpose of a given variable when it
+is declared. There is also the fact that by using enums as opposed to #defines
+there is less risk of changing 'the lexical structure of the program
+underfoot.'3 When numbering long lists with symbolic constants, it is easier
+to let the language itself do the work of numbering instead of manually
+entering all of the values by hand.

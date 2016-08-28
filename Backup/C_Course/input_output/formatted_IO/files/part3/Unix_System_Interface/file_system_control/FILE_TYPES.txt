@@ -1,0 +1,13 @@
+Unix recognizes the following types of files: 
+Regular file 
+Text or binary data (e.g. an image). 
+Directory 
+Contains other files and directories. 
+Executable file 
+File with the "execute bit" set. Most commands are executable files. 
+Symbolic link 
+File is a "shortcut" that points to another file. 
+Device special file 
+An interface to a piece of hardware, such as a printer. You don't have to worry about this. 
+Named pipe 
+An interface to a network program. You don't have to worry about this. 

@@ -1,0 +1,1298 @@
+
+Session 1:
+	Defining a Program
+        What we mean by Programming Languages
+        What is a language standard
+	What is a compiler distribution
+	Why RAM & How RAM is used
+			
+Session 2:
+	C program structure
+	Ways of representing data in C language
+	What is single byte & multi byte data
+			-Introduce all data types in C
+			-char
+		int 
+		float
+		double
+	Why variables
+	Declaration syntax
+		type-specifier init-declarator
+		type-specifier init-declarator-list
+		where init-declarator
+			declarator
+			declarator = initializer
+	Explain how data is represented in RAM & How it is interpreted
+
+Session 3:
+	Introduce limits.h
+	Introduce type-specifier signed & unsigned
+	Explain about sign bit 
+	Introduce type-specifier short,long,long long
+	Explain integer conversion rank
+		int main()
+		{
+			short int a=65535,b=1;
+			int c=a+b;		/* Here result of + on two short integers is promoted to int */
+			printf("\n %d \n",c);
+		}
+	Explain real floting conversion rank
+		int main()
+		{
+			float a=10.1,b=1.4;
+			double c=a+b;		/* Here result of + on floats is promoted to double */
+			printf("\n %d \n",c);
+		}
+	Introduce Derived Datatypes
+		Arrays
+		What is array as per ANSI Draft
+		Syntax for defining and initializing an array
+		Explain how array elements are stored in memory
+		Introduce array index notation
+
+Session 4:
+	Introduce structure derived datatype
+	What is structure as per ANSI Draft
+	Syntax for defining and initializing an structure object
+	Explain how structure members are stored in memory
+	Explain how to access structure members 
+	Defining structure object as array type
+	Explain structure size and Introduce structure padding
+		Explain alinged data
+		Explain why and how padding is applied on structure members
+	Introduce union derived datatype
+	What is union as per ANSI Draft
+	Syntax for defining and initializing an union object
+	Explain how union members are stored in memory
+	Explain how to access union members 	  					 
+
+Session 5:
+	Introduce pointer derived datatype
+	What is pointers as per ANSI Draft
+	Syntax for defining and initializing an pointer
+	Introduce & operator
+	Explain what "&" operator returns and how to interpret the retrun value of "&"
+	Explain how to interpret pointer definitions
+	Explain how to compute address for a variables eighter explicitly using "& operator" or implicitly by converting an array name to a pointer. 	
+	Syntax for defining array of pointers 
+	
+	Questions 
+		Explain the return value of following expressions
+			1. int a=10;	
+   			   &a; 	
+			2. double b;
+			   &b;
+			3. char c;
+			   &c;
+			4. int a[5];
+			   &a;
+			5. struct A obj;
+			   &obj;
+			6. struct A obj[5];
+			   &obj;
+			7. union A obj;
+			   &obj;
+			8. union A obj[5];
+			   &obj; 		 	
+		
+	Defining compatible pointers for above expressions
+	1. int a=10;	
+	   &a;	/* Returns pointer to integer */
+	   int *ptr;	
+	
+	2. double b;
+	   &b;	/* Returns pointer to double */
+	   double *p;
+	
+	3. char c;
+	   &c;	/* Returns pointer to char */
+	   char *p;
+
+	4. int a[5];
+	   &a;  /* Returns pointer to array of five integers */
+	   int (*p)[5];
+	Explain difference between following two definitions
+		type *[size];
+		type (*)[size];
+	
+	5. struct A obj;
+	   &obj;  /* Returns pointer to struct A */
+	   struct A *ptr;
+ 			
+	6. struct A obj[5];
+	   &obj;  /* Returns pointer to array of five struct A object */
+	   struct A (*ptr)[5];
+	
+	7. union A obj;
+	   &obj;  /* Returns pointer to union A */
+	   union A *p;
+
+	8. union A obj[5];
+	   &obj;  /* Returns pointer to array of five union A object */	
+	   union A (*ptr)[5]
+
+Session 6:
+	Introduce operators in C
+	Explain that every operator returns some value of some type
+	Unary operators
+		sizeof
+		++ and --
+			Explain difference between post and pre increment & decrement
+		+
+		-
+		*
+			Explain performing read/write operations using pointers
+		!
+	Binary Operators
+		+,-,*,/,%
+		>,<,>=,<=,==,!=
+		
+		&&,||
+		=
+
+Session 7:
+	Explain need of functions
+	Syntax for functions
+		int main()
+		{
+			int a=10,b=20,r;
+			r = add(a,b);
+			printf("Return value of add : %d \n",r);		
+		}		
+		int add(int x,int y)
+		{
+			return x+y;	
+		}				
+		Explain return type,return statement and arguments
+	Explain why arguments
+		Introduce block scope for a variable
+	
+		int main()
+		{
+			int a=10;
+			{
+				int b = a;
+				printf(" b = %d\n",b);
+			}				
+			printf(" %d\n",b); /* invalied as b is block scope trying to access outside the block in which it is defined */
+		}		
+		
+		int main()
+		{
+			int a=10,b=20,r;
+			r = add();
+			printf("Return value of add : %d \n",r);		
+		}		
+		int add()
+		{
+			return a+b;	/* invalied as a,b has scope only in main trying to access outside the block in which they are defined	
+		}		
+		
+	Explain the below program
+		int main()
+		{
+			int a=10,b=20,r;
+			r = add(a,b,20);
+			printf("Return value of add : %d \n",r);		
+		}		
+		int add(int x,int y)
+		{
+			return x+y;	
+		}	
+			
+		add is defined as a function with no arguments but passing two arguments while invoking
+		compiler wont raise any error regarding arguments being passed to add function 
+
+		Explain why function declaration statement and when it is needed 
+
+		int add(int x,int y)
+		{
+			return x+y;
+		}		
+		int main()
+		{
+			int a=10,b=20,r;
+			r = add(a,b,10);
+			printf("Return value of add : %d \n",r);		
+		}					
+
+		now compiler raise an error regarding arguments beeing passes to add
+		
+		1.c				2.c				main.c				
+		int add(int x,int y)		int mul(int x,int y)		int main()
+		{				{				{
+			return x+y;			return x*y;			printf(" %d\n",add(10,20,30));
+		}				}					printf(" %d\n",sub(20));	
+											printf(" %d\n",mul(10,20));
+		int sub(int x,int y)		float div(int x,int y)			printf(" %f\n",div(10,20));
+		{				{				}
+			return x-y;			return (float)x/y;
+		}				}
+		
+		in above program out functionality is distributed amoung 3 source files, in main we are invoking add , sub, with wrong number of 		
+		arguments. To avoid this as explaind above we need function declarations. 		
+
+		main.c				
+		int main()
+		{	
+			int add(int x,int y);
+			int sub(int x,int y);
+			int div(int x,int y);
+			int mul(int x,int y);
+			printf(" %d\n",add(10,20,30));
+			printf(" %d\n",sub(20));	
+			printf(" %d\n",mul(10,20));
+			printf(" %f\n",div(10,20));
+		}
+		
+		Imagin that functions are being provided by some third person and we are using them
+		example strcpy, we cannot declare them as we dont know its signature. So third person provides function declarations for those functions he defined?
+		Introduce header files.
+	
+		myheader.h
+		int add(int x,int y);
+		int sub(int x,int y);
+		int div(int x,int y);
+		int mul(int x,int y);
+
+		main.c	
+		#include "myheader.h"			
+		int main()
+		{	
+			printf(" %d\n",add(10,20,30));
+			printf(" %d\n",sub(20));	
+			printf(" %d\n",mul(10,20));
+			printf(" %f\n",div(10,20));
+		}
+
+Session 8:
+	Introduce storage classes
+		An object has a storage duration that determines its lifetime.
+		The lifetime of an object is the portion of program execution during which storage is guaranteed to be reserved for it. An object exists, has a 
+		constant address,and retains its last-stored value throughout its lifetime. If an object is referred to outside of its lifetime, the behavior is 
+		undefined.
+
+		auto
+			objects declare with auto storege class, lifetime extends from entry into the block in with it is declared until execution of that block 
+			ends in any way.
+			If the block is entered recursively, a new instance of the object is created each time. The initial value of the object is indeterminate. 
+			If an initialization is specified for the object, it is performed each time the declaration is reached in the execution of the block.
+
+			int func(void)
+			{
+				int a=0;
+				a++;
+				printf("\n function called for %d times\n",a);			
+			} 		
+			
+			int main()
+			{
+				func();
+				func();
+				func();
+				func();
+			}
+			in the above example "a" will be created and initialization is performed every time func is called.
+			All local variable by default are of automatic storage class( including formal arguments) 
+			Explain about what scope is
+			Introduce block scope	
+				automatic local variables will always have block scope 
+
+		register
+			A declaration of an object with storage-class specifier register suggests that access to the object be as fast as possible.
+
+			register int i;
+			for(i=0;i<5;i++)
+				printf(" %d \n",i);	
+			But its a suggestion and whether its has any effect on object is implementation-defined. The implementation may treat any register 
+			declaration simply as an auto declaration.
+
+			But the address cannot be computed for variables register storage class. eighter explicitly using "& operator" or implicitly by converting an 
+			array name to a pointer. 
+
+			register int a=10;
+			int *p = &a;	/* not valied */
+			
+
+			register int a[3]={1,2,3};
+			int *p = a;	/* not valied */
+			will have block scope
+			
+		static
+			An local object is declared with the storage-class specifier static has static storage duration. Its lifetime is the entire execution of the 
+			program and its stored value is initialized only once, prior to program startup.
+			
+			If the block is entered recursively, a new instance of the object is not created each time. static local object exists, has a fixed
+			address and retains its last-stored value throughout its lifetime.
+
+			int func(void)
+			{
+				static int a=0;
+				a++;
+				printf("\n function called for %d times\n",a);			
+			} 		
+			
+			int main()
+			{
+				func();
+				func();
+				func();
+				func();
+			}
+			in the above example "a" will be assigned with a fixed address and modifed value is retained every time func is called.
+			
+			formal arguments cannot be of type static storage class.
+			variables with static storage class should be initiliazed with constants.
+			will have block scope
+
+		external
+			symbols defined outside of any block than those objects will have static storage duration & scope is file scope.
+			symbols with file scope can be accessible from anywhere with in the file in which it is defined.
+			
+			int a=10;
+			int func(void)
+			{
+				a++;
+			}			
+			int main()
+			{
+				func();
+				printf(" A : %d\n",a);			
+			}
+			in the above example "a , func, main" are refereed as global symbols.
+			"a" is accessible anywhere in this file as its define outside all blocks.
+		
+		Accessing symbols defined in one file in another file
+		
+		1.c				2.c				main.c				
+		int add(int x,int y)		int mul(int x,int y)		int main()
+		{				{				{
+			return x+y;			return x*y;			printf(" %d\n",add(10,20));
+		}				}					printf(" %d\n",sub(20));	
+											printf(" %d\n",mul(10,20));
+		int sub(int x,int y)		float div(int x,int y)			printf(" %f\n",div(10,20));
+		{				{				}
+			return x-y;			return (float)x/y;
+		}				}	
+	
+		In the above code, in main.c we are trying to access add, sub, mul, div global symbols define in other source files.
+		Global symdols defined in one source file by default can be accessible from other source files. such symbols are called as global symbols with 
+		external linkage.
+		
+		1.c				2.c				main.c	
+
+										int r1;
+										float r2;			
+		void add(int x,int y)		int mul(int x,int y)		int main()
+		{				{				{
+			r1 = x+y;			r1 = x*y;			printf(" %d\n",add(10,20));
+		}				}					printf(" %d\n",sub(20));	
+											printf(" %d\n",mul(10,20));
+		int sub(int x,int y)		float div(int x,int y)			printf(" %f\n",div(10,20));
+		{				{				}
+			r1 = x-y;			r2 = (float)x/y;
+		}				}	
+		
+		in the above example evev if r1 & r2 are global objects compiler will raise an error. Gobal object may have "external linkage" but with file scope.
+		so be need to declare r1 & r2 in 1.c & 2.c so that thay can be accessed, and that have to be declared with "extern keyword".
+
+	 	1.c				2.c				main.c	
+
+						extern int r1;			int r1;
+		extern int r1;			extern float r2;		float r2;			
+		void add(int x,int y)		int mul(int x,int y)		int main()
+		{				{				{
+			r1 = x+y;			r1 = x*y;			printf(" %d\n",add(10,20));
+		}				}					printf(" %d\n",sub(20));	
+											printf(" %d\n",mul(10,20));
+		int sub(int x,int y)		float div(int x,int y)			printf(" %f\n",div(10,20));
+		{				{				}
+			r1 = x-y;			r2 = (float)x/y;
+		}
+
+		what if we want to define a global object which is private to a file and cannot be accessed from other files.
+		
+		such object are called as global objects with internal linkage.
+	
+		1.c				2.c				main.c	
+
+										int r1;
+		extern int r1;			extern int r1;			static float r2;			
+		static void add(int x,int y)	int mul(int x,int y)		int main()
+		{				{				{
+			r1 = x+y;			r1 = x*y;			printf(" %d\n",add(10,20));
+		}				}					printf(" %d\n",sub(20));	
+											printf(" %d\n",mul(10,20));
+		int sub(int x,int y)		float div(int x,int y)			printf(" %f\n",div(10,20));
+		{				{				}
+			r1 = x-y;			r2 = (float)x/y;
+		}
+	
+		in the above example add & r2 are global symbols with internal linkage. so we cannot access them accross all source file except in the file in which 
+		it is defined. so add is accessible only in 1.c and r2 is accessible in main.c
+		Local objects will not have any linkage.
+
+Session 9:
+	Define a function which will find the length of given string
+
+	int strlen(char *p)
+	{
+		int len;
+		for(;p[len]!='\0',len++);
+		return len;	
+	}		
+	test the above function.
+
+	optimised code 	
+	int strlen(char *p)
+	{
+		register char *s;
+		for (s=p ; *s ; s++);
+	        return s - p;
+	}	
+
+	Define a function which will copy elements of one integer array to another interger array and returns number of bytes copied.
+
+	int copy(int *d,int *s,int n)
+	{
+		register int *p = d;
+		int bytes = n*sizeof(int);
+		while(n) 
+			*p++ = *s++;
+		return bytes;
+	}
+
+	find the error in below code 
+
+	int copy(int *d,int *s,int n)
+	{
+		register int *p = d;
+		int bytes = n*sizeof(int);
+		while(n--) 
+			*s++ = *p++;
+		return bytes;
+	}	
+	
+	in the above code should not modify the source array by mistake if we modify will lead to big errors.
+	there in no protection for source array in our function.	
+	Introduce "const" with pointers
+		pointer to const 
+	int copy(int *d,const int *s,int n)
+	{
+		register int *p = d;
+		int bytes = n*sizeof(int);
+		while(n--) 
+			*s++ = *p++;
+		return bytes;
+	}	
+	
+	Define an function which can copy data of one object to another object of any type
+	Intorduce "pointer to void"
+	void copy(void *d,void *s,int bytes)
+	{
+		register char *d1 = d;
+	        register const char *s1 = s;
+
+	        while (n) {
+	                *s1++ = *d1++;
+	                --n;
+		}
+        }
+	
+	Define a function which will concatenate two strings and returns resulting string
+	char * strcat(char * s1, register const char * s2)
+	{
+        	register char *s = s1;
+
+        	while (*s++);
+        	--s;
+        	while ((*s++ = *s2++) != 0);
+	
+        	return s1;
+	}
+
+	Define a function whick will copy n bytes of source string to destination string and return a pointer to the destination string.
+	
+	char * strncpy(char *dest, register const char *src,unsigned int n)
+	{
+	        register char *s = dest;
+
+        	while (n) {
+        	        if ((*dest = *src) != 0) src++;
+        	        ++dest;
+        	        --n;
+        	}
+		
+ 		return dest;
+	}
+
+	Define a function which returns a pointer to the first occurrence of the character in the given string.
+
+	char * strchr(register const char *str, char ch)
+	{
+		do {
+			if (*str == ch) 
+	                        return (char *) str;   
+        	} while (*str++);
+	
+	        return NULL;
+	}
+	
+ 	Explain the below code
+	char * strstr(const char *s1, const char *s2)
+	{
+        	register const char *s = s1;
+        	register const char *p = s2;
+
+        	do {
+                	if (!*p) {
+                        	return (char *) s1;;
+                	}
+                	if (*p == *s) {
+                		++p;
+                        	++s;
+                	} else {
+                        	p = s2;
+                        	if (!*s) {
+                                	return NULL;
+                        	}
+                        	s = ++s1;
+                	}
+        	} while (1);
+	}
+
+	Define a function which will return 1 if given string is palondron and 0 if not
+	intorduce const pointer
+	int * const p;
+	
+Session 10:
+	
+	Pointers to structures & unions
+	
+	Better always pass pointer to structure or pointer to union as argument to a function
+	-> operator
+		The first operand of the -> operator shall have type "pointer to structure" or "pointer to union", and the second operand shall name a member of the 
+		type pointed to.
+	
+	Offset Of a Field in a structure    
+ 
+	Offset of a field in a structure is the distance between the start of the struct and the field. You can say that an offset is number of bytes away the field 
+	is from the start of the structure. 
+
+	Now the question is, how do I find offset of a field if I know the structure and name of the field?. 
+
+	If we know the address of the structure object, we can find out the offset of a field like this:
+
+	struct account *ac = &rulingminds;
+	
+	If we want to find the offset of accno, we can write the following code.
+
+	offset = (unsigned int)&(ac->accno) - (unsigned int)ac;
+
+	But, If we don't know the address of the object and if just struct name and the field name is given, how do we find out the offset?. We need to take '0' as 
+	address of the structure object and find the offset, like this:
+
+	struct account *ac = 0; 
+        int offset; 
+
+	offset = (unsigned int)&(ac->accno) - (unsigned int)ac;x
+
+	So, in a single step you can write like this:
+
+	offset = (unsigned int) &((struct account *) 0) ->accno;  	     
+
+	and can write a macro like this:
+
+	#define offsetof(TYPE, MEMBER)   (unsigned int) &((TYPE *) 0->MEMBER;
+
+	and use the macro as follows.
+
+	offset = offsetof(struct account, accno);
+
+
+	Find Base Address of a structure object If Address of a field is Known 
+	 
+	In the above section we have seen how to find offset of a field in a structure. Another interesting thing is, how can I find base address of a structure 
+	object if I know the address of a field in the structure?, That means, in the above figure, if I know address of accno (1032), how do I find the base address
+	(i.e 1000) of structure object?. 
+
+	We can find it if We know the offset of the field. Say ,for example, offset of the accno is 32 and if we do minus 32 from 1032 I will get 1000, that is the 
+	base address of the structure object. We know how to find offset of a field if we know  structure name and field name (offsetoff macro above).  
+
+	Now assume that we know the name of the structure, name of the field and address of the field. Let's write a sudo code to find out the base address of the 
+	object.
+
+	struct account *base;
+
+	base =  (struct account *) ((char*)address of accno – offsetof(struct account, accno));
+
+	That is,
+
+	base = 1032 – 32  = 1000
+
+	container_of macro 
+
+	So, I can write a macro to get the base address if name of the structure, name of the field and address of the field are known. It looks like this. Let's call 
+	this macro 'container_of'
+
+	#define container_of(ptr, type, member)    (type *)( (char *)ptr - offsetof(type,member) );
+
+	and this macro can be used as follows:
+
+	struct account *ac;
+
+	ac = container_of(1032, struct account, accno);
+
+
+	Here, first argument(1032) is the address of the field accno, second argument is type of the structure and third argument is the name of the field.	
+
+	pointer to functions
+	passing function as argument to another function
+	return a function as return type
+	array of function pointers
+	Variable arguments fo a function
+	
+		
+Session 11:
+	Preprocessing directives
+	
+	A preprocessing directive consists of a sequence of preprocessing tokens that begins with a # preprocessing token. A new-line character ends the preprocessing 
+	directive.
+	The implementation can replace macros process include other source files and skip sections of source files conditionally. These capabilities are called 
+	preprocessing.
+	
+	Macro replacement
+		Syntax
+		#define identifier replacement-list
+		defines an object-like macro that causes each subsequent instance of the macro name to be replaced by the replacement list in the source file in which 
+		it is defined.
+
+		#define MAX 20
+
+		int main()
+		{
+			int a[MAX];		
+		}
+		
+		Macros can be function-like macros
+		
+		#define max(a, b) (a > b ? a : b)
+		int main()
+		{
+			int a=10,b=20,c;
+			c = max(a,b);		
+		}			
+			
+		#define evev(a)	(a%2==0)
+		int main()
+		{
+			int a=10;
+			printf(" %d\n",even(a));			
+		}	
+
+		side effects
+
+		#define evev(a)	(a%2==0)
+		int main()
+		{
+			int a=10,b=20;
+			printf(" %d\n",even(a+b));			
+		}
+			
+		will be expanded to
+		int main()
+		{
+			int a=10,b=20,c;
+			printf("\n %d \n",(a+b%2==0));
+		}
+		which gives wrong results
+
+		Correct way of defining 
+		#define evev(a)	((a)%2==0)
+		int main()
+		{
+			int a=10,b=20;
+			printf(" %d\n",even(a+b));			
+		}
+		will be expanded to
+		int main()
+		{
+			int a=10,b=20,c;
+			printf("\n %d \n",((a+b)%2==0));
+		}
+
+		#define isdigit(a) ((unsigned)((a) - '0') <= 9)
+		function-like macros can have compound statements
+
+		#define prime(a,n) { \
+        		        int i=2;\
+        		        	while(i<=a/2) {\
+                        			if(a%i==0) { \
+                                			n=0; \
+                                			break; \
+                        			} \
+                        		i++; \
+                			}\
+        			}
+
+		int main()
+		{
+        		int a=13,b=1;
+		        prime(a,b);
+        		printf(" %d\n",b);
+		}
+
+	
+	The # operator
+		This operator encloses the replacement list with "". 
+
+		#define mkstr(s)	#s
+		int main()
+		{
+			char str[20] = mkstr(Veda Solutions);
+		}  
+
+	The ## operator
+		#define mkstr(a)        #a
+		#define strcat(a,b)     mkstr(a##b)
+		#define CAT(a,b)        a##b
+		int main()
+		{
+			int a=CAT(2,5);
+			float f = CAT(10,e2);
+			char str[20]= strcat(Veda,Solutions);			
+		}	
+
+	undefine macro
+		# undef identifier new-line
+		causes the specified identifier no longer to be defined as a macro name. It is ignored if the specified identifier is not currently defined as a 
+		macro name.
+
+	File inclusion
+		A #include directive shall identify a header or source file that can be processed by the implementation.
+		A preprocessing directive of the form 
+			# include <h-char-sequence> new-line
+		searches a sequence of implementation-defined places for a header in between the < and > delimiters, and causes the replacement of that directive by 
+		the entire contents of the header.
+		#include <stdio.h>
+		searches for stdio.h file in predefined places and if found replaces with contents of stdio.h in translation unit.
+
+		A preprocessing directive of the form 
+			# include "h-char-sequence" new-line
+		searches a from specified path and if not found searches in implementation-defined places for a header in between the " and " delimiters, and causes 
+		the replacement of that directive by the entire contents of the header.
+	
+	Conditional inclusion	
+	Avoid recursive inclution of header files
+
+	Variable arguments fo a function
+		A function may be called with a variable number of arguments of varying types.
+		Defining a functions with variable argument list
+			type func_name(arg list,...)
+			{
+				/* body */
+			}
+		Variable argument list access macros
+
+		va_list type		
+		void va_start(va_list ap, parmN)
+			this macro will initialized by the va_list object. 
+			The parameter "parmN" is the identifier of the rightmost parameter in the variable parameter list in the function definition 
+			(the one just before the , ...).	
+		type va_arg(va_list ap, type)
+			va_arg returns the optional argumnets one for each invocation of type specified by "type (second argument)"
+			Each invocation of the va_arg macro modifies " va_list object" so that the values of successive arguments are returned in turn.	
+		void va_end(va_list ap)
+			The va_end macro will destroy va_list object so that it is no longer usable.
+				
+				
+		To access the optional arguments we shoule follow the following sequence 
+			1. declare va_list object
+			2. initialize va_list object with va_start
+			3. access optional arguments one at a time using va_arg
+			4. if va_list is no longer required destroy with va_end.
+	
+Session 12:
+
+	Bitwise operators
+	Bitwise shift operator
+	
+	shift-expression << additive-expression
+
+	Each of the operands shall have integer type.
+	The result of E1 << E2 is E1 left-shifted E2 bit positions; vacated bits are filled with zeros. If E1 has an unsigned type, the value of the result is 
+	E1 x 2 powerE 2. If E1 has a signed type and nonnegative value, and E1 x 2 power E2.
+	Zeros are padded for moved bits 
+
+	for example
+		int a=10;
+		a = a<<3;
+		Result
+		a=80;
+		its equal to
+		a = a * (2 power 3)
+		left shifting is the equivalent of left operand multiplying by right operand power of two. 
+	
+	#define mult_by_pow_2(n,p)	n<<p /* n * (p power 2) */
+	int main()
+	{
+		int a=10,b=20;
+		a=mult_by_pow_2(a,2);		
+		b=mult_by_pow_2(b,5);		
+		printf(" %d %d\n",a,b);
+	}
+	
+	shift-expression >> additive-expression
+	Each of the operands shall have integer type.
+
+	The result of E1 >> E2 is E1 right-shifted E2 bit positions. If E1 has an unsigned type or if E1 has a signed type and a nonnegative value, the value of the 
+	result is the integral part of the quotient of E1 / 2 power E2. If E1 has a signed type and a negative value, the resulting value is implementation-defined.
+	if positive value Zeros are padded for moved bits and if negative whether 1 or 0 is padded is implementation depedent 
+	for example
+		int a=20;
+		a = a >> 2;
+		Result
+		a=5;
+		its equal to
+		a = a / (2 power 2)
+		Right shifting is the equivalent of left operand divided by right operand power of two.
+
+	#define div_by_pow_2(n,p)	n>>p /* n / (p power 2) */
+	int main()
+	{
+		int a=20,b=128;
+		a=div_by_pow_2(a,2);		
+		b=div_by_pow_2(b,4);		
+		printf(" %d %d\n",a,b);
+	}
+	
+	Bitwise & operator
+	Bitwise & works like logical && except that logical && works on bytes(int,char,float,...) where as bitwise & works on each bit on given operands
+	The result of the binary & operator is the bitwise AND of the operands (that is, each bit in the result is set if and only if each of the corresponding bits 
+	in the given operands isset).
+91)
+
+	for example
+	int a=10;
+	int b=125;
+	int c;
+	c = a&b;
+	a = 00001010
+	b = 01111101
+
+	c = 00001000	
+	 
+	Bitwise | operator
+	Bitwise OR works almost exactly the same way as bitwise AND. The only difference is that only one of the two bits needs to be a 1 for that position's bit 
+	in the result to be 1.
+	
+	for example
+	int a=10;
+	int b=125;
+	int c;
+	c = a|b;
+	a = 00001010
+	b = 01111101
+
+	c = 01111111	
+	
+	Write a function which will count number of bits set in given integer and returns count
+	
+	int noBitsSet(unsigned int n)
+	{
+		int i=0,c=0;
+		for(;i<32;i++)
+			if((n>>1)&0x1)
+				c++;
+		return c;			
+	}
+	
+	Write a function which will count number of bits off in given integer and returns count
+	Write a function which print given value in binary format 
+	Write a function which will return 1 if nth bit is on and returns 0 if nth bit is off in given number
+	
+	int nthBit(unsigned int n,int pos)
+	{
+		return (n>>pos)&1;	
+	}
+	
+	Write a function which will turn on a bit at given position
+	
+	int turnon(unsigned int n,int p)
+	{
+		int i=1;
+		i=i<<(p-1);
+		n = n|i;	
+		return n;				
+	}
+
+	#define turnon(n,p)	1<<(p-1)|n	
+
+	Write a function which will turn off a bit at given position
+	Intorduce bitwise complement operator
+	The bitwise complement operator flips every bit. if you have a 1, it's a 0, and if you have a 0, it's a 1.  
+	for example
+		int a=10;
+			
+		 a = 00001010
+		~a = 11110101
+			
+	int turnoff(unsigned int n,int p)
+	{
+        	int i=1;
+        	i=i<<(p-1);
+        	i = ~i;
+        	n = n&i;
+        	return n;
+	}
+
+	#define turnoff(n,p)    (~(1<<(p-1)))&n
+	
+	Write a function which will find maximum value that can be stored in an unsigned int using bitwise operators
+	
+	unsigned int max_uint(void)
+	{
+		unsigned int a=0;
+		return ~a;	
+	}
+	
+	Convert little to big endian 
+		#define bswap_32(x) \
+		     ((((x) & 0xff000000u) >> 24) | (((x) & 0x00ff0000u) >>  8) |             \
+		      (((x) & 0x0000ff00u) <<  8) | (((x) & 0x000000ffu) << 24))	
+	Explain Exclusive OR
+	The exclusive-or operation takes two inputs and returns a 1 if either one or the other of the inputs is a 1, but not if both are. That is, if both inputs are 
+	1 or both inputs are 0, it returns 0
+	
+	void flip_bits(int n,int p)
+	{
+	    n = n ^ 1<<(p-1);
+	}
+
+	Explain how nagative numbers are stored 
+	
+Session 13:
+	Explain static memory allocations
+		Static Allocation means, that the memory for your variables is automatically allocated and its size is known at compile time, either on the Stack or 
+		in other sections of your program.
+		We cannot have control over the lifetime of this memory.
+	
+		double int d;
+		void func(void)
+		{
+			static float f;		
+		}
+		int main()
+		{
+			int i;
+			int arr[5];		
+		}
+		In the above code memory is automatically allocated for "d, f, i, arr" & lifetime of there variable is fixed depending on storage class used.
+	
+	How can we allocate memory for the objects at runtime so that we can have control over the lifetime of this memory.
+	
+	Lets say that we want an integer object whose memory should be allocated at runtime and deallocate the memory whenever we want.
+	To achive this we need to use "Memory management functions" provided by C lib.
+
+
+	#include <stdlib.h>
+	void *malloc(size_t size);
+	The malloc function allocates space for an object whose size is specified by size and returns pointer to (lowest byte address) newly allocated memory of 
+	type void. 
+
+		#include <stdlib.h>
+		int main()		
+		{
+			int *i;
+			i = (int *)malloc(sizeof(int));		
+		}
+		in the above example malloc will allocate the memory of integer size and returns pointer to newly allocated memory of type void.
+		so we are type casting the return pointer of malloc from "pointer to void" to "pointer to integer" as we want to store integer.
+
+		From above example its very clear that memory allocated by malloc always generic. so we can store any value in the memory allocated by malloc except 
+		that the value size should not exceed the allocated memory size.
+		
+		For example lets say that we have allocated memory of 4 bytes using malloc function, that we can store data of 4 bytes of any type
+		Consider the following example
+		
+		struct sample {
+		        short i,j;
+		};
+	
+		int main()
+		{
+		        int *intPtr;
+		        float *floatPtr;
+		        struct sample *structPtr;
+		        void *p = malloc(4);
+	
+		        intPtr = (int *)p;
+		        *intPtr=10;
+		        printf("\n %d\n",*intPtr);
+	
+		        floatPtr = (float *)p;
+		        *floatPtr=11.4;
+		        printf("\n %f\n",*floatPtr);
+	
+		        structPtr = (struct sample *)p;
+		        structPtr->i=12;
+		        structPtr->j=22;
+		        printf("\n %hd\n",structPtr->i);
+		        printf("\n %hd\n",structPtr->j);
+		}
+
+		In this example we are allocating 4 bytes of memory using malloc but storing int, float, struct sample values in the memory.
+		This is possible because malloc allocates generic memory and sizes of all the values we are storing is same as allocated size.
+		
+	There is no guarantee that malloc will allocate memory every time we call. If malloc fails to allocate memory because of any reason it
+	returns NULL as return value.
+	
+	So always validate malloc return value before using 
+		#include <stdlib.h>
+		int main()		
+		{
+			int *i;
+			i = (int *)malloc(sizeof(int));
+			if(i==NULL)
+				return 1;
+			*i=10;
+		}	
+	The lifetime of an allocated object extends from the allocation until the deallocation.		
+	
+	Deallocating memory allocated by malloc
+	
+	#include <stdlib.h>
+	void free(void *ptr);	
+	
+	The free function causes the space alloated by malloc pointed to by ptr to be deallocated, that is, made available for further allocation.
+		#include <stdlib.h>
+		int main()		
+		{
+			int *i;
+			i = (int *)malloc(sizeof(int));
+			if(i==NULL)
+				return 1;
+			*i=10;
+			free(i);
+		}			
+	If ptr is a null pointer, no action occurs. If the argument is not a pointer returned by the malloc or if the space has been already deallocated  by free 
+	the behavior is undefined.
+
+	Allocating memory for array of objects
+	
+	#include <stdlib.h>
+	void *calloc(size_t nmemb, size_t size);
+
+	The calloc function allocates space for an array of "nmemb objects", each of whose size is "size". The space is initialized to all bits zero and
+	returns pointer to (lowest byte address) newly allocated memory of type void. Returns NULL id failed to allocate new memory.
+	
+		#include <stdlib.h>
+		int main()		
+		{
+			int *arr,i;
+			arr = (int *)calloc(5,sizeof(int));
+			if(arr==NULL)
+				return 1;
+			
+			for(i=0;i<5;i++)
+				arr[i]=i+1;
+			
+			free(i);
+		}	
+		in the above example calloc will allocate memory for array of 5 objects where size is interger size.
+		free is called to deallocate memory allocate by calloc.
+
+	Alter the memory allocated by malloc or calloc
+
+	If we want we can alter the memory size allocated by malloc or calloc whenever required.
+	
+	#include <stdlib.h>
+	void *realloc(void *ptr, size_t size);
+	
+	The realloc function deallocates the old object pointed to by ptr and returns a pointer to a new object that has the size specified by size. 
+	The contents of the new object shall be the same as that of the old object prior to deallocation.
+	
+		#include <stdlib.h>
+		int main()		
+		{
+			int *arr,i;
+			arr = (int *)calloc(5,sizeof(int));
+			if(arr==NULL)
+				return 1;
+			
+			for(i=0;i<5;i++)
+				arr[i]=i+1;
+
+			arr = (int *)realloc(arr,10*sizeof(int));
+			for(i=0;i<5;i++)
+				printf(" %d",arr[i]);			
+
+			free(i);
+		}	
+		In the above example first we allocated a memory block which can hole 5 objects where each object size is of integer and storing values from 1 to 5.
+		Than we are changing the memory block size whick can hold 10 objects where each object size is of integer.
+		Now if we read the values after reallocating using realloc, first 5 value will be same as old values and next 5 values will be garbage values as
+		they are newly allocated.
+	If "ptr" is a null pointer, the realloc function behaves like the malloc function for the specified size. 
+	If ptr does not match a pointer earlier returned by the calloc, malloc, or realloc function, or if the space has been deallocated, the behavior is undefined. 
+	If memory for the new object cannot be allocated, the old object is not deallocated and its value is unchanged.
+	The realloc function returns a pointer to the new object (which may have the same value as a pointer to the old object), or a null pointer if the new object 
+	could not be allocated.
+
+Session 14:
+
+	If u define an array of 5 integers int a[5], that the array size is fixed and we cannot store more than 5 integers in the array.
+	What if we want to store N interger which can allow us to store any number of integers and delete any element from that dynamic linear data structure 
+	as and when needed. 
+
+	To achive this we have to implement the logic in the following way
+
+	1. We have to allocate a new memory for every integer in the linear data structure when ever we want a new element.
+	2. Every element in the linear data structure should hold the reference of its succeeding element. It means every element in the array should be allocated 
+	   with an memory in which we can store an integer along with an pointer which can hold reference of its succeeding element.
+	3. The last element should point to NULL, which specifies end of the linear data structure.
+	4. We should have a pointer which will hold the reference of the first element in the array which will tell the start point of the linear data structure. If 
+	   no elements are there it should hold NULL which specified that the linear data structure is empty (has no elements).
+	5. We should define a structure with an interger and a pointer members. pointer should be a "pointer to structure type" in which it is declared.
+	
+	   for example 
+	   struct dynamic_array {
+		int data;
+		struct dynamic_array *next;	
+	   };	
+	   in the above structure if you see next is a "pointer to struct dynamic_array" and next is a member of "struct dynamic_array". 
+	   Such structures are called as "Self-referential structures" as structure contains a pointer as member of its own type.
+	
+	Lets define set of functions which will perform insert, delete, and print operationt on the dynamic array.
+
+	implementing insert function
+		keep in mind that when ur inserting an new element, we can be inserting an element into empty dynamic array or we can we inserting an element into 
+		dynamin array which already has sone elements.
+
+		struct dynamic_array *start=NULL;	/* consider this pointer as global object */
+
+		int insert_first(int data)
+		{
+			struct dynamic_array *new;
+
+			/*allocate memory for new object*/
+			new = (struct dynamic_array *) malloc(sizeof(struct dynamic_array));
+			if(new==NULL)
+				return 0;		
+			/* initialize the new memory */
+			new->data = data;
+			/* initialize the "next" member in new memory with the start pointer so the the new object will act as the first object in the 
+			   linear data structure*/
+			new->next = start;
+			/* initialize the "start" pointer with newly allocated memory so that new "start" pointer to new object as it is the first object in the list*/
+			start = new;	
+			return 1;		
+		}
+	implementing delete function which will delete the first element in the dynamic linear data structure
+
+		int delete_last(void)
+		{
+			struct dynamic_array *del_obj;
+			if(start==NULL)
+				return 0;
+			/* store the first element address in a temp pointer as we want to delete this element*/
+			del_obj = start;
+			/* intialize the start pointer with start->next so that the second element in the dynamic array decomes the first element */ 
+			start = start->next;
+			/* now dealloct the memory stored in temp pointer */
+			free(del_obj);
+			return 1;	
+		}
+
+	impelment print function which will print all elements in the linear data structure.
+
+		void print_all(void)
+		{
+			struct dynamic_array *temp;
+			temp = start;
+			while (temp) {
+				printf(" %d",temp->data);
+				temp=temp->next;
+			}
+		}
+	
+	If we implement the above menctioned functions that we have impelments "Stack data structures".
+	A stack is a last in, first out (LIFO) linear data structure. Stack supports only three fundamental operations: push, pop and stack top.
+	-> The push operation adds a new item to the top of the stack, or initializes the stack if it is empty
+	-> The pop operation removes an item from the top of the stack.
+	-> The stack top operation gets the data from the top-most position and returns it to the user without deleting it.
+
+	Lets implement insert_last function which will always insert new element as last element
+
+		int insert_last(int data)
+		{
+			struct dynamic_array *new;
+
+			/*allocate memory for new object*/
+			new = (struct dynamic_array *) malloc(sizeof(struct dynamic_array));
+			if(new==NULL)
+				return 0;		
+			/* initialize the new memory */
+			new->data = data;
+			/* initialize the "next" member in new memory with the start pointer so the the new object will decome the first object in the dynamic array*/
+			new->next = start;
+			/* initialize the "start" pointer with newly allocated memory so that new "start" pointer to new object as it is the first object in the list*/
+			start = new;	
+			return 1;		
+		}
+	If we implement insert_last, delete_first functions that we have impelments "Queue data structures".
+	A stack is a first in, first out (FIFO) linear data structure. 
+	-> The enqueue operation adds a new item to the end of the queue, or initializes the queue if it is empty
+	-> The dequque operation removes an item from the top of the queuq.
+	
+	Impelment Deque
+	Impelment Priority queue
+
+
+Session 15:
+	Implement all operation in single linked list
+	
+	Implement double, single circular, double circular linked list
+
+Session 16:
+	
+	Common errors commited by a programer when using Memory management functions
+		initialize pointers with NULL if not initialized with valied address
+		takecare of memory leaks
+		takecare of double free
+		takecare of memory overrun & underrun
+	Double Dimentional arrays
+		pointer notation for Double Dimenional arrayrs
+	Nested structures
+	inline functions
+	Bitfields
+	
+Session 17:
+	Input/output
+		Before we start lets look into some predefined types & macros used with files
+		FILE
+			which is an object type capable of recording all the information needed to control a stream, including its file position indicator, a pointer
+			to its associated buffer (if any), an error indicator that records whether a read/write error has occurred, and an end-of-file indicator that 
+			records whether the end of the file has been reached.
+		fpos_t
+			which is an object type other than an array type capable of recording all the information needed to specify uniquely every position within a 
+			file.
+		EOF
+			which expands to an integer constant expression, with type int and a negative value, that is returned by several functions to indicate 
+			end-of-file.
+		FOPEN_MAX
+			which expands to an integer constant expression that is the minimum number of files that the implementation guarantees can be open 
+			simultaneously;
+		FILENAME_MAX
+			which expands to an integer constant expression that is the size needed for an array of char large enough to hold the longest file name string
+			that the implementation
+		stderr
+		stdin
+		stdout
+			which are expressions of type ‘‘pointer to FILE’’ that point to the FILE objects associated, respectively, with the standard error, input, 
+			and output streams.
+	Files
+	
+	
+	
+

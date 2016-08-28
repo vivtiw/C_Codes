@@ -1,0 +1,11 @@
+Method 1
+********
+	- Create a pointer pointing to an array of single dimensional array;
+	- Make a call to malloc to allocate memory for total number of elements in two dimensional array;
+	
+
+Method 2
+********
+	- Declare a double dereferenced pointer of a desired type. 
+	- Allocate the memory for an array of pointers of size equal to number of rows in two dimension array 
+	- Loop through the rows and allocate the number of columns for each row;    

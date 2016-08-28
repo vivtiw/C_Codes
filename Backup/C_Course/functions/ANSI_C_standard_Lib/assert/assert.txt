@@ -1,0 +1,22 @@
+				       ************
+				       | assert.h |
+				       ************	
+
+	The assert header is used for debugging purposes.
+
+
+External References: 
+********************
+	NDEBUG 
+
+The assert macro allows error information to be written to the standard error file.
+
+Declaration: 
+***********
+	void assert(int expression); 
+
+Description
+***********
+	If expression evaluates to 0 (false), then the expression, sourcecode filename, and line number 
+	are sent to the standard error, and then calls the abort function. 
+	

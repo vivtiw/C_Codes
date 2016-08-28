@@ -1,0 +1,19 @@
+unsigned int a = 5;
+signed int b = -1;
+>
+if(b <= a)
+When you compare an unsigned int and a signed int in this
+fashion, the signed int is converted to unsigned int. Converting
+a negative signed int to a unsigned int is done by adding
+UINT_MAX + 1. Thus, the comparison is effectively:
+if (UINT_MAX <= 5)
+which is false.
+
+
+For example 
+	unsigned int a=18446744073709551615ULL;
+        int b=-7;
+	if we compare a & b " b is converted into unsigned int by unsigned int max - 6" so
+	b==a-6 Returns true
+	
+ 

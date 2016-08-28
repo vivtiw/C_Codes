@@ -1,0 +1,9 @@
+# 1 "second.c"
+# 1 "<built-in>"
+# 1 "<command line>"
+# 1 "second.c"
+# 10 "second.c"
+int main()
+{
+ printf("\n *************C******************\n");
+}

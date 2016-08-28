@@ -1,0 +1,46 @@
+Data
+----
+
+	- Distinct pieces of information, usually formatted in a special way. All software is divided into two general 
+	  categories: data and programs.
+	- Programs are collections of instructions for manipulating data. 
+ 	- Data can exist in a variety of forms -- as numbers or text as bits and bytes stored in electronic memory.
+
+Data Structures
+---------------
+	- In programming, the term data structure refers to a scheme for organizing related pieces of information. 
+	  The basic types of data structures include: 
+	 	1. files 
+		2. lists 
+		3. arrays 
+		4. records etc., 
+ 	- Each of these basic structures has many variations and allows different operations to be performed on the data.
+	- There are many ways to represent a list in a computer.
+
+	There are two types of Data Structures	
+	--------------------------------------
+
+	Static vs. Dynamic Data Structures
+	----------------------------------
+ 
+	• Static data structures such as arrays allow 
+		- fast access to elements 
+		- expensive to insert/remove elements 
+		- have fixed, maximum size
+	• Dynamic data structures such as linked lists allow
+		- fast insertion/deletion of element 
+		- but slower access to elements 
+		- have flexible size
+
+
+Self Referential Structures
+---------------------------
+
+	- A self-referential structure is a data structure that includes references to other data of its same type. 
+	- They allow us to implement dynamic data structures in C.
+	- Can be linked together to form useful data structures such as lists, queues, stacks and trees
+	- Terminated with a NULL pointer (0)
+
+Linked List
+***********
+	- A list of data items in which each item is linked to the next by  means of a self reference pointer.

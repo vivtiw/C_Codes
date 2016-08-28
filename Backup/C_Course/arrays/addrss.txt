@@ -1,0 +1,4 @@
+Whenever an array name appears in an expression such as
+Ø      array as an operand of the sizeof operator
+Ø      array as an operand of & operator
+Ø      array as a string literal initializer for a character array

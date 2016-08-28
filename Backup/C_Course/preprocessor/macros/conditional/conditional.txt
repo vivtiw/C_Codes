@@ -1,0 +1,86 @@
+Conditionals
+------------
+	A conditional is a directive that instructs the preprocessor to select whether or not to include a chunk of code inthe final token stream passed to the compiler. 
+
+	Preprocessor conditionals can test arithmetic expressions, or whether a name is defined as a macro. 
+
+Conditional Uses
+-----------------
+	There are three general reasons to use a conditional. 
+		a) A program may need to use different code depending on the machine or operating 
+		   system it is to run on. 
+		b) You may want to be able to compile the same source file into two different 
+		   programs. One version might make frequent time-consuming consistency checks on 
+		   its intermediate data, or print the values of those data for debugging, and the 
+		   other not. 
+		c) A conditional whose condition is always false is one way to exclude code from 
+		  the program but keep it as a sort of comment for future reference.
+
+
+Conditional Syntax
+------------------
+	A conditional in the C preprocessor begins with a conditional directive:
+	`#if', `#ifdef' or `#ifndef'. 
+	Ifdef 
+	If 
+	Defined 
+	Else 
+	Elif
+
+	1) #ifdef
+	---------
+		The simplest sort of conditional is 
+		#ifdef MACRO
+		     controlled text
+		#endif /* MACRO */
+
+		This block is called a conditional group. controlled text will be included in the 
+		output of the preprocessor if and only if MACRO is defined. We say that the 
+		conditional succeeds if MACRO is defined, fails if it is not.  
+		The controlled text inside of a conditional can include preprocessing directives. 
+		They are executed only if the conditional succeeds. You can nest conditional groups
+		inside other conditional groups, but they must be completely nested. In other 
+		words, `#endif' always matches the nearest `#ifdef'. Also, you cannot start a 
+		conditional group in one file and end it in another. 
+		Even if a conditional fails, the controlled text inside it is still run through 
+		initial transformations and tokenization. Therefore, it must all be valid C. 
+		Normally the only way this matters is that all comments and string literals inside 
+		a failing conditional group must still be properly ended. 
+		
+	2) #if
+	------
+		The `#if' directive allows you to test the value of an arithmetic expression, 
+		rather than the mere existence of one macro. 
+		
+		Its syntax is 
+
+	        #if expression
+	     
+	  	      controlled text
+		     
+               #endif /* expression */
+
+
+		expression can be	
+		Integer constants. 
+		Character constants, which are interpreted as they would be in normal code. 
+		Arithmetic operators for addition, subtraction, multiplication, division,
+		bitwise operations, shifts, comparisons, and logical operations (&& and ||).
+		The latter two obey the usual short-circuiting rules of standard C. 
+		Macros. All macros in the expression are expanded before actual computation of
+		the expression's value begins. 
+		
+		Uses of the defined operator, which lets you check whether macros are defined  in                  the middle of an `#if'. 
+		Identifiers that are not macros, which are all considered to be the number zero. 		   This allows you to write #if MACRO instead of #ifdef MACRO, if you know that MACRO,
+		when defined, will always have a nonzero value. Function-like macros used without 
+		their function call parentheses are also treated as zero.  In some contexts this 
+		shortcut is undesirable.
+	
+	3) Defined
+		The special operator defined is used in `#if' and `#elif' expressions to test 
+		whether a certain name is defined as a macro. defined name and defined are both 
+		expressions whose value is 1 if name is defined as a macro at the current point in 
+		the program, and 0 otherwise. Thus, #if defined MACRO is precisely equivalent to 
+		#ifdef MACRO. 
+
+	 

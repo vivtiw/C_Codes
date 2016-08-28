@@ -1,0 +1,15 @@
+- Data Structure Alignment is the way data is arranged and accessed in computer memory. 
+- It consists of two separate issues: 
+	Data Alignment and 
+	Data Structure Padding. 
+- Aligning data usually refers to allocating memory addresses for data such that each primitive datum is assigned a memory 
+  address that is a multiple of its size.
+- Data Structure Padding is the insertion of unnamed members in a data structure to preserve the relative alignment of the 
+  structure members.
+- A memory address a, is said to be n-byte aligned when n is a power of two and a is a multiple of n bytes.
+
+- A char (one byte) will be 1-byte aligned.
+- A short (two bytes) will be 2-byte aligned.
+- An int (four bytes) will be 4-byte aligned.
+- A float (four bytes) will be 4-byte aligned.
+- A double (eight bytes) will be 8-byte aligned on Windows and 4-byte aligned on Linux.

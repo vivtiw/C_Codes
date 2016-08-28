@@ -1,0 +1,1421 @@
+<html>
+
+<head>
+<title>Manipulating Files And Directories In Unix</title>
+</head>
+
+<body>
+
+<p align=center><img src=http://www.actcom.co.il/~choo/lupg/images/lupg_toolbar.gif height=40 width=360 alt="" usemap="#lupg_map"><map name=lupg_map>
+<area shape=rect coords="3,0 37,39" href=http://www.actcom.co.il/~choo/lupg alt="LUPG home">
+<area shape=rect coords="67,0 102,39" href=http://www.actcom.co.il/~choo/lupg/tutorials/index.html alt="Tutorials">
+<area shape=rect coords="138,0 170,39" href=http://www.actcom.co.il/~choo/lupg/related-material.html alt="Related material">
+<area shape=rect coords="213,0 232,39" href=http://www.actcom.co.il/~choo/lupg/project-ideas/index.html alt="Project Ideas">
+<area shape=rect coords="272,0 290,39" href=http://www.actcom.co.il/~choo/lupg/essays/index.html alt="Essays">
+<area shape=rect coords="324,0 355,39" href=mailto:choo@actcom.co.il alt="Send comments">
+</map>
+<br>[<a href=http://www.actcom.co.il/~choo/lupg/index.html>LUPG Home</a>]  [<a href=http://www.actcom.co.il/~choo/lupg/tutorials/index.html>Tutorials</a>]  [<a href=http://www.actcom.co.il/~choo/lupg/related-material.html>Related Material</a>] [<a href=http://www.actcom.co.il/~choo/lupg/essays/index.html>Essays</a>] [<a href=http://www.actcom.co.il/~choo/lupg/project-ideas/index.html>Project Ideas</a>] [<a href=mailto:choo@actcom.co.il>Send Comments</a>]<br><img src=http://www.actcom.co.il/~choo/lupg/images/good_bar.gif alt=""></p>
+
+v1.1
+
+<h1>Manipulating Files And Directories In Unix</h1>
+
+<ol>
+<li> <a href="#preface">Who Is This For?</a>
+<li> <a href="#filesys_structure">General Unix File System Structure</a>
+<li> <a href="#stdc_file">Standard "C" File Read And Write</a>
+     <ol>
+     <li> <a href="#stdc_file_struct">The <code>FILE</code> Structure</a>
+     <li> <a href="#stdc_file_fopen_fclose">Opening And Closing A File</a>
+     <li> <a href="#stdc_file_fread">Reading From An Open File</a>
+     <li> <a href="#stdc_file_fwrite">Writing Into An Open File</a>
+     <li> <a href="#stdc_file_seek">Moving The Read/Write Location In An Open File</a>
+     <li> <a href="#stdc_file_example">A Complete Example</a>
+     </ol>
+<li> <a href="#sys_file">Accessing Files With System Calls</a>
+     <ol>
+     <li> <a href="#sys_file_descriptor">The Little File Descriptor That Could</a>
+     <li> <a href="#sys_file_open_close">Opening And Closing File Descriptors</a>
+     <li> <a href="#sys_file_read">Reading From A File Descriptor</a>
+     <li> <a href="#sys_file_write">Writing Into A File Descriptor</a>
+     <li> <a href="#sys_file_seek">Seeking In An Open File</a>
+     <li> <a href="#sys_file_chmod">Checking And Setting A File's permission modes</a>
+     <li> <a href="#sys_file_stat">Checking A File's Status</a>
+     <li> <a href="#sys_file_rename">Renaming A File</a>
+     <li> <a href="#sys_file_unlink">Deleting A File</a>
+     <li> <a href="#sys_file_symlink">Creating A Symbolic Link</a>
+     <li> <a href="#sys_file_umask">The Mysterious Mode Mask</a>
+     <li> <a href="#sys_file_example">A Complete Example</a>
+     </ol>
+<li> <a href="#directory">Reading The Contents Of Directories</a>
+     <ol>
+     <li> <a href="#directory_struct">The <code>DIR</code> And <code>dirent</code> Structures</a>
+     <li> <a href="#directory_opendir_closedir">Opening And Closing A Directory</a>
+     <li> <a href="#directory_readdir">Reading The Contents Of A Directory</a>
+     <li> <a href="#directory_rewinddir">Rewinding A Directory For A Second Scan</a>
+     <li> <a href="#directory_getcwd_chdir">Checking And Changing The Working Directory</a>
+     <li> <a href="#directory_example">A Complete Example</a>
+     </ol>
+</ol>
+
+<hr size=4>
+
+<a name="preface">
+<font color=brown><h2>Who Is This For?</h2></font>
+</a>
+<p>
+The following tutorial describes various common methods for reading and
+writing files and directories on a Unix system. Part of the information
+is common C knowledge, and is repeated here for completeness. Other information
+is Unix-specific, although DOS programmers will find some of it similar to
+what they saw in various DOS compilers. If you are a proficient C programmer,
+and know everything about the standard I/O functions, its buffering operations,
+and know functions such as <code>fseek()</code> or <code>fread()</code>, you
+may skip the standard C library I/O functions section. If in doubt, at least
+skim through this section, to catch up on things you might not be familiar
+with, and at least look at the
+<a href="#stdc_file_example">standard C library examples</a>.
+</p>
+
+<hr size=4>
+
+<a name="filesys_structure">
+<font color=brown><h2>General Unix File System Structure</h2></font>
+</a>
+<p>
+In the Unix system, all files and directories reside under a single top
+directory, called root directory, and denoted as "/". Even if the computer
+has several hard disks attached, they are all combined in a single directories
+tree. It is up to the system administrator to place all disks on this tree.
+Each disk is being connected to some directory in the file system. This
+connection operation is called "mount", and is usually done automatically
+when the system starts running.
+</p>
+
+<p>
+Each directory may contain files, as well as other directories. In addition,
+each directory also contains two special entries, the entries "." and
+".." (i.e. "dot" and "dot dot", respectively). The "." entry refers to the
+same directory it is placed in. The ".." entry refers to the directory
+containing it. The sole exception is the root directory, in which
+the ".." entry still refers to the root directory (after all, the root
+directory is not contained in any other directory).
+</p>
+
+<p>
+A directory is actually a file that has a special attribute (denoting it
+as being a directory), that contains a list of file names, and "pointers"
+to these files on the disk.
+</p>
+
+<p>
+Besides normal files and directories, a Unix file system may contain
+various types of special files:
+<ul>
+<li> Symbolic link. This is a file that points to another file (or
+     directory) in the file system. Opening such a file generally opens
+     the file it points to instead (unless special system calls are used).
+<li> Character (or block) special file. This file represents a physical
+     device (and is usually placed in the "/dev" directory). Opening this
+     file allows accessing the given device directly. Each device (disks,
+     printers, serial ports etc) has a file in the "/dev" directory.
+<li> Other special files (pipes and sockets) used for inter-process
+     communications.
+</ul>
+</p>
+
+<hr size=4>
+
+<a name="stdc_file">
+<font color=brown><h2>Standard "C" File Read And Write</h2></font>
+</a>
+<p>
+The basic method of reading files and writing into files is by using the
+standard C library's input and output functions. This works portably
+across all operating systems, and also gives us some efficiency enhancements -
+the standard library buffers read and write operations, making file operations
+faster then if done directly by using system calls to read and write files.
+</p>
+
+<hr>
+
+<a name="stdc_file_struct">
+<font color=brown><h4>The <code>FILE</code> Structure</h4></font>
+</a>
+<p>
+The <code>FILE</code> structure is the basic data type used when handling
+files with the standard C library. When we open a file, we get a pointer to
+such a structure, that we later use with all other operations on the file,
+until we close it. This structure contains information such as the location
+in the file from which we will read next (or to which we will write next),
+the read buffer, the write buffer, and so on. Sometimes this structure is
+also referred to as a "file stream", or just "stream".
+</p>
+
+<hr>
+
+<a name="stdc_file_fopen_fclose">
+<font color=brown><h4>Opening And Closing A File</h4></font>
+</a>
+<p>
+In order to work with a file, we must open it first, using the
+<code>fopen()</code> function. We specify the path to the file (full path,
+or relative to the current working directory), as well as the mode for
+opening the file (open for reading, for writing, for reading and writing,
+for appending only, etc.). Here are a few examples of how to use it:
+<br>
+<pre><code>
+<font color=brown>/* FILE structure pointers, for the return value of fopen() */</font>
+FILE* f_read;
+FILE* f_write;
+FILE* f_readwrite;
+FILE* f_append;
+
+<font color=brown>/* Open the file /home/choo/data.txt for reading */</font>
+f_read = fopen("/home/choo/data.txt", "r");
+if (!f_read) { <font color=brown>/* open operation failed. */</font>
+    perror("Failed opening file '/home/choo/data.txt' for reading:");
+    exit(1);
+}
+
+<font color=brown>/* Open the file logfile in the current directory for writing. */</font>
+<font color=brown>/* if the file does not exist, it is being created.            */</font>
+<font color=brown>/* if the file already exists, its contents is erased.         */</font>
+f_write = fopen("logfile", "w");
+
+<font color=brown>/* Open the file /usr/local/lib/db/users for both reading and writing    */</font>
+<font color=brown>/* Any data written to the file is written at the beginning of the file, */</font>
+<font color=brown>/* over-writing the existing data.                                       */</font>
+f_readwrite = fopen("/usr/local/lib/db/users", "r+");
+
+<font color=brown>/* Open the file /var/adm/messages for appending.       */</font>
+<font color=brown>/* Any data written to the file is appended to its end. */</font>
+f_append = fopen("/var/adm/messages", "a");
+</code></pre>
+<br>
+As you can see, the mode of opening the file is given as an abbreviation. More
+options are documented in the manual page for the <code>fopen()</code>
+function. The <code>fopen()</code> function returns a pointer to a
+<code>FILE</code> structure on success, or a NULL pointer in case of failure.
+The exact reason for the failure may be anything from "file does not exist"
+(in read mode), "permission denied" (if we don't have permission to access
+the file or its directory), I/O error (in case of a disk failure), etc. In
+such a case, the global variable "errno" is being set to the proper error
+code, and the <code>perror()</code> function may be used to print out
+a text string related to the exact error code.
+</p>
+
+<p>
+Once we are done working with the file, we need to close it. This has two
+effects:
+<ol>
+<li> Flushing any un-saved changes to disk (actually, to the operating
+     system's disk cache).
+<li> Freeing the file descriptor (will be explained in the system calls
+     section below) and any other resources associated with the open file.
+</ol>
+Closing the file is done with the <code>fclose()</code> function, as follows:
+<br>
+<pre><code>
+if (!fclose(f_readwrite)) {
+    perror("Failed closing file '/usr/local/lib/db/users':");
+    exit(1);
+}
+</code></pre>
+<br>
+<code>fclose()</code> returns 0 on success, or <code>EOF</code> (usually '-1')
+on failure. It will then set "errno" to zero. One may wonder how could closing
+a file fail - this may happen if any buffered writes were not saved to disk,
+and are being saved during the close operation. Whether the function succeeded
+or not, the <code>FILE</code> structure may not be used any more by the
+program.
+</p>
+
+<hr>
+
+<a name="stdc_file_fread">
+<font color=brown><h4>Reading From An Open File</h4></font>
+</a>
+<p>
+Once we have a pointer for an open file's structure, we may read from it
+using any of several functions. In the following code, assume f_read
+and f_readwrite pointers to <code>FILE</code> structures returned by previous
+calls to <code>fopen()</code>.
+<br>
+<pre><code>
+<font color=brown>/* variables used by the various read operations.            */</font>
+int c;
+char buf[201];
+
+<font color=brown>/* read a single character from the file.                    */</font>
+<font color=brown>/* variable c will contain its ASCII code, or the value EOF, */</font>
+<font color=brown>/* if we encountered the end of the file's data.             */</font>
+c = fgetc(f_read);
+
+<font color=brown>/* read one line from the file. A line is all characters up to a new-line  */</font>
+<font color=brown>/* character, or up to the end of the file. At most 200 characters will be */</font>
+<font color=brown>/* read in (i.e. one less then the number we supply to the function call). */</font>
+<font color=brown>/* The string read in will be terminated by a null character, so that is   */</font>
+<font color=brown>/* why the buffer was made 201 characters long, not 200. If a new line     */</font>
+<font color=brown>/* character is read in, it is placed in the buffer, not removed.          */</font>
+<font color=brown>/* note that 'stdin' is a <code>FILE</code> structure pre-allocated by the */</font>
+<font color=brown>/* C library, and refers to the standard input of the process (normally    */</font>
+<font color=brown>/* input from the keyboard).                                               */</font>
+fgets(buf, 201, stdin);
+
+<font color=brown>/* place the given character back into the given file stream. The next     */</font>
+<font color=brown>/* operation on this file will return this character. Mostly used by       */</font>
+<font color=brown>/* parsers that analyze a given text, and try to guess what the next       */</font>
+<font color=brown>/* is. If they miss their guess, it is easier to push the last character   */</font>
+<font color=brown>/* back to the file stream, then to make book-keeping operations.          */</font>
+ungetc(c, stdin);
+
+<font color=brown>/* check if the read/write head has reached past the end of the file.      */</font>
+if (feof(f_read)) {
+    printf("End of file reached\n");
+}
+
+<font color=brown>/* read one block of 120 characters from the file stream, into 'buf'.   */</font>
+<font color=brown>/* (the third parameter to fread() is the number of blocks to read).    */</font>
+char buf[120];
+if (fread(buf, 120, 1, f_read) != 1) {
+    perror("fread");
+}
+</code></pre>
+<br>
+There are various other file reading functions (<code>getc()</code> for
+example), but you'll be able to learn them from the on-line manual.
+</p>
+
+<p>
+Note that when we read in some text, the C library actually reads it from disk
+in full blocks (with a size of 512 characters, or something else, as optimal
+for the operating system we work with). For example, if we read 20
+consecutive characters using <code>fgetc()</code> 20 times, only one disk
+operation is made. The rest of the read operations are made from the buffer
+kept in the <code>FILE</code> structure.
+</p>
+
+<hr>
+
+<a name="stdc_file_fwrite">
+<font color=brown><h4>Writing Into An Open File</h4></font>
+</a>
+<p>
+Just like the read operations, we have write operations as well. They are
+performed at the current location of the read/write pointer kept in the
+<code>FILE</code> structure, and are also done in a buffered mode - only
+if we fill in a full block, the C library's write functions actually write
+the data to disk. Yet, we can force it to write data at a given time (e.g.
+if we print to the screen and want partially written lines to appear
+immediately). In the following example, assume that f_readwrite is a pointer
+to a <code>FILE</code> structure returned from a previous call to
+<code>fopen()</code>.
+<br>
+<pre><code>
+<font color=brown>/* variables used by the various write operations.   */</font>
+int c;
+char buf[201];
+
+<font color=brown>/* write the character 'a' to the given file.        */</font>
+c = 'a';
+fputc(c, f_readwrite);
+
+<font color=brown>/* write the string "hello world" to the given file. */</font>
+strcpy(buf, "hello world");
+fputs(buf, f_readwrite);
+
+<font color=brown>/* write the string "hi there, mate" to the standard input (screen) */</font>
+<font color=brown>/* a new-line in placed in the string, to make the cursor move      */</font>
+<font color=brown>/* to the next line on screen after writing the string.             */</font>
+fprintf(stdout, "hi there, mate\n");
+
+<font color=brown>/* write out any buffered writes to the given file stream.          */</font>
+fflush(stdout);
+
+<font color=brown>/* write twice the string "hello, great world. we feel fine!\n" to 'f_readwrite'. */</font>
+<font color=brown>/* (the third parameter to fwrite() is the number of blocks to write).            */</font>
+char buf[100];
+strcpy(buf, "hello, great world. we feel fine!\n");
+if (fwrite(buf, strlen(buf), 2, f_readwrite) != 2) {
+    perror("fwrite");
+}
+</code></pre>
+<br>
+</p>
+
+<p>
+Note that when the output is to the screen, the buffering is done in
+line mode, i.e. whenever we write a new-line character, the output
+is being flushed automatically. This is not the case when our output
+is to a file, or when the standard output is being redirected to a file. In
+such cases the buffering is done for larger chunks of data, and is said
+to be in "block-buffered mode".
+</p>
+
+<hr>
+
+<a name="stdc_file_seek">
+<font color=brown><h4>Moving The Read/Write Location In An Open File</h4></font>
+</a>
+<p>
+Until now we have seen how input and output is done in a serial mode. However,
+in various occasions we want to be able to move inside the file, and write
+to different locations, or read from different locations, without having
+to scan the whole code. This is common in database files, when we have some
+index telling us the location of each record of data in the file. Traveling
+in a file stream in such a manner is also called "random access".
+<p>
+The <code>fseek()</code> function allows us to move the read/write pointer
+of a file stream to a desired location, stated as the number of bytes
+from the beginning of the file (or from the end of file, or from the current
+position of the read/write pointer). The <code>ftell()</code> function tells
+us the current location of the read/write header of the given file stream.
+Here is how to use these functions:
+<br>
+<pre><code>
+<font color=brown>/* move the read/write pointer of the file stream to position '30' */</font>
+<font color=brown>/* in the file. Note that the first position in the file is '0',   */</font>
+<font color=brown>/* not '1'.                                                        */</font>
+fseek(f_read, 29L, SEEK_START);
+
+<font color=brown>/* move the read/write pointer of the file stream 25 characters    */</font>
+<font color=brown>/* forward from its given location.                                */</font>
+fseek(f_read, 25L, SEEK_SET);
+
+<font color=brown>/* remember the current read/write pointer's position, move it     */</font>
+<font color=brown>/* to location '520' in the file, write the string "hello world",  */</font>
+<font color=brown>/* and move the pointer back to the previous location.             */</font>
+long old_position = ftell(f_readwrite);
+if (old_position &lt; 0) {
+    perror("ftell");
+    exit(0);
+}
+if (fseek(f_readwrite, 520L, SEEK_SET) &lt; 0) {
+    perror("fseek(f_readwrite, 520L, SEEK_SET)");
+    exit(0);
+}
+fputs("hello world", f_readwrite);
+if (fseek(f_readwrite, old_position, SEEK_SET) &lt; 0) {
+    perror("fseek(f_readwrite, old_position, SEEK_SET)");
+    exit(0);
+}
+</code></pre>
+<br>
+Note that if we move inside the file with <code>fseek()</code>, any
+character put to the stream using <code>ungetc()</code> is lost and
+forgotten.
+</p>
+
+<p>
+<em>
+Note: it is ok to seek past the end of a file. If we will try to read
+from there, we will get an error, but if we try to write there, the file's
+size will be automatically enlarged to contain the new data we wrote.
+All characters between the previous end of file and the newly written
+data will contain nulls ('\0') when read. Note that the size of the file 
+has grown, but the file itself does not occupy so much space on disk - the
+system knows to leave "holes" in the file. However, if we try to copy the
+file to a new location using the Unix "cp" command, the new file will
+have all wholes filled in, and will occupy much more disk space then
+the original file.
+</em>
+</p>
+
+<hr>
+
+<a name="stdc_file_example">
+<font color=brown><h4>A Complete Example</h4></font>
+</a>
+<p>
+Two examples are given for the usage of the standard C library I/O functions.
+The first example is a file copying program, that reads a given file one
+line at a time, and writes these lines to a second file. The source code
+is found in the file <a href="stdc-file-copy.c">stdc-file-copy.c</a>. Note that
+this program does not check if a file with the name of the target already
+exists, and thus viciously erases any existing file. Be careful when running
+it!  Later, when discussing the system calls interface, we will see how to avoid
+this danger.
+</p>
+
+<p>
+The second example manages a small database file with fixed-length records
+(i.e. all records have the same size), using the <code>fseek()</code>
+function. The source is found in the file
+<a href="stdc-small-db.c">stdc-small-db.c</a>. Functions are supplied for
+reading a record and for writing a record, based on an index number. See
+the source code for more info. This program uses the <code>fread()</code>
+and <code>fwrite()</code> functions to read data from the file, or write
+data to the file. Check the on-line manual page for these functions to
+see exactly what they do.
+</p>
+
+<hr size=4>
+
+<li> <a name="sys_file">
+<font color=brown><h2>Accessing Files With System Calls</h2></font>
+</a>
+<p>
+Usually, reading and writing files is done best using the standard C library
+functions. However, in various occasions we need a more low-level to the files.
+For example, we cannot check file permissions or file size using the standard 
+C library. Also, you will see that Unix treats various devices in a similar
+manner to using files, and using the same functions you can read from
+a file, from a network connection and so on. Thus, it is useful to learn
+this generic interface.
+</p>
+
+<hr>
+
+<a name="sys_file_descriptor">
+<font color=brown><h4>The Little File Descriptor That Could</h4></font>
+</a>
+<p>
+The basic system object used to manipulate files is called a file
+descriptor. This is an integer number that is used by the various I/O
+system calls to access a memory area containing data about the open file.
+This memory area has a similar role to the <code>FILE</code> structure in the
+standard C library I/O functions, and thus the pointer returned from
+<code>fopen()</code> has a role similar to a file descriptor.
+</p>
+
+<p>
+Each process has its own file descriptors table, with each entry pointing
+to a an entry in a system file descriptor table. This allows several
+processes to share file descriptors, by having a table entry pointing to the
+same entry in the system file descriptors table. You will encounter this
+phenomena, and how it can be used, when learning about
+multi-process programming.
+</p>
+
+<p>
+The value of the file descriptor is a non-negative integer. Usually, three
+file descriptors are automatically opened by the shell that started the
+process. File descriptor '0' is used for the standard input of the process.
+File descriptor '1' is used for the standard output of the process,
+and file descriptor '2' is used for the standard error of the process.
+Normally the standard input gets input from the keyboard, while standard
+output and standard error write data to the terminal from which the process
+was started.
+</p>
+
+<hr>
+
+<a name="sys_file_open_close">
+<font color=brown><h4>Opening And Closing File Descriptors</h4></font>
+</a>
+<p>
+Opening files using the system call interface is done using the
+<code>open()</code> system call. Similar to <code>fopen()</code>, it accepts
+two parameters. One containing the path to the file to open, the other
+contains the mode in which to open the file. The mode may be any
+of the following:
+<dl>
+<dt><code>O_RDONLY</code>
+<dd>Open the file in read-only mode.</dd>
+<dt><code>O_WRONLY</code>
+<dd>Open the file in write-only mode.</dd>
+<dt><code>O_RDWR</code>
+<dd>Open the file for both reading and writing.</dd>
+</dl>
+In addition, any of the following flags may be OR-ed with the mode flag:
+<dl>
+<dt><code>O_CREAT</code>
+<dd>If the file does not exist already - create it.</dd>
+<dt><code>O_EXCL</code>
+<dd>If used together with <code>O_CREAT</code>, the call will fail if the file
+    already exists.</dd>
+<dt><code>O_TRUNC</code>
+<dd>If the file already exists, truncate it (i.e. erase its contents).</dd>
+<dt><code>O_APPEND</code>
+<dd>Open the file in append mode. Any data written to the file is appended
+    at the end of the file.</dd>
+<dt><code>O_NONBLOCK</code> (or <code>O_NDELAY</code>)
+<dd>If any operation on the file is supposed to cause the calling process
+    block, the system call instead will fail, and errno be set to
+    <code>EAGAIN</code>. This requires caution on the part of the programmer,
+    to handle these situations properly.</dd>
+<dt><code>O_SYNC</code>
+<dd>Open the file in synchronous mode. Any write operation to the file
+    will block until the data is written to disk. This is useful in critical
+    files (such as database files) that must always remain in a consistent
+    state, even if the system crashes in the middle of a file operation.</dd>
+</dl>
+</p>
+
+<p>
+Unlike the <code>fopen()</code> function, <code>open()</code> accepts
+one more (optional) parameter, which defines the access permissions that will
+be given to the file, in case of file creation. This parameter is a combination
+of any of the following flags:
+<dl>
+<dt>S_IRWXU
+<dd>Owner of the file has read, write and execute permissions to the file.</dd>
+<dt>S_IRUSR
+<dd>Owner of the file has read permission to the file.</dd>
+<dt>S_IWUSR
+<dd>Owner of the file has write permission to the file.</dd>
+<dt>S_IXUSR
+<dd>Owner of the file has execute permission to the file.</dd>
+<dt>S_IRWXG
+<dd>Group of the file has read,write and execute permissions to the file.</dd>
+<dt>S_IRGRP
+<dd>Group of the file has read permission to the file.</dd>
+<dt>S_IWGRP
+<dd>Group of the file has write permission to the file.</dd>
+<dt>S_IXGRP
+<dd>Group of the file has execute permission to the file.</dd>
+<dt>S_IRWXO
+<dd>Other users have read,write and execute permissions to the file.</dd>
+<dt>S_IROTH
+<dd>Other users have read permission to the file.</dd>
+<dt>S_IWOTH
+<dd>Other users have write permission to the file.</dd>
+<dt>S_IXOTH
+<dd>Other users have execute permission to the file.</dd>
+</dl>
+</p>
+
+<p>
+Here are a few examples of using <code>open()</code>:
+<br>
+<pre><code>
+<font color=brown>/* these hold file descriptors returned from open(). */</font>
+int fd_read;
+int fd_write;
+int fd_readwrite;
+int fd_append;
+
+<font color=brown>/* Open the file /etc/passwd in read-only mode. */</font>
+fd_read = open("/etc/passwd", O_RDONLY);
+if (fd_read &lt; 0) {
+    perror("open");
+    exit(1);
+}
+
+<font color=brown>/* Open the file run.log (in the current directory) in write-only mode. */</font>
+<font color=brown>/* and truncate it, if it has any contents.                             */</font>
+fd_write = open("run.log", O_WRONLY | O_TRUNC);
+if (fd_write &lt; 0) {
+    perror("open");
+    exit(1);
+}
+
+<font color=brown>/* Open the file /var/data/food.db in read-write mode. */</font>
+fd_readwrite = open("/var/data/food.db", O_RDWR);
+if (fd_readwrite &lt; 0) {
+    perror("open");
+    exit(1);
+}
+
+<font color=brown>/* Open the file /var/log/messages in append mode. */</font>
+fd_append = open("/var/log/messages", O_WRONLY | O_APPEND);
+if (fd_append &lt; 0) {
+    perror("open");
+    exit(1);
+}
+</code></pre>
+</br>
+</p>
+
+<p>
+Once we are done working with a file, we need to close it, using the
+<code>close()</code> system call, as follows:
+<br>
+<pre><code>
+if (close(fd) == -1) {
+    perror("close");
+    exit(1);
+}
+</code></pre>
+<br>
+This will cause the file to be closed. Note that no buffering is normally
+associated with files opened with <code>open()</code>, so no buffer
+flushing is required.
+</p>
+
+<p>
+<em>
+Note: If a file that is currently open by a Unix process is being erased
+(using the Unix "rm" command, for example), the file is not really removed
+from the disk. Only when the process (or all processes) holding the file
+open, the file is physically removed from the disk. Until then it is just
+removed from its directory, not from the disk.
+</em>
+</p>
+
+<hr>
+
+<a name="sys_file_read">
+<font color=brown><h4>Reading From A File Descriptor</h4></font>
+</a>
+<p>
+Once we got a file descriptor to an open file (that was opened in read mode),
+we may read data from the file using the <code>read()</code> system call.
+This call takes three parameters: the file descriptor to read from, a buffer
+to read data into, and the number of characters to read into the buffer.
+The buffer must be large enough to contain the data. Here is how to use
+this call. We assume 'fd' contains a file descriptor returned from a previous
+call to <code>open()</code>.
+<br>
+<pre><code>
+<font color=brown>/* return value from the read() call. */</font>
+size_t rc;
+<font color=brown>/* buffer to read data into.          */</font>
+char buf[20];
+
+<font color=brown>/* read 20 bytes from the file.       */</font>
+rc = read(fd, buf, 20);
+if (rc == 0) {
+    printf("End of file encountered\n");
+}
+else if (rc &lt; 0) {
+    perror("read");
+    exit(1);
+}
+else {
+    printf("read in '%d' bytes\n", rc);
+}
+</code></pre>
+<br>
+As you can see, <code>read()</code> does not always read the number of bytes
+we asked it to read. This could be due to a signal interrupting it in the
+middle, or the end of the file was encountered. In such a case,
+<code>read()</code> returns the number of bytes it actually read.
+</p>
+
+<hr>
+
+<a name="sys_file_write">
+<font color=brown><h4>Writing Into A File Descriptor</h4></font>
+</a>
+<p>
+Just like we used <code>read()</code> to read from the file, we use the
+<code>write()</code> system call, to write data to the file. The write
+operations is done in the location of the current read/write pointer
+of the given file, much like the various standard C library output functions
+did. <code>write()</code> gets the same parameters as <code>read()</code> does,
+and just like <code>read()</code>, might write only part of the data to
+the given file, if interrupted in the middle, or for other reasons. In
+such a case it will return the number of bytes actually written to the file.
+Here is a usage example:
+<br>
+<pre><code>
+<font color=brown>/* return value from the write() call. */</font>
+size_t rc;
+
+<font color=brown>/* write the given string to the file. */</font>
+rc = write(fd, "hello world\n", strlen("hello world\n"));
+if (rc &lt; 0) {
+    perror("write");
+    exit(1);
+}
+else {
+    printf("wrote in '%d' bytes\n", rc);
+}
+</code></pre>
+<br>
+As you can see, there is never an end-of-file case with a write operation.
+If we write past the current end of the file, the file will be enlarged
+to contain the new data.
+</p>
+
+<p>
+Sometimes, writing out the data is not enough. We want to be sure the file
+on the physical disk gets updated immediately (note that even thought the
+system calls do not buffer writes, the operating system still buffers
+write operations using its disk cache). In such cases, we may use the
+<code>fsync()</code> system call. It ensures that any write operations
+for the given file descriptor that are kept in the system's disk cache,
+are actually written to disk, when the <code>fsync()</code> system call
+returns to the caller. Here is how to use it:
+<br>
+<pre><code>
+#include &lt;unistd.h&gt;    /* declaration of fsync() */
+.
+.
+if (fsync(fd) == -1) {
+    perror("fsync");
+}
+</code></pre>
+<br>
+Note that <code>fsync()</code> updates both the file's contents, and its
+book-keeping data (such as last modification time). If we only need to 
+assure that the file's contents is written to disk, and don't care about
+the last update time, we can use <code>fdatasync()</code> instead. This
+is more efficient, as it will issue one fewer disk write operation. In
+applications that need to synchronize data often, this small saving
+is important.
+</p>
+
+<hr>
+
+<a name="sys_file_seek">
+<font color=brown><h4>Seeking In An Open File</h4></font>
+</a>
+<p>
+Just like we used the <code>fseek()</code> function to move the read/write
+pointer of the file stream, we can use the <code>lseek()</code> system
+call to move the read/write pointer for a file descriptor. Assuming you
+understood the <code>fseek()</code> examples above, here are a few similar
+examples using <code>lseek()</code>. We assume that 'fd_read' is an integer
+variable containing a file descriptor to a previously opened file, in read
+only mode. 'fd_readwrite' is a similar file descriptor, but for a file
+opened in read/write mode.
+<br>
+<pre><code>
+<font color=brown>/* this variable is used for storing locations returned by       */</font>
+<font color=brown>/* lseek().                                                      */</font>
+off_t location;
+
+<font color=brown>/* move the read/write pointer of the file to position '40'      */</font>
+<font color=brown>/* in the file. Note that the first position in the file is '0', */</font>
+<font color=brown>/* not '1'.                                                      */</font>
+location = lseek(fd_read, 39L, SEEK_START);
+
+<font color=brown>/* move the read/write pointer of the file stream 67 characters  */</font>
+<font color=brown>/* forward from its given location.                              */</font>
+location = lseek(fd_read, 67L, SEEK_SET);
+printf("read/write pointer location: %ld\n", location);
+
+<font color=brown>/* remember the current read/write pointer's position, move it   */</font>
+<font color=brown>/* to location '664' in the file, write the string "hello world",*/</font>
+<font color=brown>/* and move the pointer back to the previous location.           */</font>
+location = lseek(fd_readwrite, 0L, SEEK_SET);
+if (location == -1) {
+    perror("lseek");
+    exit(0);
+}
+if (lseek(fd_readwrite, 663L, SEEK_SET) == -1) {
+    perror("lseek(fd_readwrite, 663L, SEEK_SET)");
+    exit(0);
+}
+rc = write(fd_readwrite, "hello world\n", strlen("hello world\n"));
+if (lseek(fd_readwrite, location, SEEK_SET) == -1) {
+    perror("lseek(fd_readwrite, location, SEEK_SET)");
+    exit(0);
+}
+</code></pre>
+<br>
+</p>
+
+<p>
+Note that
+<code>lseek()</code> might not always work for a file descriptor (e.g. if this
+file descriptor represents the standard input, surely we cannot have
+random-access to it). You will encounter other similar cases when you deal
+with network programming and inter-process communications, in the future.
+</p>
+
+<hr>
+
+<a name="sys_file_chmod">
+<font color=brown><h4>Checking And Setting A File's permission modes</h4></font>
+</a>
+<p>
+Since Unix supports access permissions for files, we would sometimes need
+to check these permissions, and perhaps also manipulate them. Two system
+calls are used in this context, <code>access()</code> and <code>chmod()</code>.
+</p>
+
+<p>
+The <code>access()</code> system call is for checking access permissions to
+a file. This system call accepts a path to a file (full or relative), and
+a mode mask (made of one or more permission modes). It returns '0' if the
+specified permission modes are granted for the calling process, or '-1' if
+any of these modes are not granted, the file does not exist, etc. The
+access is granted or denied based on the permission flags of the file, and the
+ID of the user running the process. Here are a few examples:
+<br>
+<pre><code>
+<font color=brown>/* check if we have read permission to "/home/choo/my_names".       */</font>
+if (access("/home/choo/my_names", R_OK) == 0)
+    printf("Read access to file '/home/choo/my_names' granted.\n");
+else
+    printf("Read access to file '/home/choo/my_names' denied.\n");
+
+<font color=brown>/* check if we have both read and write permission to "data.db".     */</font>
+if (access("data.db", R_OK | W_OK) == 0)
+    printf("Read/Write access to file 'data.db' granted.\n");
+else
+    printf("Either read or write access to file 'data.db' is denied.\n");
+
+<font color=brown>/* check if we may execute the program file "runme".                 */</font>
+if (access("runme", X_OK) == 0)
+    printf("Execute permission to program 'runme' granted.\n");
+else
+    printf("Execute permission to program 'runme' denied.\n");
+
+<font color=brown>/* check if we may write new files to directory "/etc/config".       */</font>
+if (access("/etc/config", W_OK) == 0)
+    printf("File creation permission to directory '/etc/sysconfig' granted.\n");
+else
+    printf("File creation permission to directory '/etc/sysconfig' denied.\n");
+
+<font color=brown>/* check if we may read the contents of directory "/etc/config".     */</font>
+if (access("/etc/config", R_OK) == 0)
+    printf("File listing read permission to directory '/etc/sysconfig' granted.\n");
+else
+    printf("File listing read permission to directory '/etc/sysconfig' denied.\n");
+
+<font color=brown>/* check if the file "hello.world" in the current directory exists. */</font>
+if (access("hello world", F_OK) == 0)
+    printf("file 'hello world' exists.\n");
+else
+    printf("file 'hello world' does not exist.\n");
+</code></pre>
+<br>
+As you can see, we can check for read, write and execute permissions,
+as well as for the existence of a file, and the same for a directory.
+As an example, we will see a program that checks out if we have read permission
+to a file, and notifies us if not - where the problem lies. The full source
+code for this program is found in file
+<a href="read-access-check.c">read-access-check.c</a>.
+</p>
+
+<p>
+Note that we cannot use <code>access()</code> to check <em>why</em> we got
+permissions (i.e. if it was due to the given mode granted to us as the 
+owner of the file, or due to its group permissions or its word permissions).
+For more fine-grained permission tests, see the <code>stat()</code> system
+call mentioned below.
+</p>
+
+<p>
+The <code>chmod()</code> system call is used for changing the access
+permissions for a file (or a directory). This call accepts two parameters:
+a path to a file, and a mode to set. The mode can be a combination of
+read, write and execute permissions for the user, group or others. It
+may also contain few special flags, such as the set-user-ID flag or the
+'sticky' flag. These permissions will completely override the current
+permissions of the file. See the <code>stat()</code> system call below
+to see how to make modifications instead of complete replacement. Here are
+a few examples of using <code>chmod()</code>.
+<br>
+<pre><code>
+<font color=brown>/* give the owner read and write permission to the file "blabla", */</font>
+<font color=brown>/* and deny access to any other user.                             */</font>
+if (chmod("blabla", S_IRUSR | S_IWUSR) == -1) {
+    perror("chmod");
+}
+
+<font color=brown>/* give the owner read and write permission to the file "blabla", */</font>
+<font color=brown>/* and read-only permission to anyone else.                       */</font>
+if (chmod("blabla", S_IRUSR | S_IWUSR | S_IRGRP | S_IWOTH) == -1) {
+    perror("chmod");
+}
+</code></pre>
+<br>
+For the full list of access permission flags to use with <code>chmod()</code>,
+please refer to its manual page.
+</p>
+
+<hr>
+
+<a name="sys_file_stat">
+<font color=brown><h4>Checking A File's Status</h4></font>
+</a>
+<p>
+We have seen how to manipulate the file's data (write) and its permission
+flags (chmod). We saw a primitive way of checking if we may access it (access),
+but we often need more then that: what are the exact set of permission flags
+of the file?  when was it last changed? which user and group owns the file?
+how large is the file?<br>
+All these questions (and more) are answered by the <code>stat()</code>
+system call.
+</p>
+
+<p>
+<code>stat()</code> takes as arguments the full path to the file, and a pointer
+to a (how surprising) 'stat' structure. When <code>stat()</code> returns,
+it populates this structure with a lot of interesting (and boring) stuff
+about the file. Here are few of the fields found in this structure (for
+the rest, read the manual page):
+<dl>
+<dt>mode_t st_mode
+<dd>Access permission flags of the file, as well as information about the type of file (file? directory? symbolic link? etc).</dd>
+<dt>uid_t st_uid
+<dd>The ID of the user that owns the file.</dd>
+<dt>gid_t st_gid
+<dd>The ID of the group that owns the file.</dd>
+<dt>off_t st_size
+<dd>The size of the file (in bytes).</dd>
+<dt>time_t st_atime
+<dd>Time when the file was last accessed (read from or written to). Time
+    is given as number of seconds since 1 Jan, 1970.</dd>
+<dt>time_t st_mtime
+<dd>Time when the file was last modified (created or written to).</dd>
+<dt>time_t st_ctime
+<dd>Time when the file was last changed (had its permission modes changed, or any of its book-keeping, but NOT a contents change).</dd>
+</dl>
+Here are a few examples of how <code>stat()</code> can be used:
+<br>
+<pre><code>
+<font color=brown>/* structure passed to the stat() system call, to get its results. */</font>
+struct stat file_status;
+
+<font color=brown>/* check the status information of file "foo.txt", and print its */</font>
+<font color=brown>/* type on screen.                                               */</font>
+if (stat("foo.txt", &amp;file_status) == 0) {
+    if (S_ISDIR(file_status.st_mode))
+        printf("foo.txt is a directory\n");
+    if (S_ISLNK(file_status.st_mode))
+        printf("foo.txt is a symbolic link\n");
+    if (S_ISCHR(file_status.st_mode))
+        printf("foo.txt is a character special file\n");
+    if (S_ISBLK(file_status.st_mode))
+        printf("foo.txt is a block special file\n");
+    if (S_ISFIFO(file_status.st_mode))
+        printf("foo.txt is a FIFO (named pipe)\n");
+    if (S_ISSOCK(file_status.st_mode))
+        printf("foo.txt is a (Unix domain) socket file\n");
+    if (S_ISREG(file_status.st_mode))
+        printf("foo.txt is a normal file\n");
+}
+else { <font color=brown>/* stat() call failed and returned '-1'. */</font>
+    perror("stat");
+}
+
+<font color=brown>/* add the write permission to the group owner of file "/tmp/parlevouz", */</font>
+<font color=brown>/* without overriding any of the previous access permission flags.       */</font>
+if (stat("/tmp/parlevouz", &amp;file_status) == -1) {
+    perror("stat");
+    exit(1);
+}
+if (!S_IWGRP(file_status.st_mode)) { <font color=brown>/* the group has no write permission */</font>
+    mode_t curr_mode = file_status.st_mode &amp; ~S_IFMT
+    mode_t new_mode = curr_mode | S_IWGRP;
+
+    if (chmod("/tmp/parlevouz", new_mode) == -1) {
+        perror("chmod");
+        exit(1);
+    }
+}
+</code></pre>
+<br>
+The last item should be explained better. For some reason, the 'stat' structure
+uses the same bit field to contain file type information and access permission
+flags. Thus, to get only the access permissions, we need to mask off the
+file type bits. The mask for the file type bits is 'S_IFMT', and thus the
+mask for the permission modes is its logical negation, or '~S_IFMT'. By
+logically "and"-ing this value with the 'st_mode' field of the 'stat'
+structure, we get the current access permission modes. We can add new modes
+using the logical or ('|') operator, and remove modes using the logical
+and ('&amp;') operator. After we create the new modes, we use
+<code>chmod()</code> to set the new permission flags for the file.<br>
+Note that this operation will also implicitly modify the 'ctime' (change time)
+of the file, but that won't be reflected in our 'stat' structure, unless we
+<code>stat()</code> the file again.
+</p>
+
+<hr>
+
+<a name="sys_file_rename">
+<font color=brown><h4>Renaming A File</h4></font>
+</a>
+<p>
+The <code>rename()</code> system call may be used to change the name
+(and possibly the directory) of an existing file. It gets two parameters:
+the path to the old location of the file (including the file name), and
+a path to the new location of the file (including the new file name).
+If the new name points to a an already existing file, that file is deleted
+first. We are allowed to name either a file or a directory. Here are
+a few examples:
+<br>
+<pre><code>
+/* rename the file 'logme' to 'logme.1' */
+if (rename("logme", "logme1") == -1) {
+    perror("rename (1):");
+    exit(1);
+}
+
+/* move the file 'data' from the current directory to directory "/old/info" */
+if (rename("data", "/old/info/data") == -1) {
+    perror("rename (2):");
+    exit(1);
+}
+</code></pre>
+<br>
+</p>
+
+<p>
+<em>
+Note: If the file we are renaming is a symbolic link, then the symbolic
+link will be renamed, not the file it is pointing to. Also, if the new path
+points to an existing symbolic link, this symbolic link will be erased, not
+the file it is pointing to.
+</em>
+</p>
+
+<hr>
+
+<a name="sys_file_unlink">
+<font color=brown><h4>Deleting A File</h4></font>
+</a>
+<p>
+Deleting a file is done using the <code>unlink()</code> system call.
+This one is very simple:
+<br>
+<pre><code>
+<font color=brown>/* remove the file "/tmp/data" */</font>
+if (unlink("/tmp/data") == -1) {
+    perror("unlink");
+    exit(1);
+}
+</code></pre>
+<br>
+The file will be removed from the directory in which it resides, and
+all the disk blocks is occupied will be marked as free for re-use by
+the system. However, if any process currently has this file open, the
+file won't be actually erased until the last process holding it open
+erases it. This could explain why often erasing a log file from the
+system does not increase the amount of free disk space - it might be
+that the system logger process (syslogd) holds this file open, and
+thus the system won't really erase it until syslogd closes it. Until
+then, it will be removed from the directory (i.e. 'ls' won't show it), but
+not from the disk.
+</p>
+
+<hr>
+
+<a name="sys_file_symlink">
+<font color=brown><h4>Creating A Symbolic Link</h4></font>
+</a>
+<p>
+We have encountered symbolic links earlier. lets see how to create them,
+with the <code>symlink()</code> system call:
+<br>
+<pre><code>
+<font color=brown>/* create a symbolic link named "link" in the current directory, */</font>
+<font color=brown>/* that points to the file "/usr/local/data/datafile".           */</font>
+if (symlink("/usr/local/data/datafile", "link") == -1) {
+    perror("symlink");
+    exit(1);
+}
+
+<font color=brown>/* create a symbolic link whose full path is "/var/adm/log",     */</font>
+<font color=brown>/* that points to the file "/usr/adm/log".                       */</font>
+if (symlink("/usr/adm/log", "/var/adm/log") == -1) {
+    perror("symlink");
+    exit(1);
+}
+</code></pre>
+<br>
+So the first parameter is the file being pointer to, and the second parameter
+is the file that will be the symbolic link. Note that the first file
+does not need to exist at all - we can create a symbolic link that points
+nowhere. If we later create the file this link points to, accessing the file
+via the symbolic link will work properly.
+</p>
+
+<hr>
+
+<a name="sys_file_umask">
+<font color=brown><h4>The Mysterious Mode Mask</h4></font>
+</a>
+<p>
+If you created files with <code>open()</code> or <code>fopen()</code>,
+and you did not supply the mode for the newly created file, you might
+wonder how does the system assign access permission flags for the newly
+created file. You will also note that these "default" flags are different
+on different computers or different account setups. This mysteriousness
+is due to the usage of the <code>umask()</code> system call, or its
+equivalent <code>umask</code> shell command.
+</p>
+
+<p>
+The <code>umask()</code> system call sets a mask for the permission flags
+the system will assign to newly created files. By default, newly created files
+will have read and write permissions to everyone (i.e. rw-rw-rw- , in the
+format reported by 'ls -l'). Using <code>umask()</code>, we can denote which
+flags will be turned <em>off</em> for newly created files. For example, if we
+set the mask to 077 (a leading 0 denotes an octal value), newly created files
+will get access permission flags of 0600 (i.e. rw-------). If we set the mask
+to 027, newly created files will get flags of 0640 (i.e. rw-r-----). Try
+translating these values to binary format in order to see what is going
+on here.
+</p>
+
+<p>
+Here is how to mess with the <code>umask()</code> system call in a program:
+<br>
+<pre><code>
+<font color=brown>/* set the file permissions mask to '077'. save the original mask */</font>
+<font color=brown>/* in 'old_mask'.                                                 */</font>
+int old_mask = umask(077);
+
+<font color=brown>/* newly created files will now be readable only by the creating user. */</font>
+FILE* f_write = fopen("my_file", "w");
+if (f_write) {
+    fprintf(f_write, "My name is pit stanman.\n");
+    fprintf(f_write, "My voice is my pass code. Verify me.\n");
+    fclose(f_write);
+}
+
+<font color=brown>/* restore the original umask. */</font>
+umask(old_mask);
+</code></pre>
+<br>
+</p>
+
+<p>
+<em>
+Note: the permissions mask affects also calls to <code>open()</code> that
+specify an exact permissions mask. If we want to create a file whose
+permission are less restrictive the the current mask, we need to
+use <code>umaks()</code> to lighten these restrictions, before calling
+<code>open()</code> to create the file.
+</em>
+</p>
+
+<p>
+<em>
+Note 2: on most systems you will find that the mask is different then
+the default. This is because the system administrator has set the
+default mask in the system-wide shell startup files, using
+the shell's <code>umask</code> command. You may set a different default
+mask for your own account by placing a proper <code>umask</code> command
+in your shell's starup file ("~/.profile" if you're using "sh" or "bash".
+"~/.cshrc" if you are using "csh" or "tcsh").
+</em>
+</p>
+
+<hr>
+
+<a name="sys_file_example">
+<font color=brown><h4>A Complete Example</h4></font>
+</a>
+<p>
+As an example to the usage of the system calls interface for manipulating
+files, we will show a program that handles simple log file rotation. The
+program gets one argument - the name of a log file, and assumes it
+resides in a given directory ("/tmp/var/log"). If the size of the log
+file is more then 1024KB, it renames it to have a ".old" suffix,
+and creates a new (empty) log file with the same name as the original file,
+and the same access permissions. This code demonstrates combining many
+system calls together to achieve a task. The source code for this
+program is found in the file <a href="rename-log.c">rename-log.c</a>.
+</p>
+
+<hr size=4>
+
+<li> <a name="directory">
+<font color=brown><h2>Reading The Contents Of Directories</h2></font>
+</a>
+<p>
+After we have learned how to write the contents of a file, we might wish
+to know how to read the contents of a directory. We could open the directory
+and read its contents directly, but this is not portable. Instead, we have
+a standard interface for opening a directory  and scanning its contents,
+entry by entry.
+</p>
+
+<hr>
+
+<a name="directory_struct">
+<font color=brown><h4>The <code>DIR</code> And <code>dirent</code> Structures</h4></font>
+</a>
+<p>
+When we want to read the contents of a directory, we have a function that
+opens a directory, and returns a <code>DIR</code> structure. This structure
+contains information used by other calls to read the contents of the
+directory, and thus this structure is for directory reading, what the
+<code>FILE</code> structure is for files reading.
+</p>
+
+<p>
+When we use the <code>DIR</code> structure to read the contents of a directory,
+entry by entry, the data regarding a given entry is returned in a
+<code>dirent</code> structure. The only relevant field in this structure
+is <code>d_name</code>, which is a null-terminated character array, containing
+the name of the entry (be it a file or a directory). note - the name, NOT
+the path.
+</p>
+
+<hr>
+
+<a name="directory_opendir_closedir">
+<font color=brown><h4>Opening And Closing A Directory</h4></font>
+</a>
+<p>
+In order to read the contents of a directory, we first open it, using
+the <code>opendir()</code> function. We supply the path to the directory,
+and get a pointer to a <code>DIR</code> structure in return (or
+<code>NULL</code> on failure). Here is how:
+<br>
+<pre><code>
+#include &lt;dirent.h&gt;    /* struct DIR, struct dirent, opendir().. */
+
+<font color=brown>/* open the directory "/home/users" for reading. */</font>
+DIR* dir = opendir("/home/users");
+if (!dir) {
+    perror("opendir");
+    exit(1);
+}
+</code></pre>
+<br>
+When we are done reading from a directory, we can close it using the
+<code>closedir()</code> function:
+<br>
+<pre><code>
+if (closedir(dir) == -1) {
+    perror("closedir");
+    exit(1);
+}
+</code></pre>
+<br>
+<code>closedir()</code> will return '0' on success, or '-1' if it failed.
+Unless we have done something really silly, failures shouldn't happen, 
+as we never write to a directory using the <code>DIR</code> structure.
+</p>
+
+
+<hr>
+
+<a name="directory_readdir">
+<font color=brown><h4>Reading The Contents Of A Directory</h4></font>
+</a>
+<p>
+After we opened the directory, we can start scanning it, entry by entry,
+using the <code>readdir()</code> function. The first call returns the
+first entry of the directory. Each successive call returns the next entry
+in the directory. When all entries have been read, <code>NULL</code>
+is returned. Here is how it is used:
+<br>
+<pre><code>
+<font color=brown>/* this structure is used for storing the name of each entry in turn. */</font>
+struct dirent* entry;
+
+<font color=brown>/* read the directory's contents, print out the name of each entry.   */</font>
+printf("Directory contents:\n");
+while ( (entry = readdir(dir)) != NULL) {
+    printf("%s\n", entry->d_name);
+}
+</code></pre>
+<br>
+If you try this out, you'll note that the directory always contains the
+entries "." and "..", as explained in the beginning of this tutorial. A common
+mistake is to forget checking these entries specifically, in recursive
+traversals of the file system. If these entries are being traversed blindingly,
+an endless loop might occur.
+</p>
+
+<p>
+<em>
+Note: if we alter the contents of the directory during its traversal,
+the traversal might skip directory entries. Thus, if you intend to create
+a file in the directory, you would better not do that while in the middle
+of a traversal.
+</em>
+</p>
+
+<hr>
+
+<a name="directory_rewinddir">
+<font color=brown><h4>Rewinding A Directory For A Second Scan</h4></font>
+</a>
+<p>
+After we are done reading the contents of a directory, we can rewind it
+for a second pass, using the <code>rewinddir()</code> function:
+<br>
+<pre><code>
+rewinddir(dir);
+</code></pre>
+<br>
+</p>
+
+<hr>
+
+<a name="directory_getcwd_chdir">
+<font color=brown><h4>Checking And Changing The Working Directory</h4></font>
+</a>
+<p>
+Sometimes we wish to find out the current working directory of a process.
+The <code>getcwd()</code> function is used for that. Other times we wish to
+change the working directory of our process. This will allow using short paths
+when accessing several files in the same directory. The <code>chdir()</code>
+system call is used for this. Here is an example:
+<br>
+<pre><code>
+<font color=brown>/* this buffer is used to store the full path of the current */</font>
+<font color=brown>/* working directory.                                        */</font>
+#define MAX_DIR_PATH 2048;
+char cwd[MAX_DIR_PATH+1];
+
+<font color=brown>/* store the current working directory.    */</font>
+if (!getcwd(cwd, MAX_DIR_PATH+1)) {
+    perror("getcwd");
+    exit(1);
+}
+
+<font color=brown>/* change the current directory to "/tmp". */</font>
+if (!chdir("/tmp")) {
+    perror("chdir (1)");
+    exit(1);
+}
+
+<font color=brown>/* restore the original working directory. */</font>
+if (chdir(cwd) == -1) {
+    perror("chdir (2)");
+    exit(1);
+}
+</code></pre>
+<br>
+</p>
+
+<hr>
+
+<a name="directory_example">
+<font color=brown><h4>A Complete Example</h4></font>
+</a>
+<p>
+As an example, we will write a limited version of the Unix 'find' command.
+This command basically accepts a file name and a directory, and finds all
+files under that directory (or any of its sub-directories) with the given
+file name. The original program has zillions of command line options,
+and can also handle file name patterns. Our version will only be able to
+handle substrings (that is, finding the files whose names contain the
+given string). The program changes its working directory to the given
+directory, reads its contents, and recursively scans each sub-directory
+it encounters. The program does not traverse across symbolic-links to avoid
+possible loops. The complete source code for the the program
+is found in the <a href="find-file.c">find-file.c</a> file.
+</p>
+
+<hr size=4>
+
+<p align=center><img src=http://www.actcom.co.il/~choo/lupg/images/lupg_toolbar.gif height=40 width=360 alt="" usemap="#lupg_map"><map name=lupg_map>
+<area shape=rect coords="3,0 37,39" href=http://www.actcom.co.il/~choo/lupg alt="LUPG home">
+<area shape=rect coords="67,0 102,39" href=http://www.actcom.co.il/~choo/lupg/tutorials/index.html alt="Tutorials">
+<area shape=rect coords="138,0 170,39" href=http://www.actcom.co.il/~choo/lupg/related-material.html alt="Related material">
+<area shape=rect coords="213,0 232,39" href=http://www.actcom.co.il/~choo/lupg/project-ideas/index.html alt="Project Ideas">
+<area shape=rect coords="272,0 290,39" href=http://www.actcom.co.il/~choo/lupg/essays/index.html alt="Essays">
+<area shape=rect coords="324,0 355,39" href=mailto:choo@actcom.co.il alt="Send comments">
+</map>
+<br>[<a href=http://www.actcom.co.il/~choo/lupg/index.html>LUPG Home</a>]  [<a href=http://www.actcom.co.il/~choo/lupg/tutorials/index.html>Tutorials</a>]  [<a href=http://www.actcom.co.il/~choo/lupg/related-material.html>Related Material</a>] [<a href=http://www.actcom.co.il/~choo/lupg/essays/index.html>Essays</a>] [<a href=http://www.actcom.co.il/~choo/lupg/project-ideas/index.html>Project Ideas</a>] [<a href=mailto:choo@actcom.co.il>Send Comments</a>]<br><img src=http://www.actcom.co.il/~choo/lupg/images/good_bar.gif alt=""></p>
+
+<p>This document is copyright (c) 1998-2002 by guy keren.<br><br>
+The material in this document is provided AS IS, without any
+expressed or implied warranty, or claim of fitness for a
+particular purpose. Neither the author nor any contributers shell
+be liable for any damages incured directly or indirectly by using
+the material contained in this document.<br><br>
+permission to copy this document (electronically or on paper, for
+personal or organization internal use) or publish it on-line is
+hereby granted, provided that the document is copied as-is, this
+copyright notice is preserved, and a link to the original document
+is written in the document's body, or in the page linking to the
+copy of this document.<br><br>
+Permission to make translations of this document is also granted,
+under these terms - assuming the translation preserves the meaning
+of the text, the copyright notice is preserved as-is, and a link
+to the original document is written in the document's body, or in
+the page linking to the copy of this document.<br><br>
+For any questions about the document and its license, please
+<a href=mailto:choo@actcom.co.il>contact the author</a>.</p>
+
+
+
+
+</body>
+</html>

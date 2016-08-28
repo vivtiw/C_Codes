@@ -1,0 +1,91 @@
+----------------
+Formatted Output
+----------------
+
+    int  printf ( const char * format,...);
+    Print formatted data to stdout.
+    Prints to standard output (stdout) a sequence of arguments formatted as the format argument specifies.
+ 
+    Parameters.
+    -----------
+    format 
+	String that contains the text to be printed.
+	Optionally it can contain format tags that are substituted by the values specified in subsequent argument(s) and formatted as requested.
+	The number of format tags must correspond to the number of arguments that follows.
+	
+	The format tags follow this prototype: 
+	--------------------------------------
+	%[flags][width][.precision][modifiers]type
+		where "type" defines how the value will be printed:
+
+	The Following are Conversion characters
+	----------------------------------------
+	Type		Output								Example
+	----------------------------------------------------------------------------------------
+	 c 		Character  							a
+	 hd		short int							10	
+  	 d or i 	Signed decimal integer  					392
+	 e  		Scientific notation (mantise/exponent) using e character  	3.9265e2
+	 E  		Scientific notation (mantise/exponent) using E character  	3.9265E2
+	 f  		Decimal floating point  					392.65
+  	 g  		Use shorter %e or %f  						392.65
+  	 G  		Use shorter %E or %f  						392.65
+  	 o  		Signed octal  							610
+ 	 s 		String of characters  						sample
+  	 u  		Unsigned decimal integer  					7235
+ 	 x  		Unsigned hexadecimal integer  					7fa
+   	 X  		Unsigned hexadecimal integer (capital letters)  		7FA
+ 	 p  		Address pointed by the argument  				B800:0000
+
+	Constant Escape Sequences
+	--------------------------
+ 	The following escape sequences can be used to print out special characters.
+
+	Escape Sequence  	Description
+	-----------------------------------
+	  \'  			Single quote
+  	  \"  			Double quote
+	  \\  			Backslash
+	  \0			Null character (really just the octal number zero)
+	  \a  			Audible bell
+	  \b  			Backspace
+	  \f  			Formfeed
+	  \n  			Newline
+	  \r  			Carriage return
+ 	  \t  			Horizontal tab
+	  \v  			Vertical tab
+	  \xhh  		Hexadecimal number (hh)
+	  where hh  is one or more hexadecimal 	digits(0..9,a..f,A..F)
+
+	The other flags, width, .precision and modifiers sub-parameters are optional as followes:
+	-----------------------------------------------------------------------------------------  
+ 
+	Flags  		Meaning
+	-------------------------------
+	  -  		Left align within the given width. (right align is the default).
+	  + 		Forces to preceed the result with a sign (+ or -) if signed type
+	blank  		If the argument is a positive, a blank is inserted before the number.
+	  #  		Used with o, x or X type the value is preceeded with 0, 0x or 0X				   respectively if non-zero.
+			Used with e, E or f forces the output value to contain a decimal point even
+			if only zeros follow.
+    
+ 
+	Width  		Meaning
+	-----------------------
+  	number  	Minimum number of characters to be printed. If the value to be printed is                          shorter than this number the result is padded with blanks. The value is                            never truncated even if the result is larger.
+  	0number  	Same as above but filled with 0s instead of blanks.
+  	   *  		The width is not specified in the format string, it is specified by an      			   integer value preceding the argument that has to be formatted.
+    
+ 
+	.Precision  	Meaning
+	-----------------------
+	  .number   	for d, i, o, u, x, X types: precision specifies the minimum number of                              decimal digits to be printed. If the value to be printed is shorter than
+                        this number the result is padded with blanks. The value is never truncated
+                        even if the result is larger.(if nothing specified default is 1). 
+			
+	 .number	for e, E, f types: number of digits to be printed after de decimal point.                          (if nothing specified default is 6).
+	 .number	for g, G types : maximum number of significant numbers to be printed.
+ 	 .number	for s type: maximum number of characters to be printed.(default is to print
+		  	until first null character is encountered). for c type : (no effect).
+    
+ 

@@ -1,0 +1,39 @@
+DATA CONVERSION
+ The following functions convert between data types. 
+        atof()          converts an ascii character array to a float
+        atoi()          converts an ascii character array to an integer
+        itoa()          converts an integer to a character array
+Example 
+        /* convert a string to an integer */
+        #include <stdio.h>
+        #include <stdlib.h>
+
+        char string[] = "1234";
+
+        main()
+        {
+                int sum;
+                sum = atoi( string );
+                printf("Sum = %d\n", sum );
+        }
+
+
+/* convert an integer to a string */
+        #include <stdio.h>
+        #include <stdlib.h>
+
+        main()
+        {
+                int sum;
+                char buff[20];
+
+                printf("Enter in an integer ");
+                scanf(" %d", &sum );
+                printf( "As a string it is %s\n", itoa( sum, buff, 10 ) );
+        }
+
+Note that itoa() takes three parameters, 
+the integer to b converted 
+a character buffer into which the resultant string is stored
+a radix value (10=decimal,16=hexadecimal) 
+In addition, itoa() returns a pointer to the resultant string.

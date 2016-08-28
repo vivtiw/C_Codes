@@ -1,0 +1,50 @@
+				       ************
+				       | ctype.h  |
+				       ************	
+
+The ctype header is used for testing and converting characters
+
+- A control character refers to a character that is not part of the normal printing set.
+- In the ASCII character set, the control characters are the characters from 0 to 0x1F and 0x7F (DEL). 
+- Printable characters are those from 0x20 to 0x7E.
+
+List of Functions and Declarations
+**********************************
+	int isalnum(int c);
+		checks for an alphanumeric character
+
+       	int isalpha(int c);
+       		 checks  for an alphabetic character;
+
+	int isascii(int c);
+		 checks whether c is a 7-bit unsigned char value that fits into the ASCII character set.
+
+       	int isblank(int c);
+		checks for a blank character; that is, a space or a tab.
+
+       	int iscntrl(int c);
+		checks for a control character.
+
+       	int isdigit(int c);
+		checks for a digit (0 through 9).
+
+       	int isgraph(int c);
+		checks for any printable character except space.
+
+       	int islower(int c);
+		checks for a lower-case character.
+
+       	int isprint(int c);
+		checks for any printable character including space.
+		
+       	int isspace(int c);
+		checks  for white-space characters.
+
+       	int isupper(int c);
+		checks for an uppercase letter.
+
+       	int isxdigit(int c);
+		checks for a hexadecimal digits, i.e. one of "0 1 2 3 4 5 6 7 8 9 a b c d e f A B C D E F"
+
+
+	
